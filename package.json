@@ -48,7 +48,7 @@
     "cf:typegen": "wrangler types",
     "release:package": "node scripts/release/package.mjs",
     "update:ui": "bunx --bun shadcn@latest add -a -y -o",
-    "update:pkg": "bunx taze major -w --no-github-actions --concurrency 3 --request-timeout 20000 --retry 6 --exclude vite,vitest,@vitejs/plugin-react,@vitest/coverage-v8,wrangler,@cloudflare/vitest-pool-workers && bun install"
+    "update:pkg": "bunx taze major -w --no-github-actions --concurrency 3 --request-timeout 20000 --retry 6 --exclude vite,vitest,@vitejs/plugin-react,@vitest/coverage-v8,@cloudflare/vitest-pool-workers && bun install"
   },
   "overrides": {
     "@better-auth/core": "1.7.5",
@@ -144,6 +144,6 @@
     "typescript": "^7.0.2",
     "vite": "^7.0.5",
     "vitest": "^4.1.11",
-    "wrangler": "4.124.0"
+    "wrangler": "^4.135.0"
   }
 }
