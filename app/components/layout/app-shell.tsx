@@ -58,8 +58,8 @@ export function AppShell(props: AppShellProps): React.ReactElement {
   }, [sidebarCollapsed]);
 
   return (
-    <div className="relative flex h-screen h-[100dvh] touch-manipulation overflow-hidden bg-rail pt-[env(safe-area-inset-top)] text-foreground lg:p-2">
-      <div className="flex h-full w-full gap-2" id="hqbase-desktop-shell">
+    <div className="relative flex h-screen h-[100dvh] touch-manipulation overflow-hidden bg-rail pt-[env(safe-area-inset-top)] text-foreground">
+      <div className="flex h-full w-full" id="hqbase-desktop-shell">
         <div
           className={sidebarCollapsed ? "hidden" : "hidden w-[20rem] shrink-0 lg:block"}
           id="desktop-sidebar"
@@ -81,7 +81,7 @@ export function AppShell(props: AppShellProps): React.ReactElement {
           />
         </div>
         <div className="relative min-w-0 flex-1" id="desktop-content">
-          <div className="h-full w-full overflow-hidden rounded-[24px] border border-divider bg-reader shadow-sm">
+          <div className="h-full w-full overflow-hidden bg-reader">
             <ShellContent
               {...props}
               sidebarCollapsed={sidebarCollapsed}

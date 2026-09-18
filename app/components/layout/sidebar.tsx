@@ -301,7 +301,10 @@ export function Sidebar({
         className="h-full w-full flex-row overflow-hidden bg-rail text-foreground"
         collapsible="none"
       >
-        <SidebarPrimitive className="w-12 border-0 bg-transparent" collapsible="none">
+        <SidebarPrimitive
+          className="w-12 border-0 border-r border-divider bg-transparent"
+          collapsible="none"
+        >
           <QuickAccessRail
             activeFolder={activeFolder}
             handleSectionChange={handleSectionChange}
@@ -310,10 +313,7 @@ export function Sidebar({
             user={user}
           />
         </SidebarPrimitive>
-        <SidebarPrimitive
-          className="ml-2 flex-1 rounded-[24px] border border-divider bg-sidebar p-2 shadow-sm"
-          collapsible="none"
-        >
+        <SidebarPrimitive className="flex-1 border-r border-divider bg-sidebar" collapsible="none">
           <SectionPanel
             activeFolder={activeFolder}
             activeSettingsTab={activeSettingsTab}

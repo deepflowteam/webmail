@@ -144,8 +144,9 @@ describe("mail shell", () => {
     expect(visibleHtml).toContain('aria-label="Hide sidebar"');
     expect(collapsedHtml).toContain('aria-label="Show sidebar"');
     expect(visibleHtml).toContain("justify-between");
-    expect(visibleHtml).toContain("rounded-[24px] border border-divider");
+    expect(visibleHtml).toContain("border-r border-divider");
     expect(visibleHtml).not.toContain("bg-black");
+    expect(visibleHtml).not.toContain("rounded-[24px]");
     expect(visibleHtml).not.toContain("rounded-r-[24px]");
     const topBarHtml = renderToStaticMarkup(
       <TopBar
