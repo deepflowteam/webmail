@@ -18,19 +18,19 @@
 <p align="center">
   <a href="https://hqbase.io/">Website</a> &middot;
   <a href="https://hqbase.io/docs/">Documentation</a> &middot;
-  <a href="https://github.com/HQBase/hqbase/releases">Releases</a> &middot;
+  <a href="https://github.com/deepflowteam/webmail/releases">Releases</a> &middot;
   <a href="https://hqbase.io/docs/maintainers/contributing/">Contributing</a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/HQBase/hqbase/actions/workflows/ci.yml">
-    <img src="https://github.com/HQBase/hqbase/actions/workflows/ci.yml/badge.svg?branch=main" alt="CI status">
+  <a href="https://github.com/deepflowteam/webmail/actions/workflows/ci.yml">
+    <img src="https://github.com/deepflowteam/webmail/actions/workflows/ci.yml/badge.svg?branch=main" alt="CI status">
   </a>
-  <a href="https://github.com/HQBase/hqbase/releases/latest">
-    <img src="https://img.shields.io/github/v/release/Webmail/hqbase?display_name=tag&amp;sort=semver" alt="Latest release">
+  <a href="https://github.com/deepflowteam/webmail/releases/latest">
+    <img src="https://img.shields.io/github/v/release/deepflowteam/webmail?display_name=tag&amp;sort=semver" alt="Latest release">
   </a>
   <a href="LICENSE">
-    <img src="https://img.shields.io/github/license/Webmail/hqbase" alt="AGPL-3.0-only license">
+    <img src="https://img.shields.io/github/license/deepflowteam/webmail" alt="AGPL-3.0-only license">
   </a>
   <a href="https://discord.gg/U67PB663nf">
     <img src="https://img.shields.io/badge/Discord-Join%20the%20community-5865F2?logo=discord&amp;logoColor=white" alt="Join the Webmail Discord">
@@ -41,7 +41,7 @@
 </p>
 
 <p align="center">
-  <a href="https://deploy.workers.cloudflare.com/?url=https%3A%2F%2Fgithub.com%2FWebmail%2Fhqbase%2Ftree%2Fdeploy">
+  <a href="https://deploy.workers.cloudflare.com/?url=https%3A%2F%2Fgithub.com%2Fdeepflowteam%2Fwebmail%2Ftree%2Fdeploy">
     <img src="https://deploy.workers.cloudflare.com/button" alt="Deploy to Cloudflare">
   </a>
 </p>
