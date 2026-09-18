@@ -36,21 +36,22 @@ jobs:
       HQBASE_STAGING_URL: https://${{ secrets.HQBASE_E2E_APP_HOSTNAME }}
       DEPLOYMENT_NAME: e2e-${{ github.run_id }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           ref: ${{ inputs.candidate_ref || github.sha }}
       - uses: pnpm/action-setup@v6
         with:
           version: 11.7.0
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: pnpm
       - name: Cache Playwright Chromium
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-${{ runner.arch }}-playwright-${{ hashFiles('pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-${{ runner.arch }}-playwright-${{
+            hashFiles('pnpm-lock.yaml') }}
           restore-keys: ${{ runner.os }}-${{ runner.arch }}-playwright-
       - run: pnpm install --frozen-lockfile
       - run: pnpm exec playwright install --with-deps chromium
@@ -58,17 +59,11 @@ jobs:
         run: node scripts/test-cli-recovery.mjs "recovery-${{ github.run_id }}"
       - name: Create disposable customer resources
         run: >-
-          pnpm hqbase install
-          --name "$DEPLOYMENT_NAME"
-          --worker-name hqbase-e2e-staging
-          --domain "$HQBASE_STAGING_EMAIL_DOMAIN"
-          --no-email
-          --app-domain "${HQBASE_STAGING_URL#https://}"
-          --auth-url "$HQBASE_STAGING_URL"
-          --oauth-mode customer
-          --oauth-client-id "$HQBASE_STAGING_OAUTH_CLIENT_ID"
-          --skip-build
-          --skip-deploy
+          pnpm hqbase install --name "$DEPLOYMENT_NAME" --worker-name
+          hqbase-e2e-staging --domain "$HQBASE_STAGING_EMAIL_DOMAIN" --no-email
+          --app-domain "${HQBASE_STAGING_URL#https://}" --auth-url
+          "$HQBASE_STAGING_URL" --oauth-mode customer --oauth-client-id
+          "$HQBASE_STAGING_OAUTH_CLIENT_ID" --skip-build --skip-deploy
       - name: Verify populated SQL migration upgrade and retry
         run: |
           config=".hqbase/deployments/$DEPLOYMENT_NAME/wrangler.jsonc"
@@ -237,7 +232,7 @@ jobs:
           jq -e '.[0].results[0].value_json == "{\"state\":\"before\"}"' <<<"$result"
       - name: Upload non-secret deployment record
         if: always()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: hqbase-staging-manifest-${{ github.run_id }}
           path: .hqbase/deployments/e2e-${{ github.run_id }}/manifest.json

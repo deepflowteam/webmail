@@ -241,24 +241,23 @@ describe("email HTML sanitizer", () => {
     expect(result.afterQuotedHtml).toBeNull();
   });
 
-  it.each(clientQuoteHtmlFixtures)("separates reduced real-world $client reply markup", ({
-    currentText,
-    html,
-    quotedText
-  }) => {
-    const result = sanitizeMessageHtml({
-      allowRemoteImages: false,
-      attachments: [],
-      origin: "https://mail.example.com",
-      html,
-      messageId: "msg-1"
-    });
+  it.each(clientQuoteHtmlFixtures)(
+    "separates reduced real-world $client reply markup",
+    ({ currentText, html, quotedText }) => {
+      const result = sanitizeMessageHtml({
+        allowRemoteImages: false,
+        attachments: [],
+        origin: "https://mail.example.com",
+        html,
+        messageId: "msg-1"
+      });
 
-    expect(result.html).toContain(currentText);
-    expect(result.html).not.toContain(quotedText);
-    expect(result.quotedHtml).toContain(quotedText);
-    expect(result.afterQuotedHtml).toBeNull();
-  });
+      expect(result.html).toContain(currentText);
+      expect(result.html).not.toContain(quotedText);
+      expect(result.quotedHtml).toContain(quotedText);
+      expect(result.afterQuotedHtml).toBeNull();
+    }
+  );
 
   it("keeps authored content and the current signature after reply history visible", () => {
     const result = sanitizeMessageHtml({

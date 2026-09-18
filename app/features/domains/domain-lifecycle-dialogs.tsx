@@ -1,5 +1,4 @@
 import type * as React from "react";
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -8,7 +7,8 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle
-} from "@/components/ui/dialog";
+} from "@/components/dialog";
+import { Button } from "@/components/ui/button";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import type { MailDomain } from "./types";

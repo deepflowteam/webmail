@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
 const source = readFileSync(
-  new URL("../../../../app/components/ui/dropdown-menu.tsx", import.meta.url),
+  new URL("../../../../app/components/dropdown-menu.tsx", import.meta.url),
   "utf8"
 );
 

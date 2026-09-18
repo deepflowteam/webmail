@@ -1,38 +1,29 @@
+"use client";
+
+import * as SwitchPrimitives from "@radix-ui/react-switch";
 import * as React from "react";
 
 import { cn } from "@/lib/cn";
 
-type SwitchProps = Omit<
-  React.ButtonHTMLAttributes<HTMLButtonElement>,
-  "aria-checked" | "onClick" | "role" | "type"
-> & {
-  checked: boolean;
-  onCheckedChange: (checked: boolean) => void;
-};
-
-export const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
-  ({ checked, className, onCheckedChange, ...props }, ref) => (
-    <button
-      aria-checked={checked}
+const Switch = React.forwardRef<
+  React.ElementRef<typeof SwitchPrimitives.Root>,
+  React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root>
+>(({ className, ...props }, ref) => (
+  <SwitchPrimitives.Root
+    className={cn(
+      "peer inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=unchecked]:bg-input",
+      className
+    )}
+    {...props}
+    ref={ref}
+  >
+    <SwitchPrimitives.Thumb
       className={cn(
-        "inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border border-input px-0.5 shadow-sm transition-[background-color,box-shadow] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 motion-reduce:transition-none",
-        checked ? "bg-foreground/90" : "bg-muted",
-        className
+        "pointer-events-none block h-4 w-4 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-4 data-[state=unchecked]:translate-x-0"
       )}
-      ref={ref}
-      role="switch"
-      type="button"
-      onClick={() => onCheckedChange(!checked)}
-      {...props}
-    >
-      <span
-        aria-hidden="true"
-        className={cn(
-          "size-5 rounded-full bg-background shadow-sm transition-transform motion-reduce:transition-none",
-          checked ? "translate-x-5 bg-card" : "translate-x-0"
-        )}
-      />
-    </button>
-  )
-);
-Switch.displayName = "Switch";
+    />
+  </SwitchPrimitives.Root>
+));
+Switch.displayName = SwitchPrimitives.Root.displayName;
+
+export { Switch };

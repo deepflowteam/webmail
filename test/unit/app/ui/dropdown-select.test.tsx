@@ -1,7 +1,7 @@
 // @vitest-environment happy-dom
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import { DropdownSelect } from "@/components/ui/dropdown-select";
+import { DropdownSelect } from "@/components/dropdown-select";
 import { flushHookEffects, renderComponent } from "../render-hook";
 
 afterEach(() => {

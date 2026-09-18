@@ -1,7 +1,6 @@
 import * as React from "react";
 import { PiDotsThree, PiPlus, PiTag } from "react-icons/pi";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -11,7 +10,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu";
+} from "@/components/dropdown-menu";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
 import { LabelColorDot, labelPillColorClass } from "./label-colors";
 import { LabelEditorDialog } from "./label-editor-dialog";

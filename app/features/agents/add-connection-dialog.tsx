@@ -1,7 +1,5 @@
 import * as React from "react";
 import { PiArrowLeft, PiKey, PiMailbox, PiRobot } from "react-icons/pi";
-
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -10,7 +8,8 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle
-} from "@/components/ui/dialog";
+} from "@/components/dialog";
+import { Button } from "@/components/ui/button";
 import type { CurrentUser } from "@/features/auth/types";
 import type { Mailbox } from "@/features/mailboxes/types";
 import { McpConnectionDetails } from "@/features/mcp/connection-dialog";

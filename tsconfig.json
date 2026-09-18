@@ -19,10 +19,9 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["app/*"],
-      "@worker/*": ["worker/*"]
+      "@/*": ["./app/*"],
+      "@worker/*": ["./worker/*"]
     },
     "types": ["@cloudflare/vitest-pool-workers/types", "vite/client", "vitest/globals", "node"]
   },

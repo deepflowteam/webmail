@@ -30,7 +30,7 @@ jobs:
       fail-fast: false
       max-parallel: 1
       matrix:
-        edge: [inbound, outbound]
+        edge: [ inbound, outbound ]
     env:
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.HQBASE_E2E_CLOUDFLARE_ACCOUNT_ID }}
       CLOUDFLARE_API_TOKEN: ${{ secrets.HQBASE_E2E_CLOUDFLARE_API_TOKEN }}
@@ -54,20 +54,22 @@ jobs:
       STAGING_WORKER_NAME: hqbase-public-${{ github.run_id }}-${{ matrix.edge }}
     steps:
       - name: Set the upgrade receipt path
-        run: echo "HQBASE_UPGRADE_RECEIPT=$RUNNER_TEMP/upgrade-$UPGRADE_EDGE.json" >> "$GITHUB_ENV"
-      - uses: actions/checkout@v6
+        run: echo "HQBASE_UPGRADE_RECEIPT=$RUNNER_TEMP/upgrade-$UPGRADE_EDGE.json" >>
+          "$GITHUB_ENV"
+      - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v6
         with:
           version: 11.7.0
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: pnpm
       - name: Cache Playwright Chromium
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-${{ runner.arch }}-playwright-${{ hashFiles('pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-${{ runner.arch }}-playwright-${{
+            hashFiles('pnpm-lock.yaml') }}
           restore-keys: ${{ runner.os }}-${{ runner.arch }}-playwright-
       - run: pnpm install --frozen-lockfile
       - run: pnpm exec playwright install --with-deps chromium
@@ -75,9 +77,10 @@ jobs:
         run: node scripts/release/public-upgrade-inputs.mjs
       - name: Create disposable customer resources
         run: >-
-          pnpm hqbase install --name "$DEPLOYMENT_NAME" --worker-name "$STAGING_WORKER_NAME"
-          --domain "$HQBASE_STAGING_EMAIL_DOMAIN" --no-email
-          --app-domain "${HQBASE_STAGING_URL#https://}" --skip-build --skip-deploy
+          pnpm hqbase install --name "$DEPLOYMENT_NAME" --worker-name
+          "$STAGING_WORKER_NAME" --domain "$HQBASE_STAGING_EMAIL_DOMAIN"
+          --no-email --app-domain "${HQBASE_STAGING_URL#https://}" --skip-build
+          --skip-deploy
       - name: Generate disposable authentication secret
         run: |
           auth_secret="$(openssl rand -base64 48)"
@@ -124,8 +127,9 @@ jobs:
         run: pnpm test:e2e:staging:lifecycle
       - name: Configure disposable customer authorization
         run: >-
-          pnpm hqbase oauth --name "$DEPLOYMENT_NAME" --mode customer
-          --auth-url "$HQBASE_STAGING_URL" --client-id "$HQBASE_STAGING_OAUTH_CLIENT_ID" --skip-deploy
+          pnpm hqbase oauth --name "$DEPLOYMENT_NAME" --mode customer --auth-url
+          "$HQBASE_STAGING_URL" --client-id "$HQBASE_STAGING_OAUTH_CLIENT_ID"
+          --skip-deploy
       - name: Prepare a public upgrade trigger and signed discovery fixture
         run: node scripts/release/staging-update-gate.mjs prepare
       - name: Apply only discovery and OAuth configuration to the source release
@@ -181,7 +185,7 @@ jobs:
             receipt.verified = true;
             writeFileSync(file, JSON.stringify(receipt, null, 2));
           '
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         with:
           name: public-upgrade-${{ matrix.edge }}
           path: ${{ env.HQBASE_UPGRADE_RECEIPT }}
@@ -247,7 +251,7 @@ jobs:
           exit 1
       - name: Upload non-secret deployment record
         if: always()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: hqbase-public-manifest-${{ github.run_id }}-${{ matrix.edge }}
           path: .hqbase/deployments/${{ env.DEPLOYMENT_NAME }}/manifest.json
@@ -255,8 +259,7 @@ jobs:
           retention-days: 30
       - name: Destroy disposable resources
         if: >-
-          always() &&
-          steps.reconcile_update_gate.outcome == 'success' &&
+          always() && steps.reconcile_update_gate.outcome == 'success' &&
           steps.reconcile_worker.outcome == 'success' &&
           steps.reconcile_worker.outputs.manifest_present == 'true'
         run: pnpm hqbase destroy --name "$DEPLOYMENT_NAME" --scope all --yes
@@ -265,12 +268,12 @@ jobs:
     needs: upgrade
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v6
+      - uses: actions/download-artifact@v8
         with:
           pattern: public-upgrade-*
           path: evidence
           merge-multiple: true
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         with:
           name: public-upgrade-evidence
           path: evidence/*.json

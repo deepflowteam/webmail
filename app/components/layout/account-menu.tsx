@@ -1,15 +1,14 @@
 import type * as React from "react";
 import { PiCaretDown, PiSignOut } from "react-icons/pi";
-
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu";
+} from "@/components/dropdown-menu";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import { signOut } from "@/features/auth/api";
 import type { CurrentUser } from "@/features/auth/types";
 import { cn } from "@/lib/cn";

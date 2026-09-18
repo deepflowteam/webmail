@@ -1,16 +1,9 @@
 import type * as React from "react";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Switch } from "@/components/ui/switch";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow
-} from "@/components/ui/table";
 import type { MailboxAccessPolicies } from "@/features/mailbox-access/mailbox-access-policies";
 import { MailboxAccessCell } from "@/features/mailbox-access/mailbox-access-policy";
 import type { WorkspaceUser } from "@/features/users/types";

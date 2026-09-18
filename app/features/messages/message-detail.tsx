@@ -10,15 +10,14 @@ import {
   PiTrash
 } from "react-icons/pi";
 import { toast } from "sonner";
-
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu";
+} from "@/components/dropdown-menu";
+import { Button } from "@/components/ui/button";
 import { PullToRefresh } from "@/components/ui/pull-to-refresh";
 import { ComposerInlineTarget, useComposer } from "@/features/compose/composer-host";
 import { LabelMenu, LabelStack } from "@/features/labels/label-controls";

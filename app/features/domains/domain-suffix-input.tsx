@@ -1,6 +1,6 @@
 import type * as React from "react";
 
-import { DropdownSelect } from "@/components/ui/dropdown-select";
+import { DropdownSelect } from "@/components/dropdown-select";
 import type { InputSize } from "@/components/ui/input";
 import { InputGroup, InputGroupInput } from "@/components/ui/input-group";
 import { cn } from "@/lib/cn";

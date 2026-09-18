@@ -1,15 +1,8 @@
 import * as React from "react";
 import { toast } from "sonner";
+import { Dialog, DialogContent } from "@/components/dialog";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/table";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow
-} from "@/components/ui/table";
 import { SettingsSection } from "@/features/settings/settings-section";
 import { regenerateTemporaryPassword, resendInvitation, updateUserRole } from "./api";
 import { RoleGuidance } from "./role-guidance";

@@ -8,7 +8,7 @@ export type InputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, "size
   size?: InputSize;
 };
 
-export const Input = React.forwardRef<HTMLInputElement, InputProps>(
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, size = "default", type, ...props }, ref) => (
     <input
       className={cn(
@@ -24,3 +24,5 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   )
 );
 Input.displayName = "Input";
+
+export { Input };

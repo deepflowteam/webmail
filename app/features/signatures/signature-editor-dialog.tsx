@@ -1,8 +1,5 @@
 import * as React from "react";
 import { toast } from "sonner";
-
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
   DialogContent,
@@ -10,8 +7,10 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle
-} from "@/components/ui/dialog";
-import { DropdownSelect, type DropdownSelectOption } from "@/components/ui/dropdown-select";
+} from "@/components/dialog";
+import { DropdownSelect, type DropdownSelectOption } from "@/components/dropdown-select";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";

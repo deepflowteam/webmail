@@ -31,13 +31,13 @@ jobs:
       BETTER_AUTH_SECRET: ci-auth-secret-not-used-in-production
       GH_TOKEN: ${{ github.token }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - uses: pnpm/action-setup@v6
         with:
           version: 11.7.0
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: pnpm
@@ -123,7 +123,7 @@ jobs:
           '
       - name: Preserve the exact candidate for staging
         if: steps.metadata.outputs.publish == 'true'
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ steps.metadata.outputs.artifact_name }}
           path: release/
@@ -173,21 +173,22 @@ jobs:
       DEPLOYMENT_NAME: release-${{ github.run_id }}
       STAGING_WORKER_NAME: hqbase-release-${{ github.run_id }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v6
         with:
           version: 11.7.0
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: pnpm
       - name: Cache Playwright Chromium
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-${{ runner.arch }}-playwright-${{ hashFiles('pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-${{ runner.arch }}-playwright-${{
+            hashFiles('pnpm-lock.yaml') }}
           restore-keys: ${{ runner.os }}-${{ runner.arch }}-playwright-
-      - uses: actions/download-artifact@v6
+      - uses: actions/download-artifact@v8
         with:
           name: ${{ needs.candidate.outputs.artifact_name }}
           path: release
@@ -201,14 +202,9 @@ jobs:
           test -z "$(git ls-files --others --exclude-standard)"
       - name: Create disposable customer resources
         run: >-
-          pnpm hqbase install
-          --name "$DEPLOYMENT_NAME"
-          --worker-name "$STAGING_WORKER_NAME"
-          --domain "$HQBASE_STAGING_EMAIL_DOMAIN"
-          --no-email
-          --app-domain "${HQBASE_STAGING_URL#https://}"
-          --skip-build
-          --skip-deploy
+          pnpm hqbase install --name "$DEPLOYMENT_NAME" --worker-name "$STAGING_WORKER_NAME"
+          --domain "$HQBASE_STAGING_EMAIL_DOMAIN" --no-email
+          --app-domain "${HQBASE_STAGING_URL#https://}" --skip-build --skip-deploy
       - name: Generate disposable authentication secret
         run: |
           auth_secret="$(openssl rand -base64 48)"
@@ -288,11 +284,8 @@ jobs:
         run: pnpm test:e2e:staging:lifecycle
       - name: Configure customer OAuth for the candidate
         run: >-
-          pnpm hqbase oauth
-          --name "$DEPLOYMENT_NAME"
-          --mode customer
-          --auth-url "$HQBASE_STAGING_URL"
-          --client-id "$HQBASE_STAGING_OAUTH_CLIENT_ID"
+          pnpm hqbase oauth --name "$DEPLOYMENT_NAME" --mode customer --auth-url
+          "$HQBASE_STAGING_URL" --client-id "$HQBASE_STAGING_OAUTH_CLIENT_ID"
           --skip-deploy
       - name: Prepare the deployed update-action release gate
         run: node scripts/release/staging-update-gate.mjs prepare
@@ -529,7 +522,7 @@ jobs:
           exit 1
       - name: Upload non-secret deployment record
         if: always()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: hqbase-release-staging-manifest-${{ github.run_id }}
           path: .hqbase/deployments/release-${{ github.run_id }}/manifest.json
@@ -537,14 +530,13 @@ jobs:
           retention-days: 30
       - name: Destroy disposable resources
         if: >-
-          always() &&
-          steps.reconcile_update_gate.outcome == 'success' &&
+          always() && steps.reconcile_update_gate.outcome == 'success' &&
           steps.reconcile_worker.outcome == 'success' &&
           steps.reconcile_worker.outputs.manifest_present == 'true'
         run: pnpm hqbase destroy --name "$DEPLOYMENT_NAME" --scope all --yes
 
   publish:
-    needs: [candidate, staging]
+    needs: [ candidate, staging ]
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -554,16 +546,17 @@ jobs:
       RELEASE_COMMIT: ${{ needs.candidate.outputs.commit }}
       HQBASE_RELEASE_VERSION: ${{ needs.candidate.outputs.version }}
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
       - name: Publish and verify Nightly without changing Stable
         run: node scripts/release/channels.mjs publish
 
   cleanup-failed-draft:
-    needs: [candidate, staging]
-    if: ${{ always() && needs.candidate.outputs.draft_created == 'true' && needs.staging.result != 'success' }}
+    needs: [ candidate, staging ]
+    if: ${{ always() && needs.candidate.outputs.draft_created == 'true' &&
+      needs.staging.result != 'success' }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -572,6 +565,5 @@ jobs:
     steps:
       - name: Remove the failed draft
         run: >-
-          gh release delete "v${{ needs.candidate.outputs.version }}"
-          --repo "${{ github.repository }}"
-          --yes
+          gh release delete "v${{ needs.candidate.outputs.version }}" --repo
+          "${{ github.repository }}" --yes

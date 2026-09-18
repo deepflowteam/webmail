@@ -1,7 +1,5 @@
 import * as React from "react";
 import { PiWifiSlash } from "react-icons/pi";
-
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -10,7 +8,8 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle
-} from "@/components/ui/dialog";
+} from "@/components/dialog";
+import { Button } from "@/components/ui/button";
 import type { MailConnectionStatus } from "./types";
 
 export function MailConnectionDialog({

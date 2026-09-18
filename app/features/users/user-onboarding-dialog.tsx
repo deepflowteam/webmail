@@ -1,8 +1,6 @@
 import * as React from "react";
 import { PiCopy, PiEnvelope, PiKey, PiUserPlus } from "react-icons/pi";
 import { toast } from "sonner";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -12,7 +10,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger
-} from "@/components/ui/dialog";
+} from "@/components/dialog";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/tabs";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
 import {
   Field,
   FieldDescription,
@@ -23,7 +24,6 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LOGIN_EMAIL_HINT, loginEmailUsesManagedDomain } from "@/lib/login-email";
 import { createUser } from "./api";
 import { RoleSelect } from "./role-select";

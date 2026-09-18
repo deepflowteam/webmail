@@ -1,7 +1,6 @@
 import * as React from "react";
 import { PiArrowCounterClockwise, PiPlus } from "react-icons/pi";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -11,8 +10,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger
-} from "@/components/ui/dialog";
-import { DropdownSelect } from "@/components/ui/dropdown-select";
+} from "@/components/dialog";
+import { DropdownSelect } from "@/components/dropdown-select";
+import { Button } from "@/components/ui/button";
 import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { DomainSuffixInput, hasCompleteDomainSuffix } from "@/features/domains/domain-suffix-input";

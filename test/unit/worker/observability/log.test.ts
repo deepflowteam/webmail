@@ -13,14 +13,10 @@ describe("operational logging", () => {
     output.mockRestore();
   });
 
-  it.each([
-    "password",
-    "subject",
-    "raw",
-    "email",
-    "filename",
-    "token"
-  ])("rejects the sensitive field %s", (key) => {
-    expect(() => operationalLog("info", "unsafe", { [key]: "value" })).toThrow("Sensitive");
-  });
+  it.each(["password", "subject", "raw", "email", "filename", "token"])(
+    "rejects the sensitive field %s",
+    (key) => {
+      expect(() => operationalLog("info", "unsafe", { [key]: "value" })).toThrow("Sensitive");
+    }
+  );
 });

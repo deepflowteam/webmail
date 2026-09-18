@@ -1,8 +1,6 @@
 import * as React from "react";
 import { PiCopy, PiKey } from "react-icons/pi";
 import { toast } from "sonner";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -10,7 +8,9 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle
-} from "@/components/ui/dialog";
+} from "@/components/dialog";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { AgentSkillDetails } from "./connection-dialog";
 import type { AgentProfile, ManagedAgent } from "./types";

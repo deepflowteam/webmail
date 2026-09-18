@@ -144,7 +144,7 @@ export function InboxPage({
                   )
                 );
               }
-              onRefreshRef.current();
+              void Promise.resolve(onRefreshRef.current()).catch(() => undefined);
             })
             .catch(() => undefined);
         }

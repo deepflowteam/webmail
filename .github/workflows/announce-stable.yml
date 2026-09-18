@@ -4,7 +4,8 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: "Published Stable version. Confirm its announcement was not already sent."
+        description: "Published Stable version. Confirm its announcement was not already
+          sent."
         type: string
         required: true
 
@@ -26,8 +27,8 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       HQBASE_RELEASE_VERSION: ${{ inputs.version }}
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
       - name: Verify published Stable without changing it

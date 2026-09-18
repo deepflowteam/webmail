@@ -86,33 +86,34 @@ function startsWith(actual, expected) {
 }
 
 describe("operator resource recovery", () => {
-  it.each([
-    0, 1, 2, 3, 4
-  ])("resumes after %i completed provisioning steps without recreating them", (completed) => {
-    const current = markCreated(manifest(), completed);
-    const cloudflare = cloudflareRunner();
-    const checkpoints = [];
+  it.each([0, 1, 2, 3, 4])(
+    "resumes after %i completed provisioning steps without recreating them",
+    (completed) => {
+      const current = markCreated(manifest(), completed);
+      const cloudflare = cloudflareRunner();
+      const checkpoints = [];
 
-    prepareManifest(current, accountId, { runCommand: cloudflare.runCommand });
-    provisionResources(current, {
-      checkpoint: (next) => checkpoints.push(structuredClone(next)),
-      runCommand: cloudflare.runCommand
-    });
+      prepareManifest(current, accountId, { runCommand: cloudflare.runCommand });
+      provisionResources(current, {
+        checkpoint: (next) => checkpoints.push(structuredClone(next)),
+        runCommand: cloudflare.runCommand
+      });
 
-    const creates = cloudflare.calls.filter((args) => args.includes("create"));
-    expect(creates).toHaveLength(4 - completed);
-    expect(checkpoints).toHaveLength((4 - completed) * 2);
-    expect(current.d1).toMatchObject({ id: d1Id, ownership: "created" });
-    expect(current.r2.ownership).toBe("created");
-    expect(current.queue.primary).toMatchObject({
-      id: primaryQueueId,
-      ownership: "created"
-    });
-    expect(current.queue.deadLetter).toMatchObject({
-      id: deadLetterQueueId,
-      ownership: "created"
-    });
-  });
+      const creates = cloudflare.calls.filter((args) => args.includes("create"));
+      expect(creates).toHaveLength(4 - completed);
+      expect(checkpoints).toHaveLength((4 - completed) * 2);
+      expect(current.d1).toMatchObject({ id: d1Id, ownership: "created" });
+      expect(current.r2.ownership).toBe("created");
+      expect(current.queue.primary).toMatchObject({
+        id: primaryQueueId,
+        ownership: "created"
+      });
+      expect(current.queue.deadLetter).toMatchObject({
+        id: deadLetterQueueId,
+        ownership: "created"
+      });
+    }
+  );
 
   it("records creating before each request and created after identity verification", () => {
     const current = manifest();

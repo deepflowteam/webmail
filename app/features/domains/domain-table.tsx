@@ -7,9 +7,6 @@ import {
   PiPlug,
   PiTrash
 } from "react-icons/pi";
-
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,17 +14,12 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu";
-import { DropdownSelect, type DropdownSelectOption } from "@/components/ui/dropdown-select";
+} from "@/components/dropdown-menu";
+import { DropdownSelect, type DropdownSelectOption } from "@/components/dropdown-select";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/table";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow
-} from "@/components/ui/table";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import type { Mailbox } from "@/features/mailboxes/types";
 import { cn } from "@/lib/cn";

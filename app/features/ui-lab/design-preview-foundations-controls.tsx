@@ -1,10 +1,10 @@
 import * as React from "react";
 import { PiMagnifyingGlass, PiPlus } from "react-icons/pi";
-
+import { DropdownSelect } from "@/components/dropdown-select";
+import { Textarea } from "@/components/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { DropdownSelect } from "@/components/ui/dropdown-select";
 import {
   Field,
   FieldDescription,
@@ -19,7 +19,6 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Spinner } from "@/components/ui/spinner";
 import { Switch } from "@/components/ui/switch";
-import { Textarea } from "@/components/ui/textarea";
 
 import { InventorySection, Specimen } from "./design-preview-shared";
 

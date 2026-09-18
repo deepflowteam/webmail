@@ -2,7 +2,6 @@ import * as React from "react";
 import { PiAddressBook, PiMagnifyingGlass, PiPlus } from "react-icons/pi";
 import { toast } from "sonner";
 import { z } from "zod";
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -10,11 +9,12 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle
-} from "@/components/ui/dialog";
+} from "@/components/dialog";
+import { Textarea } from "@/components/textarea";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";
-import { Textarea } from "@/components/ui/textarea";
 import type { MailLabel } from "@/features/labels/types";
 import type { ConversationSummary } from "@/features/messages/types";
 import { listContacts, saveContact } from "./api";

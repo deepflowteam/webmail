@@ -1,9 +1,8 @@
 import * as React from "react";
 import { PiCheck, PiCopy, PiPaperPlaneTilt, PiShieldCheck, PiUser } from "react-icons/pi";
-
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/tabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { CurrentUser } from "@/features/auth/types";
 
 export function McpConnectionDetails({

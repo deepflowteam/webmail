@@ -1,7 +1,7 @@
 import * as React from "react";
 import { toast } from "sonner";
 
-import { DropdownSelect, type DropdownSelectOption } from "@/components/ui/dropdown-select";
+import { DropdownSelect, type DropdownSelectOption } from "@/components/dropdown-select";
 import { buildEmailHtmlDocument } from "@/features/messages/html-document";
 import { EmailFrame } from "@/features/messages/message-html";
 import { useTheme } from "@/features/theme/theme-provider";

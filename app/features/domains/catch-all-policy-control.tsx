@@ -1,6 +1,6 @@
 import type * as React from "react";
 
-import { DropdownSelect } from "@/components/ui/dropdown-select";
+import { DropdownSelect } from "@/components/dropdown-select";
 import { cn } from "@/lib/cn";
 
 import type { MailDomain } from "./types";

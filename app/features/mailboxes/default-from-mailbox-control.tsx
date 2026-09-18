@@ -1,6 +1,6 @@
 import * as React from "react";
 import { toast } from "sonner";
-import { DropdownSelect } from "@/components/ui/dropdown-select";
+import { DropdownSelect } from "@/components/dropdown-select";
 import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
 import { updateDefaultFromMailbox } from "@/features/auth/api";
 import type { Mailbox } from "./types";

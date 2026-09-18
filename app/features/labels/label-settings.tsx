@@ -1,7 +1,6 @@
 import * as React from "react";
 import { PiDotsThree, PiPencilSimple, PiPlus, PiTrash } from "react-icons/pi";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -9,7 +8,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle
-} from "@/components/ui/dialog";
+} from "@/components/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,16 +16,10 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu";
+} from "@/components/dropdown-menu";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/table";
+import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow
-} from "@/components/ui/table";
 import { SettingsSection } from "@/features/settings/settings-section";
 import { deleteLabel } from "./api";
 import { LabelColorDot } from "./label-colors";

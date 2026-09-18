@@ -661,24 +661,24 @@ describe("HQBase updates", () => {
       )
     ).rejects.toMatchObject({ code: "UPDATE_BUILD_STATUS_UNKNOWN", status: 502 });
   });
-  it.each([
-    "secret",
-    "null"
-  ] as const)("does not reconcile a build with %s required variables", async (reconciledVariableShape) => {
-    const fetcher = cloudflareUpdateFetcher({
-      ambiguousBuild: "accepted",
-      reconciledVariableShape
-    });
+  it.each(["secret", "null"] as const)(
+    "does not reconcile a build with %s required variables",
+    async (reconciledVariableShape) => {
+      const fetcher = cloudflareUpdateFetcher({
+        ambiguousBuild: "accepted",
+        reconciledVariableShape
+      });
 
-    await expect(
-      triggerUpdate(
-        updateEnvironment(),
-        "temporary-token-that-is-long-enough",
-        "0.1.0",
-        fetcher as typeof fetch
-      )
-    ).rejects.toMatchObject({ code: "UPDATE_BUILD_STATUS_UNKNOWN", status: 502 });
-  });
+      await expect(
+        triggerUpdate(
+          updateEnvironment(),
+          "temporary-token-that-is-long-enough",
+          "0.1.0",
+          fetcher as typeof fetch
+        )
+      ).rejects.toMatchObject({ code: "UPDATE_BUILD_STATUS_UNKNOWN", status: 502 });
+    }
+  );
   it("reports an incomplete build-configuration rollback", async () => {
     const fetcher = cloudflareUpdateFetcher({
       buildFails: true,

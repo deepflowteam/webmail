@@ -38,7 +38,7 @@ const sheet = readFileSync(
   "utf8"
 );
 const dialog = readFileSync(
-  new URL("../../../../app/components/ui/dialog.tsx", import.meta.url),
+  new URL("../../../../app/components/dialog.tsx", import.meta.url),
   "utf8"
 );
 const composeWindow = readFileSync(

@@ -50,6 +50,7 @@ describe("conversation list pagination", () => {
       observe = vi.fn();
       root = null;
       rootMargin = "240px 0px";
+      scrollMargin = "";
       thresholds = [0];
       takeRecords = (): IntersectionObserverEntry[] => [];
       unobserve = vi.fn();

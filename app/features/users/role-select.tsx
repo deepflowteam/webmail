@@ -1,4 +1,4 @@
-import { DropdownSelect } from "@/components/ui/dropdown-select";
+import { DropdownSelect } from "@/components/dropdown-select";
 import type { WorkspaceRole } from "./types";
 
 const roles: WorkspaceRole[] = ["owner", "admin", "member"];

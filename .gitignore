@@ -14,3 +14,4 @@ test-results
 .DS_Store
 .hqbase/deployments/*
 !.hqbase/deployments/.gitkeep
+graphify-out

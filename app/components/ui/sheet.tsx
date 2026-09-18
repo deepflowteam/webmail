@@ -1,32 +1,34 @@
-import * as DialogPrimitive from "@radix-ui/react-dialog";
+import * as SheetPrimitive from "@radix-ui/react-dialog";
+import { X } from "lucide-react";
 import * as React from "react";
-import { PiX } from "react-icons/pi";
 
 import { cn } from "@/lib/cn";
 
-export const Sheet = DialogPrimitive.Root;
-export const SheetTrigger = DialogPrimitive.Trigger;
-export const SheetPortal = DialogPrimitive.Portal;
-export const SheetTitle = DialogPrimitive.Title;
-export const SheetDescription = DialogPrimitive.Description;
+const Sheet = SheetPrimitive.Root;
+const SheetTrigger = SheetPrimitive.Trigger;
+const SheetClose = SheetPrimitive.Close;
+const SheetPortal = SheetPrimitive.Portal;
+const SheetTitle = SheetPrimitive.Title;
+const SheetDescription = SheetPrimitive.Description;
 
-type SheetContentProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> & {
+type SheetContentProps = React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content> & {
   overlayClassName?: string;
   side?: "left" | "right";
 };
 
-export const SheetContent = React.forwardRef<
-  React.ElementRef<typeof DialogPrimitive.Content>,
+const SheetContent = React.forwardRef<
+  React.ElementRef<typeof SheetPrimitive.Content>,
   SheetContentProps
 >(({ className, children, overlayClassName, side = "right", ...props }, ref) => (
   <SheetPortal>
-    <DialogPrimitive.Overlay
+    <SheetPrimitive.Overlay
       className={cn(
         "fixed inset-0 z-50 bg-foreground/25 data-[state=closed]:animate-overlay-out data-[state=open]:animate-overlay-in motion-reduce:animate-none",
         overlayClassName
       )}
     />
-    <DialogPrimitive.Content
+    <SheetPrimitive.Content
+      ref={ref}
       className={cn(
         "fixed inset-y-0 z-50 w-[min(92vw,480px)] bg-background p-5 shadow-lg motion-reduce:animate-none",
         side === "left"
@@ -34,20 +36,44 @@ export const SheetContent = React.forwardRef<
           : "right-0 border-l max-md:pb-[max(1.25rem,env(safe-area-inset-bottom))] max-md:pt-[max(1.25rem,env(safe-area-inset-top))] data-[state=closed]:animate-sheet-out-right data-[state=open]:animate-sheet-in-right",
         className
       )}
-      ref={ref}
       {...props}
     >
       {children}
-      <DialogPrimitive.Close
+      <SheetPrimitive.Close
         className={cn(
           "absolute right-3 top-3 inline-flex size-10 min-h-10 min-w-10 items-center justify-center rounded-md text-muted-foreground transition-[color,background-color,transform] duration-200 [@media(hover:hover)]:hover:bg-muted [@media(hover:hover)]:hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring active:scale-[0.97] will-change-transform motion-reduce:transition-none",
           side === "right" && "max-md:top-[max(0.75rem,env(safe-area-inset-top))]"
         )}
       >
-        <PiX />
+        <X className="size-4" />
         <span className="sr-only">Close</span>
-      </DialogPrimitive.Close>
-    </DialogPrimitive.Content>
+      </SheetPrimitive.Close>
+    </SheetPrimitive.Content>
   </SheetPortal>
 ));
-SheetContent.displayName = DialogPrimitive.Content.displayName;
+SheetContent.displayName = SheetPrimitive.Content.displayName;
+
+const SheetHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
+  <div className={cn("flex flex-col space-y-2 text-center sm:text-left", className)} {...props} />
+);
+SheetHeader.displayName = "SheetHeader";
+
+const SheetFooter = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
+  <div
+    className={cn("flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2", className)}
+    {...props}
+  />
+);
+SheetFooter.displayName = "SheetFooter";
+
+export {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetPortal,
+  SheetTitle,
+  SheetTrigger
+};

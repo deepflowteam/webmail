@@ -76,36 +76,40 @@ function fixture() {
 }
 
 describe("public upgrade build configuration", () => {
-  it.each([
-    publicBuildCommand,
-    "pnpm install --frozen-lockfile"
-  ])("keeps cleanup compatible with %s", async (buildCommand) => {
-    const f = fixture();
-    f.gate.workersBuild.buildCommand = buildCommand;
-    f.gate.workersBuild.buildUuid = "55555555-5555-4555-8555-555555555555";
-    f.gate.workersBuild.dispatchStartedAt = "2026-09-07T00:00:00Z";
-    const manifest = JSON.parse(JSON.stringify({ ...f.manifest, releaseGate: f.gate }));
-    expect(() => assertCurrentManifest(manifest)).not.toThrow();
-    const writeManifest = vi.fn((saved) =>
-      assertCurrentManifest(JSON.parse(JSON.stringify(saved)))
-    );
-    await cancelRecordedBuild(
-      manifest,
-      { accountId: f.manifest.accountId, cleanupToken: "test-token" },
-      {
-        fetcher: async () =>
-          Response.json({
-            success: true,
-            result: { status: "stopped", build_outcome: "fail", stopped_on: "2026-09-07T00:00:00Z" }
-          }),
-        writeManifest,
-        sleep: vi.fn()
-      }
-    );
-    expect(writeManifest).toHaveBeenCalledOnce();
-    expect(manifest.releaseGate.workersBuild.buildOutcome).toBe("fail");
-    expect(manifest.version).toBe(3);
-  });
+  it.each([publicBuildCommand, "pnpm install --frozen-lockfile"])(
+    "keeps cleanup compatible with %s",
+    async (buildCommand) => {
+      const f = fixture();
+      f.gate.workersBuild.buildCommand = buildCommand;
+      f.gate.workersBuild.buildUuid = "55555555-5555-4555-8555-555555555555";
+      f.gate.workersBuild.dispatchStartedAt = "2026-09-07T00:00:00Z";
+      const manifest = JSON.parse(JSON.stringify({ ...f.manifest, releaseGate: f.gate }));
+      expect(() => assertCurrentManifest(manifest)).not.toThrow();
+      const writeManifest = vi.fn((saved) =>
+        assertCurrentManifest(JSON.parse(JSON.stringify(saved)))
+      );
+      await cancelRecordedBuild(
+        manifest,
+        { accountId: f.manifest.accountId, cleanupToken: "test-token" },
+        {
+          fetcher: async () =>
+            Response.json({
+              success: true,
+              result: {
+                status: "stopped",
+                build_outcome: "fail",
+                stopped_on: "2026-09-07T00:00:00Z"
+              }
+            }),
+          writeManifest,
+          sleep: vi.fn()
+        }
+      );
+      expect(writeManifest).toHaveBeenCalledOnce();
+      expect(manifest.releaseGate.workersBuild.buildOutcome).toBe("fail");
+      expect(manifest.version).toBe(3);
+    }
+  );
   it("writes only the recorded disposable bindings and discovery fixture", () => {
     const f = fixture();
     const write = vi.fn();
@@ -120,16 +124,16 @@ describe("public upgrade build configuration", () => {
     expect(config.vars.CLOUDFLARE_OAUTH_CLIENT_ID).toBe("test-client");
   });
 
-  it.each([
-    "WRANGLER_CI_MATCH_TAG",
-    "WRANGLER_CI_OVERRIDE_NAME"
-  ])("rejects another build's %s before writing", (key) => {
-    const f = fixture();
-    const write = vi.fn();
-    f.environment[key] = "wrong";
-    expect(() => writePublicBuildConfiguration(f.environment, write)).toThrow("does not match");
-    expect(write).not.toHaveBeenCalled();
-  });
+  it.each(["WRANGLER_CI_MATCH_TAG", "WRANGLER_CI_OVERRIDE_NAME"])(
+    "rejects another build's %s before writing",
+    (key) => {
+      const f = fixture();
+      const write = vi.fn();
+      f.environment[key] = "wrong";
+      expect(() => writePublicBuildConfiguration(f.environment, write)).toThrow("does not match");
+      expect(write).not.toHaveBeenCalled();
+    }
+  );
 
   it.each(["name", "ownership"])("rejects an unrecorded database %s", (key) => {
     const f = fixture();
@@ -188,87 +192,86 @@ describe("public upgrade build configuration", () => {
     expect(write).toHaveBeenCalledOnce();
   });
 
-  it.each([
-    "exact",
-    "changed-trigger",
-    "changed-build"
-  ])("checks the accepted build configuration: %s", async (mode) => {
-    const f = fixture();
-    const record = f.gate.workersBuild;
-    record.buildUuid = "55555555-5555-4555-8555-555555555555";
-    record.dispatchStartedAt = "2026-09-07T00:00:00Z";
-    const manifest = { ...f.manifest, releaseGate: f.gate };
-    const release = {
-      updater: {
-        sourceUrl: `https://raw.githubusercontent.com/HQBase/hqbase/${"a".repeat(40)}/scripts/release/bootstrap.mjs`,
-        size: 1234,
-        sha256: "b".repeat(64)
-      }
-    };
-    const variables = {
-      HQBASE_EXPECTED_RELEASE_VERSION: { is_secret: false, value: "1.4.1" },
-      HQBASE_UPDATER_LOADER: { is_secret: false, value: managedUpdaterLoader(release.updater) },
-      [publicConfigVariable]: { is_secret: false, value: publicBuildConfiguration(manifest) }
-    };
-    const command = 'node --input-type=module --eval "$HQBASE_UPDATER_LOADER"';
-    const fetcher = vi.fn(async (input) => {
-      const url = String(input);
-      let result;
-      if (url.endsWith("/triggers"))
-        result = [
-          {
-            trigger_uuid: record.triggerUuid,
-            trigger_name: record.triggerName,
-            external_script_id: record.workerTag,
-            branch_includes: ["main"],
-            branch_excludes: [],
-            build_caching_enabled: false,
-            path_includes: record.pathIncludes,
-            path_excludes: [],
-            root_directory: "/",
-            build_command: publicBuildCommand,
-            deploy_command: command,
-            build_token_uuid: record.buildTokenUuid,
-            repo_connection: { repo_connection_uuid: record.repoConnectionUuid }
-          }
-        ];
-      else if (url.endsWith("/environment_variables"))
-        result =
-          mode === "changed-trigger"
-            ? { ...variables, [publicConfigVariable]: { is_secret: false, value: "wrong" } }
-            : variables;
-      else
-        result = {
-          build_uuid: record.buildUuid,
-          trigger: { trigger_uuid: record.triggerUuid },
-          status: "stopped",
-          build_trigger_metadata: {
-            branch: "main",
-            build_command: publicBuildCommand,
-            deploy_command: command,
-            build_trigger_source: "api",
-            build_token_uuid: record.buildTokenUuid,
-            root_directory: "/",
-            environment_variables:
-              mode === "changed-build"
-                ? { ...variables, [publicConfigVariable]: "wrong" }
-                : variables
-          }
-        };
-      return Response.json({ success: true, result });
-    });
-    const check = verifyAcceptedBuild(
-      manifest,
-      release,
-      {
-        publicUpgrade: true,
-        candidateVersion: "1.4.1",
-        accountId: manifest.accountId,
-        cleanupToken: "test-token"
-      },
-      { fetcher, now: Date.now, sleep: vi.fn() }
-    );
-    if (mode === "exact") await expect(check).resolves.toBeUndefined();
-    else await expect(check).rejects.toThrow(/configuration/);
-  });
+  it.each(["exact", "changed-trigger", "changed-build"])(
+    "checks the accepted build configuration: %s",
+    async (mode) => {
+      const f = fixture();
+      const record = f.gate.workersBuild;
+      record.buildUuid = "55555555-5555-4555-8555-555555555555";
+      record.dispatchStartedAt = "2026-09-07T00:00:00Z";
+      const manifest = { ...f.manifest, releaseGate: f.gate };
+      const release = {
+        updater: {
+          sourceUrl: `https://raw.githubusercontent.com/HQBase/hqbase/${"a".repeat(40)}/scripts/release/bootstrap.mjs`,
+          size: 1234,
+          sha256: "b".repeat(64)
+        }
+      };
+      const variables = {
+        HQBASE_EXPECTED_RELEASE_VERSION: { is_secret: false, value: "1.4.1" },
+        HQBASE_UPDATER_LOADER: { is_secret: false, value: managedUpdaterLoader(release.updater) },
+        [publicConfigVariable]: { is_secret: false, value: publicBuildConfiguration(manifest) }
+      };
+      const command = 'node --input-type=module --eval "$HQBASE_UPDATER_LOADER"';
+      const fetcher = vi.fn(async (input) => {
+        const url = String(input);
+        let result;
+        if (url.endsWith("/triggers"))
+          result = [
+            {
+              trigger_uuid: record.triggerUuid,
+              trigger_name: record.triggerName,
+              external_script_id: record.workerTag,
+              branch_includes: ["main"],
+              branch_excludes: [],
+              build_caching_enabled: false,
+              path_includes: record.pathIncludes,
+              path_excludes: [],
+              root_directory: "/",
+              build_command: publicBuildCommand,
+              deploy_command: command,
+              build_token_uuid: record.buildTokenUuid,
+              repo_connection: { repo_connection_uuid: record.repoConnectionUuid }
+            }
+          ];
+        else if (url.endsWith("/environment_variables"))
+          result =
+            mode === "changed-trigger"
+              ? { ...variables, [publicConfigVariable]: { is_secret: false, value: "wrong" } }
+              : variables;
+        else
+          result = {
+            build_uuid: record.buildUuid,
+            trigger: { trigger_uuid: record.triggerUuid },
+            status: "stopped",
+            build_trigger_metadata: {
+              branch: "main",
+              build_command: publicBuildCommand,
+              deploy_command: command,
+              build_trigger_source: "api",
+              build_token_uuid: record.buildTokenUuid,
+              root_directory: "/",
+              environment_variables:
+                mode === "changed-build"
+                  ? { ...variables, [publicConfigVariable]: "wrong" }
+                  : variables
+            }
+          };
+        return Response.json({ success: true, result });
+      });
+      const check = verifyAcceptedBuild(
+        manifest,
+        release,
+        {
+          publicUpgrade: true,
+          candidateVersion: "1.4.1",
+          accountId: manifest.accountId,
+          cleanupToken: "test-token"
+        },
+        { fetcher, now: Date.now, sleep: vi.fn() }
+      );
+      if (mode === "exact") await expect(check).resolves.toBeUndefined();
+      else await expect(check).rejects.toThrow(/configuration/);
+    }
+  );
 });
