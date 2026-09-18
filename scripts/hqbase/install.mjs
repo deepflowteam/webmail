@@ -70,7 +70,7 @@ export function install(flags, options = {}) {
   }
 
   if (!skipBuild) {
-    runCommand("pnpm", ["build"], { dryRun });
+    runCommand("bun", ["run", "build"], { dryRun });
   }
 
   provisionResources(manifest, { checkpoint, dryRun, runCommand });

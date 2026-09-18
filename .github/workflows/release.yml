@@ -34,13 +34,12 @@ jobs:
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0
-      - uses: pnpm/action-setup@v6
+      - uses: oven/setup-bun@v2
         with:
-          version: 11.7.0
+          bun-version: 1.4.2
       - uses: actions/setup-node@v7
         with:
           node-version: 24
-          cache: pnpm
       - name: Resolve and validate committed release metadata
         id: metadata
         run: |
@@ -94,11 +93,11 @@ jobs:
           echo "previous_tag=$previous_tag" >> "$GITHUB_OUTPUT"
           echo "version=$release_version" >> "$GITHUB_OUTPUT"
           echo "publish=true" >> "$GITHUB_OUTPUT"
-      - run: pnpm install --frozen-lockfile
+      - run: bun install --frozen-lockfile
         if: steps.metadata.outputs.publish == 'true'
-      - run: pnpm check
+      - run: bun run check
         if: steps.metadata.outputs.publish == 'true'
-      - run: pnpm deploy:dry-run
+      - run: bun run deploy:dry-run
         if: steps.metadata.outputs.publish == 'true'
       - name: Verify signing key
         if: steps.metadata.outputs.publish == 'true'
@@ -109,7 +108,7 @@ jobs:
         if: steps.metadata.outputs.publish == 'true'
         env:
           HQBASE_RELEASE_PRIVATE_KEY: ${{ secrets.HQBASE_RELEASE_PRIVATE_KEY }}
-        run: pnpm release:package
+        run: bun run release:package
       - name: Extract release notes
         if: steps.metadata.outputs.publish == 'true'
         run: |
@@ -174,26 +173,25 @@ jobs:
       STAGING_WORKER_NAME: hqbase-release-${{ github.run_id }}
     steps:
       - uses: actions/checkout@v7
-      - uses: pnpm/action-setup@v6
+      - uses: oven/setup-bun@v2
         with:
-          version: 11.7.0
+          bun-version: 1.4.2
       - uses: actions/setup-node@v7
         with:
           node-version: 24
-          cache: pnpm
       - name: Cache Playwright Chromium
         uses: actions/cache@v6
         with:
           path: ~/.cache/ms-playwright
           key: ${{ runner.os }}-${{ runner.arch }}-playwright-${{
-            hashFiles('pnpm-lock.yaml') }}
+            hashFiles('bun.lock') }}
           restore-keys: ${{ runner.os }}-${{ runner.arch }}-playwright-
       - uses: actions/download-artifact@v8
         with:
           name: ${{ needs.candidate.outputs.artifact_name }}
           path: release
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm exec playwright install --with-deps chromium
+      - run: bun install --frozen-lockfile
+      - run: bunx playwright install --with-deps chromium
       - name: Verify the customer source checkout starts unchanged
         run: |
           test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
@@ -202,7 +200,7 @@ jobs:
           test -z "$(git ls-files --others --exclude-standard)"
       - name: Create disposable customer resources
         run: >-
-          pnpm hqbase install --name "$DEPLOYMENT_NAME" --worker-name "$STAGING_WORKER_NAME"
+          bun run hqbase install --name "$DEPLOYMENT_NAME" --worker-name "$STAGING_WORKER_NAME"
           --domain "$HQBASE_STAGING_EMAIL_DOMAIN" --no-email
           --app-domain "${HQBASE_STAGING_URL#https://}" --skip-build --skip-deploy
       - name: Generate disposable authentication secret
@@ -228,7 +226,20 @@ jobs:
           mkdir -p "$oldest_source"
           tar -xzf "/tmp/hqbase-oldest-updater/hqbase-${oldest_version}.tar.gz" \
             -C "$oldest_source"
-          pnpm --dir "$oldest_source" install --frozen-lockfile
+          bun --cwd "$oldest_source" install --lockfile-only --save-text-lockfile
+          bun --cwd "$oldest_source" install --frozen-lockfile
+          legacy_bin="$RUNNER_TEMP/hqbase-legacy-bin"
+          mkdir -p "$legacy_bin"
+          cat > "$legacy_bin/pnpm" <<'EOF'
+          #!/usr/bin/env bash
+          case "$1" in
+            install) shift; exec bun install "$@" ;;
+            exec) shift; exec bun x "$@" ;;
+            *) exec bun run "$@" ;;
+          esac
+          EOF
+          chmod 700 "$legacy_bin/pnpm"
+          echo "$legacy_bin" >> "$GITHUB_PATH"
           previous_version="${PREVIOUS_TAG#v}"
           previous_archive="/tmp/hqbase-previous/hqbase-${previous_version}.tar.gz"
           previous_source="/tmp/hqbase-previous/source"
@@ -281,10 +292,10 @@ jobs:
       - name: Bootstrap persistent N-1 staging data
         env:
           HQBASE_STAGING_MAIL_API_BASE_PATH: /api
-        run: pnpm test:e2e:staging:lifecycle
+        run: bun run test:e2e:staging:lifecycle
       - name: Configure customer OAuth for the candidate
         run: >-
-          pnpm hqbase oauth --name "$DEPLOYMENT_NAME" --mode customer --auth-url
+          bun run hqbase oauth --name "$DEPLOYMENT_NAME" --mode customer --auth-url
           "$HQBASE_STAGING_URL" --client-id "$HQBASE_STAGING_OAUTH_CLIENT_ID"
           --skip-deploy
       - name: Prepare the deployed update-action release gate
@@ -329,11 +340,11 @@ jobs:
         run: |
           config=".hqbase/deployments/$DEPLOYMENT_NAME/wrangler.jsonc"
           database="hqbase-$DEPLOYMENT_NAME"
-          status="$(pnpm exec wrangler deployments status \
+          status="$(bunx wrangler deployments status \
             --name "$STAGING_WORKER_NAME" --json --config "$config")"
           version_id="$(jq -er '.versions[] | select(.percentage == 100) | .version_id' \
             <<<"$status")"
-          worker="$(pnpm exec wrangler versions view "$version_id" \
+          worker="$(bunx wrangler versions view "$version_id" \
             --name "$STAGING_WORKER_NAME" --json --config "$config")"
           jq -e '[.resources.bindings[].name] | index("MAIL_EVENTS") != null' <<<"$worker"
           expected_normal_count="$(find migrations -maxdepth 1 -type f -name '*.sql' | wc -l | tr -d ' ')"
@@ -343,7 +354,7 @@ jobs:
             const manifest = JSON.parse(Buffer.from(envelope.payload, "base64url").toString("utf8"));
             process.stdout.write(String(manifest.schemaVersion));
           ')"
-          result="$(pnpm exec wrangler d1 execute "$database" --remote --config "$config" --json \
+          result="$(bunx wrangler d1 execute "$database" --remote --config "$config" --json \
             --command "SELECT (SELECT installed_version FROM release_state WHERE singleton = 1) AS installed_version, (SELECT installed_schema_version FROM release_state WHERE singleton = 1) AS installed_schema_version, (SELECT COUNT(*) FROM d1_migrations) AS normal_migration_count, (SELECT COUNT(*) FROM sqlite_master WHERE type = 'table' AND name = 'd1_migrations_after_deploy') AS after_deploy_ledger_table_count, (SELECT COUNT(*) FROM sqlite_master WHERE type = 'table' AND name IN ('mailbox_addresses', 'mailbox_address_migration')) AS alias_table_count, (SELECT COUNT(*) FROM pragma_table_info('messages') WHERE name IN ('delivered_to_address_id', 'sent_from_address_id')) AS message_legacy_column_count, (SELECT COUNT(*) FROM pragma_table_info('mailbox_grants') WHERE name IN ('user_id', 'created_by')) AS grant_legacy_column_count, (SELECT COUNT(*) FROM pragma_table_info('drafts') WHERE name = 'user_id') AS draft_legacy_column_count, (SELECT COUNT(*) FROM pragma_table_info('draft_changes') WHERE name = 'user_id') AS draft_change_legacy_column_count, (SELECT COUNT(*) FROM sqlite_master WHERE type = 'trigger' AND name IN ('mailbox_addresses_transition_insert_guard', 'mailbox_addresses_transition_update_guard', 'mailbox_addresses_transition_delete_guard', 'mailboxes_transition_update_guard', 'mailboxes_transition_delete_guard', 'mailbox_grants_transition_insert_guard', 'mailbox_grants_transition_update_guard', 'mailbox_grants_transition_delete_guard', 'retention_policies_transition_insert_guard', 'retention_policies_transition_update_guard', 'retention_policies_transition_delete_guard')) AS transition_guard_count")"
           jq -e \
             --arg version "$CANDIDATE_VERSION" \
@@ -351,12 +362,12 @@ jobs:
             --argjson schema_version "$expected_schema_version" \
             '.[0].results[0] == {installed_version:$version,installed_schema_version:$schema_version,normal_migration_count:$normal_count,after_deploy_ledger_table_count:0,alias_table_count:2,message_legacy_column_count:2,grant_legacy_column_count:2,draft_legacy_column_count:1,draft_change_legacy_column_count:1,transition_guard_count:11}' \
             <<<"$result"
-          pnpm exec wrangler d1 execute "$database" --remote --config "$config" \
+          bunx wrangler d1 execute "$database" --remote --config "$config" \
             --command "INSERT INTO app_settings (key, value_json, created_at, updated_at) VALUES ('release-updater-bridge-probe', '{\"state\":\"preserved\"}', datetime('now'), datetime('now'))"
-          snapshot="$(pnpm exec wrangler d1 execute "$database" --remote --config "$config" --json \
+          snapshot="$(bunx wrangler d1 execute "$database" --remote --config "$config" --json \
             --command "SELECT (SELECT COUNT(*) FROM \"user\") AS user_count, (SELECT COUNT(*) FROM mailboxes) AS mailbox_count, (SELECT value_json FROM app_settings WHERE key = 'release-updater-bridge-probe') AS probe")"
           jq -c '.[0].results[0]' <<<"$snapshot" > /tmp/hqbase-pre-repair-data.json
-          pnpm test:e2e:staging:event-socket
+          bun run test:e2e:staging:event-socket
       - name: Exercise the deployed update action without deployment
         env:
           HQBASE_E2E_UPDATE_API_TOKEN: ${{ secrets.HQBASE_E2E_UPDATE_API_TOKEN }}
@@ -387,23 +398,23 @@ jobs:
             import { readdirSync } from "node:fs";
             process.stdout.write(JSON.stringify(readdirSync("migrations-after-deploy").filter((name) => name.endsWith(".sql")).sort()));
           ')"
-          normal="$(pnpm exec wrangler d1 execute "$database" --remote --config "$config" --json \
+          normal="$(bunx wrangler d1 execute "$database" --remote --config "$config" --json \
             --command "SELECT name FROM d1_migrations ORDER BY id")"
-          after_deploy="$(pnpm exec wrangler d1 execute "$database" --remote --config "$config" --json \
+          after_deploy="$(bunx wrangler d1 execute "$database" --remote --config "$config" --json \
             --command "SELECT name FROM d1_migrations_after_deploy ORDER BY id")"
           test "$(jq -c '[.[0].results[].name]' <<<"$normal")" = "$expected_normal"
           test "$(jq -c '[.[0].results[].name]' <<<"$after_deploy")" = "$expected_after_deploy"
-          result="$(pnpm exec wrangler d1 execute "$database" --remote --config "$config" --json \
+          result="$(bunx wrangler d1 execute "$database" --remote --config "$config" --json \
             --command "SELECT (SELECT installed_version FROM release_state WHERE singleton = 1) AS installed_version, (SELECT installed_schema_version FROM release_state WHERE singleton = 1) AS installed_schema_version, (SELECT COUNT(*) FROM sqlite_master WHERE type = 'table' AND name IN ('mailbox_addresses', 'mailbox_address_migration')) AS alias_table_count, (SELECT COUNT(*) FROM pragma_table_info('messages') WHERE name IN ('delivered_to_address_id', 'sent_from_address_id')) AS message_legacy_column_count, (SELECT COUNT(*) FROM pragma_table_info('mailbox_grants') WHERE name IN ('user_id', 'created_by')) AS grant_legacy_column_count, (SELECT COUNT(*) FROM pragma_table_info('drafts') WHERE name = 'user_id') AS draft_legacy_column_count, (SELECT COUNT(*) FROM pragma_table_info('draft_changes') WHERE name = 'user_id') AS draft_change_legacy_column_count, (SELECT COUNT(*) FROM sqlite_master WHERE type = 'trigger' AND name LIKE '%_transition_%') AS transition_guard_count, (SELECT COUNT(*) FROM pragma_foreign_key_list('draft_labels') WHERE \"table\" = 'drafts' AND \"from\" = 'draft_id') AS draft_label_fk_count, (SELECT COUNT(*) FROM update_history WHERE from_version = '${CANDIDATE_VERSION}' AND to_version = '${CANDIDATE_VERSION}' AND checkpoint_bookmark IS NOT NULL AND worker_version IS NOT NULL AND state = 'verified') AS repair_history_count")"
           jq -e \
             --arg version "$CANDIDATE_VERSION" \
             --argjson schema_version "$expected_schema_version" \
             '.[0].results[0] == {installed_version:$version,installed_schema_version:$schema_version,alias_table_count:0,message_legacy_column_count:0,grant_legacy_column_count:0,draft_legacy_column_count:0,draft_change_legacy_column_count:0,transition_guard_count:0,draft_label_fk_count:1,repair_history_count:1}' \
             <<<"$result"
-          foreign_keys="$(pnpm exec wrangler d1 execute "$database" --remote --config "$config" --json \
+          foreign_keys="$(bunx wrangler d1 execute "$database" --remote --config "$config" --json \
             --command "PRAGMA foreign_key_check")"
           jq -e '.[0].results == []' <<<"$foreign_keys"
-          snapshot="$(pnpm exec wrangler d1 execute "$database" --remote --config "$config" --json \
+          snapshot="$(bunx wrangler d1 execute "$database" --remote --config "$config" --json \
             --command "SELECT (SELECT COUNT(*) FROM \"user\") AS user_count, (SELECT COUNT(*) FROM mailboxes) AS mailbox_count, (SELECT value_json FROM app_settings WHERE key = 'release-updater-bridge-probe') AS probe")"
           jq -e '.[0].results[0].probe == "{\"state\":\"preserved\"}"' <<<"$snapshot"
           test "$(jq -c '.[0].results[0]' <<<"$snapshot")" = "$(< /tmp/hqbase-pre-repair-data.json)"
@@ -411,24 +422,24 @@ jobs:
         run: |
           config="$GITHUB_WORKSPACE/.hqbase/deployments/$DEPLOYMENT_NAME/wrangler.jsonc"
           database="hqbase-$DEPLOYMENT_NAME"
-          before="$(pnpm exec wrangler d1 execute "$database" --remote --config "$config" --json \
+          before="$(bunx wrangler d1 execute "$database" --remote --config "$config" --json \
             --command "SELECT (SELECT COUNT(*) FROM d1_migrations) AS normal_migration_count, (SELECT COUNT(*) FROM d1_migrations_after_deploy) AS after_deploy_migration_count, (SELECT COUNT(*) FROM update_history) AS update_history_count, (SELECT COUNT(*) FROM \"user\") AS user_count, (SELECT COUNT(*) FROM mailboxes) AS mailbox_count, (SELECT value_json FROM app_settings WHERE key = 'release-updater-bridge-probe') AS probe")"
           HQBASE_AUTH_SECRET="$HQBASE_STAGING_AUTH_SECRET" \
           HQBASE_EXPECTED_RELEASE_VERSION="$CANDIDATE_VERSION" \
           HQBASE_RELEASE_ARTIFACT_FILE="$GITHUB_WORKSPACE/release/hqbase-${CANDIDATE_VERSION}.tar.gz" \
           HQBASE_RELEASE_MANIFEST_FILE="$GITHUB_WORKSPACE/release/stable.json" \
             node "$GITHUB_WORKSPACE/scripts/release/bootstrap.mjs" --config "$config"
-          after="$(pnpm exec wrangler d1 execute "$database" --remote --config "$config" --json \
+          after="$(bunx wrangler d1 execute "$database" --remote --config "$config" --json \
             --command "SELECT (SELECT COUNT(*) FROM d1_migrations) AS normal_migration_count, (SELECT COUNT(*) FROM d1_migrations_after_deploy) AS after_deploy_migration_count, (SELECT COUNT(*) FROM update_history) AS update_history_count, (SELECT COUNT(*) FROM \"user\") AS user_count, (SELECT COUNT(*) FROM mailboxes) AS mailbox_count, (SELECT value_json FROM app_settings WHERE key = 'release-updater-bridge-probe') AS probe")"
           test "$(jq -c '.[0].results[0]' <<<"$after")" = "$(jq -c '.[0].results[0]' <<<"$before")"
       - name: Verify active Worker bindings
         run: |
           config=".hqbase/deployments/$DEPLOYMENT_NAME/wrangler.jsonc"
-          status="$(pnpm exec wrangler deployments status \
+          status="$(bunx wrangler deployments status \
             --name "$STAGING_WORKER_NAME" --json --config "$config")"
           version_id="$(jq -er '.versions[] | select(.percentage == 100) | .version_id' \
             <<<"$status")"
-          version="$(pnpm exec wrangler versions view "$version_id" \
+          version="$(bunx wrangler versions view "$version_id" \
             --name "$STAGING_WORKER_NAME" --json --config "$config")"
           jq -e '
             [.resources.bindings[].name] as $names |
@@ -439,21 +450,21 @@ jobs:
         run: |
           config=".hqbase/deployments/$DEPLOYMENT_NAME/wrangler.jsonc"
           database="hqbase-$DEPLOYMENT_NAME"
-          pnpm exec wrangler d1 execute "$database" --remote --config "$config" \
+          bunx wrangler d1 execute "$database" --remote --config "$config" \
             --command "DELETE FROM rate_limits WHERE scope IN ('auth.email', 'auth.ip')"
       - name: Verify PWA, app shell, access, and operator lifecycle
-        run: pnpm test:e2e:staging
+        run: bun run test:e2e:staging
       - name: Exercise populated remote backup and restore
         run: |
           config=".hqbase/deployments/$DEPLOYMENT_NAME/wrangler.jsonc"
           database="hqbase-$DEPLOYMENT_NAME"
-          pnpm exec wrangler d1 execute "$database" --remote --config "$config" \
+          bunx wrangler d1 execute "$database" --remote --config "$config" \
             --command "INSERT INTO app_settings (key, value_json, created_at, updated_at) VALUES ('staging-restore-probe', '{\"state\":\"before\"}', datetime('now'), datetime('now'))"
-          pnpm hqbase backup --name "$DEPLOYMENT_NAME" --output /tmp/hqbase-backup.json
-          pnpm exec wrangler d1 execute "$database" --remote --config "$config" \
+          bun run hqbase backup --name "$DEPLOYMENT_NAME" --output /tmp/hqbase-backup.json
+          bunx wrangler d1 execute "$database" --remote --config "$config" \
             --command "UPDATE app_settings SET value_json = '{\"state\":\"after\"}', updated_at = datetime('now') WHERE key = 'staging-restore-probe'"
-          pnpm hqbase restore --name "$DEPLOYMENT_NAME" --backup /tmp/hqbase-backup.json --yes
-          result="$(pnpm exec wrangler d1 execute "$database" --remote --config "$config" --json \
+          bun run hqbase restore --name "$DEPLOYMENT_NAME" --backup /tmp/hqbase-backup.json --yes
+          result="$(bunx wrangler d1 execute "$database" --remote --config "$config" --json \
             --command "SELECT value_json FROM app_settings WHERE key = 'staging-restore-probe'")"
           jq -e '.[0].results[0].value_json == "{\"state\":\"before\"}"' <<<"$result"
       - name: Verify the customer source checkout stayed unchanged
@@ -485,7 +496,7 @@ jobs:
             *) printf '%s\n' "Invalid Worker deployment state." >&2; exit 1 ;;
           esac
           config=".hqbase/deployments/$DEPLOYMENT_NAME/wrangler.jsonc"
-          if output="$(NO_COLOR=1 pnpm exec wrangler deployments status \
+          if output="$(NO_COLOR=1 bunx wrangler deployments status \
             --name "$worker_name" --json --config "$config" 2>&1)"; then
             CONFIG_FILE="$config" WORKER_NAME="$worker_name" node --input-type=module -e '
               import { recordWorkerDeployedForConfig } from "./scripts/hqbase/manifest.mjs";
@@ -500,7 +511,7 @@ jobs:
             exit 0
           fi
           if grep -Fxq "The Worker $worker_name has no deployments." <<<"$output"; then
-            if delete_output="$(NO_COLOR=1 pnpm exec wrangler delete "$worker_name" \
+            if delete_output="$(NO_COLOR=1 bunx wrangler delete "$worker_name" \
               --force --config "$config" 2>&1)"; then
               printf '%s\n' "$delete_output"
               exit 0
@@ -533,7 +544,7 @@ jobs:
           always() && steps.reconcile_update_gate.outcome == 'success' &&
           steps.reconcile_worker.outcome == 'success' &&
           steps.reconcile_worker.outputs.manifest_present == 'true'
-        run: pnpm hqbase destroy --name "$DEPLOYMENT_NAME" --scope all --yes
+        run: bun run hqbase destroy --name "$DEPLOYMENT_NAME" --scope all --yes
 
   publish:
     needs: [ candidate, staging ]

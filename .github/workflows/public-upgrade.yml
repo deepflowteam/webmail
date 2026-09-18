@@ -57,27 +57,26 @@ jobs:
         run: echo "HQBASE_UPGRADE_RECEIPT=$RUNNER_TEMP/upgrade-$UPGRADE_EDGE.json" >>
           "$GITHUB_ENV"
       - uses: actions/checkout@v7
-      - uses: pnpm/action-setup@v6
+      - uses: oven/setup-bun@v2
         with:
-          version: 11.7.0
+          bun-version: 1.4.2
       - uses: actions/setup-node@v7
         with:
           node-version: 24
-          cache: pnpm
       - name: Cache Playwright Chromium
         uses: actions/cache@v6
         with:
           path: ~/.cache/ms-playwright
           key: ${{ runner.os }}-${{ runner.arch }}-playwright-${{
-            hashFiles('pnpm-lock.yaml') }}
+            hashFiles('bun.lock') }}
           restore-keys: ${{ runner.os }}-${{ runner.arch }}-playwright-
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm exec playwright install --with-deps chromium
+      - run: bun install --frozen-lockfile
+      - run: bunx playwright install --with-deps chromium
       - name: Download and verify the public source and target archives
         run: node scripts/release/public-upgrade-inputs.mjs
       - name: Create disposable customer resources
         run: >-
-          pnpm hqbase install --name "$DEPLOYMENT_NAME" --worker-name
+          bun run hqbase install --name "$DEPLOYMENT_NAME" --worker-name
           "$STAGING_WORKER_NAME" --domain "$HQBASE_STAGING_EMAIL_DOMAIN"
           --no-email --app-domain "${HQBASE_STAGING_URL#https://}" --skip-build
           --skip-deploy
@@ -124,10 +123,10 @@ jobs:
       - name: Create persistent source-version data
         env:
           HQBASE_STAGING_MAIL_API_BASE_PATH: /api
-        run: pnpm test:e2e:staging:lifecycle
+        run: bun run test:e2e:staging:lifecycle
       - name: Configure disposable customer authorization
         run: >-
-          pnpm hqbase oauth --name "$DEPLOYMENT_NAME" --mode customer --auth-url
+          bun run hqbase oauth --name "$DEPLOYMENT_NAME" --mode customer --auth-url
           "$HQBASE_STAGING_URL" --client-id "$HQBASE_STAGING_OAUTH_CLIENT_ID"
           --skip-deploy
       - name: Prepare a public upgrade trigger and signed discovery fixture
@@ -151,29 +150,29 @@ jobs:
           jq -e --arg account "$CLOUDFLARE_ACCOUNT_ID" --arg database "$database" \
             '.accountId == $account and .d1.name == $database and .d1.ownership == "created"' \
             "$manifest" >/dev/null
-          pnpm exec wrangler d1 execute "$database" --remote --config "$config" \
+          bunx wrangler d1 execute "$database" --remote --config "$config" \
             --command "DELETE FROM rate_limits WHERE scope IN ('auth.email', 'auth.ip')"
       - name: Verify mail, lifecycle, backup, restore, and PWA after the update
-        run: pnpm test:e2e:staging
+        run: bun run test:e2e:staging
       - name: Verify candidate PWA from its signed archive
         run: |
           target_source="$RUNNER_TEMP/hqbase-target-$UPGRADE_EDGE"
           mkdir -p "$target_source"
           tar -xzf "$GITHUB_WORKSPACE/release/target/archive.tar.gz" -C "$target_source"
-          pnpm --dir "$target_source" install --frozen-lockfile
-          pnpm --dir "$target_source" build
-          pnpm --dir "$target_source" test:pwa
+          bun --cwd "$target_source" install --frozen-lockfile
+          bun --cwd "$target_source" run build
+          bun --cwd "$target_source" run test:pwa
       - name: Exercise populated remote backup and restore
         run: |
           config=".hqbase/deployments/$DEPLOYMENT_NAME/wrangler.jsonc"
           database="hqbase-$DEPLOYMENT_NAME"
-          pnpm exec wrangler d1 execute "$database" --remote --config "$config" \
+          bunx wrangler d1 execute "$database" --remote --config "$config" \
             --command "INSERT INTO app_settings (key, value_json, created_at, updated_at) VALUES ('staging-restore-probe', '{\"state\":\"before\"}', datetime('now'), datetime('now'))"
-          pnpm hqbase backup --name "$DEPLOYMENT_NAME" --output /tmp/hqbase-backup.json
-          pnpm exec wrangler d1 execute "$database" --remote --config "$config" \
+          bun run hqbase backup --name "$DEPLOYMENT_NAME" --output /tmp/hqbase-backup.json
+          bunx wrangler d1 execute "$database" --remote --config "$config" \
             --command "UPDATE app_settings SET value_json = '{\"state\":\"after\"}', updated_at = datetime('now') WHERE key = 'staging-restore-probe'"
-          pnpm hqbase restore --name "$DEPLOYMENT_NAME" --backup /tmp/hqbase-backup.json --yes
-          result="$(pnpm exec wrangler d1 execute "$database" --remote --config "$config" --json \
+          bun run hqbase restore --name "$DEPLOYMENT_NAME" --backup /tmp/hqbase-backup.json --yes
+          result="$(bunx wrangler d1 execute "$database" --remote --config "$config" --json \
             --command "SELECT value_json FROM app_settings WHERE key = 'staging-restore-probe'")"
           jq -e '.[0].results[0].value_json == "{\"state\":\"before\"}"' <<<"$result"
       - name: Seal the successful upgrade receipt
@@ -214,7 +213,7 @@ jobs:
             *) printf '%s\n' "Invalid Worker deployment state." >&2; exit 1 ;;
           esac
           config=".hqbase/deployments/$DEPLOYMENT_NAME/wrangler.jsonc"
-          if output="$(NO_COLOR=1 pnpm exec wrangler deployments status \
+          if output="$(NO_COLOR=1 bunx wrangler deployments status \
             --name "$worker_name" --json --config "$config" 2>&1)"; then
             CONFIG_FILE="$config" WORKER_NAME="$worker_name" node --input-type=module -e '
               import { recordWorkerDeployedForConfig } from "./scripts/hqbase/manifest.mjs";
@@ -229,7 +228,7 @@ jobs:
             exit 0
           fi
           if grep -Fxq "The Worker $worker_name has no deployments." <<<"$output"; then
-            if delete_output="$(NO_COLOR=1 pnpm exec wrangler delete "$worker_name" \
+            if delete_output="$(NO_COLOR=1 bunx wrangler delete "$worker_name" \
               --force --config "$config" 2>&1)"; then
               printf '%s\n' "$delete_output"
               exit 0
@@ -262,7 +261,7 @@ jobs:
           always() && steps.reconcile_update_gate.outcome == 'success' &&
           steps.reconcile_worker.outcome == 'success' &&
           steps.reconcile_worker.outputs.manifest_present == 'true'
-        run: pnpm hqbase destroy --name "$DEPLOYMENT_NAME" --scope all --yes
+        run: bun run hqbase destroy --name "$DEPLOYMENT_NAME" --scope all --yes
 
   evidence:
     needs: upgrade

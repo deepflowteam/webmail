@@ -404,8 +404,8 @@ describe("Webmail release deployment", () => {
       }),
       releaseTag: `hqbase:0.1.15:${"a".repeat(64)}`,
       run: (command, args, cwd) => {
-        expect(command).toBe("pnpm");
-        expect(args.slice(0, 3)).toEqual(["exec", "wrangler", "deploy"]);
+        expect(command).toBe("bun");
+        expect(args.slice(0, 3)).toEqual(["x", "wrangler", "deploy"]);
         expect(args).toContain("HQBASE_WORKER_NAME:hqbase-deeptake-test");
         expect(args).toContain("HQBASE_INSTALLATION_ID:00000000-0000-4000-8000-000000000123");
         expect(args).toContain("--keep-vars");
@@ -501,7 +501,7 @@ describe("Webmail release deployment", () => {
     let emitted = "";
     executeSql("/release", "UPDATE release_state SET installed_version = '0.1.12'", {
       attempt: (command, args, cwd) => {
-        expect(command).toBe("pnpm");
+        expect(command).toBe("bun");
         expect(args).toContain("execute");
         expect(args).toContain("UPDATE release_state SET installed_version = '0.1.12'");
         expect(cwd).toBe("/release");

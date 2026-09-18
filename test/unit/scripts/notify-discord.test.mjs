@@ -26,7 +26,7 @@ describe("Discord release notifications", () => {
     const notes = `## Changes\n\n- ${"First change. ".repeat(400)}\n- @everyone stays plain text.`;
     const messages = buildDiscordReleaseMessages({
       notes,
-      repository: "Webmail/hqbase",
+      repository: "HQBase/hqbase",
       version: "1.2.3",
       publishedAt: "2026-08-16T00:00:00.000Z"
     });

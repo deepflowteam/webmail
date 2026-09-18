@@ -202,11 +202,11 @@ function verifyAmbiguousCreate(ambiguousName) {
     }
 
     const manifest = loadManifest(ambiguousName);
-    run("pnpm", ["exec", "wrangler", "d1", "delete", databaseId, "--skip-confirmation"], {
+    run("bun", ["x", "wrangler", "d1", "delete", databaseId, "--skip-confirmation"], {
       env: { CLOUDFLARE_ACCOUNT_ID: manifest.accountId }
     });
     const databases = JSON.parse(
-      run("pnpm", ["exec", "wrangler", "d1", "list", "--json"], {
+      run("bun", ["x", "wrangler", "d1", "list", "--json"], {
         env: { CLOUDFLARE_ACCOUNT_ID: manifest.accountId },
         quiet: true,
         stdoutOnly: true

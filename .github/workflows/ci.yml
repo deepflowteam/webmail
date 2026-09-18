@@ -15,16 +15,15 @@ jobs:
       BETTER_AUTH_SECRET: ci-auth-secret-not-used-in-production
     steps:
       - uses: actions/checkout@v7
-      - uses: pnpm/action-setup@v6
+      - uses: oven/setup-bun@v2
         with:
-          version: 11.7.0
+          bun-version: 1.4.2
       - uses: actions/setup-node@v7
         with:
           node-version: 24
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm check
-      - run: pnpm deploy:dry-run
+      - run: bun install --frozen-lockfile
+      - run: bun run check
+      - run: bun run deploy:dry-run
 
   # The terminal install path is supported on Windows, where process spawning, path handling and
   # file permissions differ enough that a Linux-only gate cannot cover them.
@@ -34,13 +33,12 @@ jobs:
       BETTER_AUTH_SECRET: ci-auth-secret-not-used-in-production
     steps:
       - uses: actions/checkout@v7
-      - uses: pnpm/action-setup@v6
+      - uses: oven/setup-bun@v2
         with:
-          version: 11.7.0
+          bun-version: 1.4.2
       - uses: actions/setup-node@v7
         with:
           node-version: 24
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm check
-      - run: pnpm deploy:dry-run
+      - run: bun install --frozen-lockfile
+      - run: bun run check
+      - run: bun run deploy:dry-run

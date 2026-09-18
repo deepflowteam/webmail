@@ -39,7 +39,7 @@ describe("staging Mail API path", () => {
 
     expect(bootstrapStart).toBeGreaterThan(-1);
     expect(bootstrapStep).toContain("HQBASE_STAGING_MAIL_API_BASE_PATH: /api");
-    expect(bootstrapStep).toContain("run: pnpm test:e2e:staging:lifecycle");
+    expect(bootstrapStep).toContain("run: bun run test:e2e:staging:lifecycle");
   });
 
   it("skips candidate-only mailbox agent checks during N-1 bootstrap", () => {

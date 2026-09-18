@@ -13,7 +13,7 @@ export function resolveCloudflareAccount(expectedId, options = {}) {
     assertAccountId(expectedId);
   }
 
-  const output = runCommand("pnpm", ["exec", "wrangler", "whoami", "--json"], {
+  const output = runCommand("bun", ["x", "wrangler", "whoami", "--json"], {
     quiet: true,
     stdoutOnly: true
   });
@@ -133,7 +133,7 @@ export function inspectQueue(manifest, resource, options = {}) {
 
 export function wrangler(manifest, args, options = {}) {
   const runCommand = options.runCommand ?? run;
-  return runCommand("pnpm", ["exec", "wrangler", ...args], {
+  return runCommand("bun", ["x", "wrangler", ...args], {
     dryRun: options.dryRun,
     quiet: options.quiet ?? true,
     stdoutOnly: options.stdoutOnly ?? true,

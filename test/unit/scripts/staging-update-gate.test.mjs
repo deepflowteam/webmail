@@ -107,7 +107,7 @@ function response(result, init = {}) {
   });
 }
 
-function trigger(record, deployCommand = "pnpm deploy") {
+function trigger(record, deployCommand = "bun run deploy") {
   return {
     branch_excludes: [],
     branch_includes: ["main"],
@@ -132,7 +132,7 @@ function workersBuildRecord() {
     buildOutcome: null,
     buildTokenUuid,
     buildUuid,
-    initialDeployCommand: "pnpm deploy",
+    initialDeployCommand: "bun run deploy",
     ownership: "created",
     pathIncludes: [".hqbase-release-gate-never"],
     repoConnectionUuid,
@@ -295,7 +295,7 @@ describe("deployed update-action release gate", () => {
           build_caching_enabled: false,
           build_command: "sleep 600",
           build_token_uuid: buildTokenUuid,
-          deploy_command: "pnpm deploy",
+          deploy_command: "bun run deploy",
           external_script_id: productionWorkerTag,
           path_excludes: [],
           path_includes: [".hqbase-release-gate-never"],
@@ -364,7 +364,7 @@ describe("deployed update-action release gate", () => {
       manifestExists: () => true,
       runCommand: (_command, args) => {
         events.push("deploy-fixture");
-        expect(args.slice(0, 3)).toEqual(["exec", "wrangler", "deploy"]);
+        expect(args.slice(0, 3)).toEqual(["x", "wrangler", "deploy"]);
         fixtureExists = true;
       },
       sleep: async () => {},
@@ -655,7 +655,7 @@ describe("deployed update-action release gate", () => {
         buildTokenUuid,
         buildUuid: null,
         dispatchStartedAt: null,
-        initialDeployCommand: "pnpm deploy",
+        initialDeployCommand: "bun run deploy",
         ownership: "created",
         pathIncludes: [".hqbase-release-gate-never"],
         repoConnectionUuid,

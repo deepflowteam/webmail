@@ -51,7 +51,7 @@ describe("staging workflow lifecycle record", () => {
     const beforeAddressIdAssertion = workflow.indexOf('"address_id_column_count":2');
     const beforeSchemaAssertion = workflow.indexOf('"schema_version":2');
     const deployStep = workflow.indexOf("      - name: Deploy reviewed source candidate");
-    const deploy = workflow.indexOf("pnpm exec wrangler deploy --config");
+    const deploy = workflow.indexOf("bunx wrangler deploy --config");
     const afterDeployDirectory = workflow.indexOf('"../../../migrations-after-deploy"');
     const afterAliasAssertion = workflow.indexOf('"alias_table_count":0');
     const afterAddressIdAssertion = workflow.indexOf('"address_id_column_count":0');
@@ -60,7 +60,7 @@ describe("staging workflow lifecycle record", () => {
     const cleanup = workflow.indexOf(
       "DELETE FROM messages WHERE id IN ('msg_sql_upgrade', 'msg_sql_alias_upgrade')"
     );
-    const lifecycle = workflow.indexOf("pnpm test:e2e:staging");
+    const lifecycle = workflow.indexOf("bun run test:e2e:staging");
     const normalUpgrade = workflow.slice(current, deployStep);
     const afterDeployUpgrade = workflow.slice(afterDeployDirectory, finalAssertion);
 
@@ -106,9 +106,9 @@ describe("staging workflow lifecycle record", () => {
   });
 
   it("records the reviewed Worker deploy before cleanup", () => {
-    const deploy = workflow.indexOf("pnpm exec wrangler deploy --config");
+    const deploy = workflow.indexOf("bunx wrangler deploy --config");
     const checkpoint = workflow.indexOf("recordWorkerDeployedForConfig");
-    const cleanup = workflow.indexOf('pnpm hqbase destroy --name "$DEPLOYMENT_NAME"');
+    const cleanup = workflow.indexOf('bun run hqbase destroy --name "$DEPLOYMENT_NAME"');
 
     expect(deploy).toBeGreaterThan(-1);
     expect(checkpoint).toBeGreaterThan(deploy);
@@ -116,11 +116,11 @@ describe("staging workflow lifecycle record", () => {
   });
 
   it("moves the live portal to a second hostname and back", () => {
-    const lifecycle = workflow.indexOf("pnpm test:e2e:staging");
+    const lifecycle = workflow.indexOf("bun run test:e2e:staging");
     const move = workflow.indexOf("node scripts/test-domain-staging.mjs");
     const recovery = workflow.indexOf("node scripts/test-domain-staging.mjs --cleanup-only");
     const backup = workflow.indexOf("Exercise populated remote backup and restore");
-    const destroy = workflow.indexOf('pnpm hqbase destroy --name "$DEPLOYMENT_NAME"');
+    const destroy = workflow.indexOf('bun run hqbase destroy --name "$DEPLOYMENT_NAME"');
 
     expect(lifecycle).toBeGreaterThan(-1);
     expect(move).toBeGreaterThan(-1);
@@ -282,7 +282,7 @@ describe("staging workflow lifecycle record", () => {
     expect(releaseWorkflow.slice(stale, repair)).toContain("alias_table_count:2");
     expect(releaseWorkflow.slice(stale, repair)).toContain("transition_guard_count:11");
     expect(releaseWorkflow.slice(stale, repair)).toContain('index("MAIL_EVENTS") != null');
-    expect(releaseWorkflow.slice(stale, repair)).toContain("pnpm test:e2e:staging:event-socket");
+    expect(releaseWorkflow.slice(stale, repair)).toContain("bun run test:e2e:staging:event-socket");
     expect(releaseWorkflow.slice(repair, final)).toContain(
       'node "$GITHUB_WORKSPACE/scripts/release/bootstrap.mjs" --config "$config"'
     );
@@ -381,11 +381,11 @@ describe("staging workflow lifecycle record", () => {
     expect(step).toContain(
       'tar -xzf "$GITHUB_WORKSPACE/release/target/archive.tar.gz" -C "$target_source"'
     );
-    expect(step).toContain('pnpm --dir "$target_source" install --frozen-lockfile');
-    expect(step.indexOf('pnpm --dir "$target_source" build')).toBeLessThan(
-      step.indexOf('pnpm --dir "$target_source" test:pwa')
+    expect(step).toContain('bun --cwd "$target_source" install --frozen-lockfile');
+    expect(step.indexOf('bun --cwd "$target_source" run build')).toBeLessThan(
+      step.indexOf('bun --cwd "$target_source" run test:pwa')
     );
-    expect(step).not.toContain("pnpm build");
+    expect(step).not.toContain("bun run build");
   });
 
   it("requires populated remote backup and restore before sealing public receipts", () => {
@@ -399,8 +399,8 @@ describe("staging workflow lifecycle record", () => {
     expect(backup).toBeGreaterThan(lifecycle);
     expect(seal).toBeGreaterThan(backup);
     const step = publicUpgradeWorkflow.slice(backup, seal);
-    expect(step).toContain('pnpm hqbase backup --name "$DEPLOYMENT_NAME"');
-    expect(step).toContain('pnpm hqbase restore --name "$DEPLOYMENT_NAME"');
+    expect(step).toContain('bun run hqbase backup --name "$DEPLOYMENT_NAME"');
+    expect(step).toContain('bun run hqbase restore --name "$DEPLOYMENT_NAME"');
     expect(step).toContain("INSERT INTO app_settings (key, value_json, created_at, updated_at)");
     expect(step).toContain(String.raw`'staging-restore-probe', '{\"state\":\"before\"}'`);
     expect(step).toContain(

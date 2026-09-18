@@ -153,7 +153,7 @@ describe("after-deploy state inspection", () => {
       })
     ).toEqual([{ item: "table:drafts" }, { item: "column:drafts.id" }]);
     expect(attempts).toHaveLength(1);
-    expect(attempts[0]).toMatchObject({ command: "pnpm", cwd: "/source" });
+    expect(attempts[0]).toMatchObject({ command: "bun", cwd: "/source" });
     expect(attempts[0].args[attempts[0].args.indexOf("--command") + 1]).toBe(afterDeploySchemaSql);
 
     const captures = [];

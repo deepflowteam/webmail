@@ -121,9 +121,9 @@ export async function probeServiceOrigin({ origin, probe, retry }) {
 
 function executeD1(manifest, statements, runCommand) {
   return runCommand(
-    "pnpm",
+    "bun",
     [
-      "exec",
+      "x",
       "wrangler",
       "d1",
       "execute",

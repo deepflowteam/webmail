@@ -10,7 +10,7 @@ export function deploySource(cwd, options = {}) {
   const attempt = options.attempt ?? attemptRun;
   const workerName = options.workerName ?? workerNameFromConfigFile(resolve(cwd, "wrangler.jsonc"));
   const deployArgs = [
-    "exec",
+    "x",
     "wrangler",
     "deploy",
     "--keep-vars",
@@ -19,11 +19,7 @@ export function deploySource(cwd, options = {}) {
   ];
   if (options.releaseTag) deployArgs.push("--tag", options.releaseTag);
 
-  const inspection = attempt(
-    "pnpm",
-    ["exec", "wrangler", "secret", "list", "--format", "json"],
-    cwd
-  );
+  const inspection = attempt("bun", ["x", "wrangler", "secret", "list", "--format", "json"], cwd);
   let missingSecrets;
   try {
     missingSecrets = missingRequiredSecrets(inspection, [
@@ -36,7 +32,7 @@ export function deploySource(cwd, options = {}) {
     throw error;
   }
   if (missingSecrets.length === 0) {
-    execute("pnpm", deployArgs, cwd);
+    execute("bun", deployArgs, cwd);
     return;
   }
 
@@ -69,7 +65,7 @@ export function deploySource(cwd, options = {}) {
       secrets.VAPID_PRIVATE_KEY = generated.privateKey;
     }
     writeFileSync(secretsFile, `${JSON.stringify(secrets)}\n`, { mode: 0o600 });
-    execute("pnpm", [...deployArgs, "--secrets-file", secretsFile], cwd);
+    execute("bun", [...deployArgs, "--secrets-file", secretsFile], cwd);
   } finally {
     rmSync(workspace, { recursive: true, force: true });
   }
@@ -116,9 +112,9 @@ export function missingRequiredSecrets(result, secretNames) {
 export function executeSql(cwd, command, options = {}) {
   const execute = options.attempt ?? attemptRun;
   const result = execute(
-    "pnpm",
+    "bun",
     [
-      "exec",
+      "x",
       "wrangler",
       "d1",
       "execute",

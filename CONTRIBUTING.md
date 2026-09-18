@@ -26,11 +26,11 @@ release handoff.
 For a local checkout of the main application:
 
 ```sh
-pnpm install
-pnpm db:migrate:local
-pnpm db:seed:local
-pnpm check
-pnpm deploy:dry-run
+bun install
+bun run db:migrate:local
+bun run db:seed:local
+bun run check
+bun run deploy:dry-run
 ```
 
 The optional seed command uses `HQBASE_LOCAL_SEED_PASSWORD` from `.dev.vars` and writes directly to

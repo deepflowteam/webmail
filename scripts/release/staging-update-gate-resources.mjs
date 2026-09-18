@@ -62,8 +62,8 @@ export async function ensureCandidateManifestWorker(manifest, body, context, dep
       )}\n`
     );
     dependencies.runCommand(
-      "pnpm",
-      ["exec", "wrangler", "deploy", "--config", configFile],
+      "bun",
+      ["x", "wrangler", "deploy", "--config", configFile],
       repositoryRoot
     );
   } finally {
@@ -291,7 +291,7 @@ export async function cancelRecordedBuild(manifest, context, dependencies) {
     build.status !== "stopped" ||
     !(
       terminalOutcomes.has(build.build_outcome) ||
-      ([publicBuildCommand, "pnpm install --frozen-lockfile"].includes(record.buildCommand) &&
+      ([publicBuildCommand, "bun install --frozen-lockfile"].includes(record.buildCommand) &&
         ["success", "fail", "skipped"].includes(build.build_outcome))
     ) ||
     !Number.isFinite(Date.parse(build.stopped_on ?? ""))

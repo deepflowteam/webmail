@@ -7,16 +7,16 @@ export function doctor(flags) {
   const manifest = loadManifest(name);
   const options = manifest.accountId ? { env: { CLOUDFLARE_ACCOUNT_ID: manifest.accountId } } : {};
 
-  run("pnpm", ["exec", "wrangler", "deploy", "--dry-run", "--config", configPath(name)], options);
+  run("bun", ["x", "wrangler", "deploy", "--dry-run", "--config", configPath(name)], options);
   run(
-    "pnpm",
-    ["exec", "wrangler", "d1", "info", manifest.d1.name, "--config", configPath(name)],
+    "bun",
+    ["x", "wrangler", "d1", "info", manifest.d1.name, "--config", configPath(name)],
     options
   );
   run(
-    "pnpm",
+    "bun",
     [
-      "exec",
+      "x",
       "wrangler",
       "d1",
       "execute",
@@ -29,25 +29,25 @@ export function doctor(flags) {
     ],
     options
   );
-  run("pnpm", ["exec", "wrangler", "r2", "bucket", "info", manifest.r2.bucket, "--json"], options);
+  run("bun", ["x", "wrangler", "r2", "bucket", "info", manifest.r2.bucket, "--json"], options);
   if (manifest.queue) {
     const primary = manifest.queue.primary?.name ?? manifest.queue.name;
     const deadLetter = manifest.queue.deadLetter?.name ?? manifest.queue.deadLetterName;
-    run("pnpm", ["exec", "wrangler", "queues", "info", primary], options);
-    run("pnpm", ["exec", "wrangler", "queues", "info", deadLetter], options);
+    run("bun", ["x", "wrangler", "queues", "info", primary], options);
+    run("bun", ["x", "wrangler", "queues", "info", deadLetter], options);
   }
   run(
-    "pnpm",
-    ["exec", "wrangler", "deployments", "status", "--name", manifest.worker.name, "--json"],
+    "bun",
+    ["x", "wrangler", "deployments", "status", "--name", manifest.worker.name, "--json"],
     options
   );
 
   if (manifest.email?.domain) {
-    run("pnpm", ["exec", "wrangler", "email", "routing", "settings", manifest.email.domain], {
+    run("bun", ["x", "wrangler", "email", "routing", "settings", manifest.email.domain], {
       ...options,
       allowFailure: true
     });
-    run("pnpm", ["exec", "wrangler", "email", "sending", "settings", manifest.email.domain], {
+    run("bun", ["x", "wrangler", "email", "sending", "settings", manifest.email.domain], {
       ...options,
       allowFailure: true
     });

@@ -19,10 +19,7 @@ export function isAllowedPrecacheUrl(url) {
 }
 
 export function createPwaCacheName(packageName, version, precacheUrls) {
-  const revision = createHash("sha256")
-    .update(precacheUrls.join("\n"))
-    .digest("hex")
-    .slice(0, 12);
+  const revision = createHash("sha256").update(precacheUrls.join("\n")).digest("hex").slice(0, 12);
   return `hqbase-pwa-${packageName}-${version}-${revision}`;
 }
 

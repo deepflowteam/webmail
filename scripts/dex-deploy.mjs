@@ -10,7 +10,7 @@
 // signature. This script bypasses it entirely: build local HEAD, `wrangler deploy` it with a
 // release tag that matches the currently configured product release identity (see
 // config/product.json / scripts/release/manifest.mjs hqbaseReleaseTag), so any later
-// `pnpm hqbase domain` / update tooling that inspects the active release tag still sees a
+// `bun run hqbase domain` / update tooling that inspects the active release tag still sees a
 // consistent value instead of tripping the "not the signed stable release" guard again.
 //
 // Usage:
@@ -20,11 +20,11 @@
 //   node scripts/dex-deploy.mjs guestboxer-mail dex --stamp-version
 //   node scripts/dex-deploy.mjs guestboxer-mail dex --stamp-version=1.4.2-dev
 //
-// D1 migrations are applied to the remote database automatically after every deploy.
+// Both D1 migration phases are applied to the remote database automatically after every deploy.
 //
 // Flags:
 //   --skip-migrate         don't apply pending D1 migrations after deploying
-//   --skip-build           skip `pnpm build` (reuse the existing dist/)
+//   --skip-build           skip `bun run build` (reuse the existing dist/)
 //   --stamp-version[=X]    set the deployed HQBASE_APP_VERSION var to X (defaults to the local
 //                          package.json version). Without this flag, --keep-vars leaves whatever
 //                          HQBASE_APP_VERSION was written by the last "hqbase:install"/signed
@@ -34,6 +34,7 @@
 import { execFileSync } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { applyMigrationPhase } from "./d1-migrations.mjs";
 
 const root = resolve(import.meta.dirname, "..");
 const args = process.argv.slice(2);
@@ -66,7 +67,7 @@ if (stampVersionFlag) {
 const configPath = resolve(root, ".hqbase/deployments", deploymentName, "wrangler.jsonc");
 if (!existsSync(configPath)) {
   console.error(
-    `No deployment config at ${configPath}. Run "pnpm hqbase:install --name ${deploymentName} ..." first.`
+    `No deployment config at ${configPath}. Run "bun run hqbase:install --name ${deploymentName} ..." first.`
   );
   process.exit(1);
 }
@@ -119,7 +120,7 @@ function run(cmd, cmdArgs, options = {}) {
 const RELEASE_TAG = "hqbase:1.2.0:8540e12cc396f1f9497aa93f5994cbe8440bb5b22f8b044b6b829b0c0743f2d2";
 
 if (!flags.has("--skip-build")) {
-  run("pnpm", ["build"]);
+  run("bun", ["run", "build"]);
 }
 
 const varArgs = ["--var", `HQBASE_WORKER_NAME:${workerName}`];
@@ -140,15 +141,13 @@ if (stampVersion) {
 }
 
 if (!flags.has("--skip-migrate")) {
-  run("./node_modules/.bin/wrangler", [
-    "d1",
-    "migrations",
-    "apply",
-    "DB",
-    "--remote",
-    "--config",
-    configPath
-  ]);
+  const migrationOptions = {
+    configFile: configPath,
+    run: (command, commandArgs, cwd) => run(command, commandArgs, { cwd }),
+    target: "remote"
+  };
+  applyMigrationPhase(root, "normal", migrationOptions);
+  applyMigrationPhase(root, "after-deploy", migrationOptions);
 }
 
 console.log(

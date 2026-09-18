@@ -43,7 +43,7 @@ if (process.argv.includes("--write")) {
   }
   if (drift.length > 0) {
     throw new Error(
-      `Generated Mail API artifacts are stale:\n${drift.join("\n")}\nRun pnpm api:generate.`
+      `Generated Mail API artifacts are stale:\n${drift.join("\n")}\nRun bun run api:generate.`
     );
   }
   console.log("Verified generated Webmail Mail API artifacts.");

@@ -136,7 +136,7 @@ describe("signed release bootstrap", () => {
       "C:\\Windows\\System32\\cmd.exe",
       process.execPath
     ]);
-    expect(commands[1]?.args).toEqual(["/d", "/s", "/c", "pnpm install --frozen-lockfile"]);
+    expect(commands[1]?.args).toEqual(["/d", "/s", "/c", "bun install --frozen-lockfile"]);
     expect(commands[1]?.options.cwd).toBe(commands[2]?.options.cwd);
   });
 

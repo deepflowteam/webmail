@@ -270,7 +270,7 @@ export function classifyAfterDeployState({
 
 export function queryRemoteD1(source, sql, options = {}) {
   const args = [
-    "exec",
+    "x",
     "wrangler",
     "d1",
     "execute",
@@ -282,9 +282,9 @@ export function queryRemoteD1(source, sql, options = {}) {
     "--config",
     "wrangler.jsonc"
   ];
-  if (options.capture) return parseD1Rows(options.capture("pnpm", args, source));
+  if (options.capture) return parseD1Rows(options.capture("bun", args, source));
 
-  const result = (options.attempt ?? attemptRun)("pnpm", args, source);
+  const result = (options.attempt ?? attemptRun)("bun", args, source);
   if (result.error || result.status !== 0) {
     (options.emit ?? emitCommandOutput)(result);
     throw (

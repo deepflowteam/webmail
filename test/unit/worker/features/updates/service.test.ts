@@ -210,7 +210,7 @@ describe("Webmail updates", () => {
     expect(command).toBe('node --input-type=module --eval "$HQBASE_UPDATER_LOADER"');
     expect(Buffer.byteLength(loader)).toBeLessThan(5_000);
     expect(isManagedDeployCommand(previousReleaseCommand)).toBe(true);
-    expect(isManagedDeployCommand(`${command} && pnpm deploy`)).toBe(false);
+    expect(isManagedDeployCommand(`${command} && bun run deploy`)).toBe(false);
     expect(
       isManagedDeployCommand(
         previousReleaseCommand.replace("Webmail updater verification failed.", "skip")
@@ -541,7 +541,7 @@ describe("Webmail updates", () => {
     );
     expect(commandRequests.map(([, init]) => init?.body)).toEqual([
       JSON.stringify({ deploy_command: managedDeployCommand() }),
-      JSON.stringify({ deploy_command: "pnpm deploy" })
+      JSON.stringify({ deploy_command: "bun run deploy" })
     ]);
   });
   it("removes a new release pin when the build does not start", async () => {
@@ -702,7 +702,7 @@ describe("Webmail updates", () => {
     );
     expect(commandRequests.map(([, init]) => init?.body)).toEqual([
       JSON.stringify({ deploy_command: managedDeployCommand() }),
-      JSON.stringify({ deploy_command: "pnpm deploy" })
+      JSON.stringify({ deploy_command: "bun run deploy" })
     ]);
   });
 });
@@ -868,7 +868,7 @@ function cloudflareUpdateFetcher(
   } = {}
 ) {
   let commandPatches = 0;
-  let deployCommand = options.deployCommand ?? "pnpm deploy";
+  let deployCommand = options.deployCommand ?? "bun run deploy";
   let variablePatches = 0;
   const variables = structuredClone(options.variables ?? {});
   return vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {

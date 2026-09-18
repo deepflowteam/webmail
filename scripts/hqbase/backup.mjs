@@ -44,9 +44,9 @@ export function createBackup(name, options = {}) {
   const release = inspectRelease(manifest);
   const bookmark = parseTimeTravelBookmark(
     run(
-      "pnpm",
+      "bun",
       [
-        "exec",
+        "x",
         "wrangler",
         "d1",
         "time-travel",
@@ -61,9 +61,9 @@ export function createBackup(name, options = {}) {
   );
   const workerVersion = parseWorkerVersion(
     run(
-      "pnpm",
+      "bun",
       [
-        "exec",
+        "x",
         "wrangler",
         "deployments",
         "status",
@@ -78,18 +78,8 @@ export function createBackup(name, options = {}) {
   );
   const r2 = JSON.parse(
     run(
-      "pnpm",
-      [
-        "exec",
-        "wrangler",
-        "r2",
-        "bucket",
-        "info",
-        manifest.r2.bucket,
-        "--json",
-        "--config",
-        config
-      ],
+      "bun",
+      ["x", "wrangler", "r2", "bucket", "info", manifest.r2.bucket, "--json", "--config", config],
       { quiet: true, stdoutOnly: true }
     )
   );
@@ -111,7 +101,7 @@ export function createBackup(name, options = {}) {
   fs.writeFileSync(output, `${JSON.stringify(backup, null, 2)}\n`, { mode: 0o600 });
   console.log(`Backup manifest: ${output}`);
   console.log(
-    `D1 rollback: pnpm exec wrangler d1 time-travel restore ${manifest.d1.name} --bookmark ${bookmark}`
+    `D1 rollback: bunx wrangler d1 time-travel restore ${manifest.d1.name} --bookmark ${bookmark}`
   );
   return { backup, output };
 }

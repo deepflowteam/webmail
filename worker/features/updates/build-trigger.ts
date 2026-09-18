@@ -5,7 +5,7 @@ import type { ReleaseManifest } from "./types";
 export const expectedReleaseVariable = "HQBASE_EXPECTED_RELEASE_VERSION";
 export const forceSourceDeployVariable = "HQBASE_FORCE_SOURCE_DEPLOY";
 export const updaterLoaderVariable = "HQBASE_UPDATER_LOADER";
-const legacyManagedDeployCommands = new Set(["pnpm deploy", "pnpm run deploy"]);
+const legacyManagedDeployCommands = new Set(["bun run deploy", "pnpm run deploy"]);
 
 export type BuildVariable = { is_secret: boolean; value?: string | null };
 type BuildSnapshotVariable = string | BuildVariable;

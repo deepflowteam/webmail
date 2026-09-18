@@ -69,7 +69,7 @@ export async function bootstrap(options = {}) {
       // dependencies first through a fixed cmd.exe command, before that module is imported.
       run(
         options.windowsShell ?? process.env.ComSpec ?? "cmd.exe",
-        ["/d", "/s", "/c", "pnpm install --frozen-lockfile"],
+        ["/d", "/s", "/c", "bun install --frozen-lockfile"],
         { cwd: source, env: candidateEnvironment }
       );
     }

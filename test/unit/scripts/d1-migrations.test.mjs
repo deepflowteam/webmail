@@ -9,6 +9,7 @@ import { completeActiveReleaseRetry, reportRecovery } from "../../../scripts/rel
 
 const rootDir = resolve(import.meta.dirname, "../../..");
 const deploySource = readFileSync(resolve(rootDir, "scripts/release/deploy.mjs"), "utf8");
+const dexDeploySource = readFileSync(resolve(rootDir, "scripts/dex-deploy.mjs"), "utf8");
 const releasePackageSource = readFileSync(resolve(rootDir, "scripts/release/package.mjs"), "utf8");
 const updateServiceSource = readFileSync(
   resolve(rootDir, "worker/features/updates/service.ts"),
@@ -20,6 +21,14 @@ const cleanupMigrationSource = readFileSync(
 );
 
 describe("two-phase D1 migrations", () => {
+  it("applies both remote phases for a local DEX deployment", () => {
+    expect(dexDeploySource).toContain('applyMigrationPhase(root, "normal", migrationOptions)');
+    expect(dexDeploySource).toContain(
+      'applyMigrationPhase(root, "after-deploy", migrationOptions)'
+    );
+    expect(dexDeploySource).toContain('target: "remote"');
+  });
+
   it("uses a separate ledger and removes the temporary after-deploy config", () => {
     const workspace = createWorkspace();
     const commands = [];
@@ -39,7 +48,7 @@ describe("two-phase D1 migrations", () => {
       });
 
       expect(commands).toHaveLength(2);
-      expect(commands[0]).toMatchObject({ command: "pnpm", cwd: workspace });
+      expect(commands[0]).toMatchObject({ command: "bun", cwd: workspace });
       expect(commands[0].args).toContain("--remote");
       expect(commands[0].args.at(-1)).toBe(resolve(workspace, "wrangler.jsonc"));
       expect(commands[1].args).toContain("--remote");
@@ -350,8 +359,8 @@ describe("two-phase D1 migrations", () => {
       reportRecovery({ ...checkpoint, cleanupComplete: false });
       expect(error.mock.calls.map(([message]) => message)).toEqual([
         "Run these recovery commands in order:",
-        "Worker recovery: pnpm exec wrangler versions deploy 'worker-1@100%' --name 'hqbase' --config '/repo/.hqbase/deployments/team $(unsafe)/wrangler.jsonc'",
-        "D1 recovery: pnpm exec wrangler d1 time-travel restore DB --bookmark 'bookmark-1' --config '/repo/.hqbase/deployments/team $(unsafe)/wrangler.jsonc'"
+        "Worker recovery: bunx wrangler versions deploy 'worker-1@100%' --name 'hqbase' --config '/repo/.hqbase/deployments/team $(unsafe)/wrangler.jsonc'",
+        "D1 recovery: bunx wrangler d1 time-travel restore DB --bookmark 'bookmark-1' --config '/repo/.hqbase/deployments/team $(unsafe)/wrangler.jsonc'"
       ]);
 
       error.mockClear();

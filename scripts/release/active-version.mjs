@@ -6,9 +6,9 @@ export function inspectActiveRelease(cwd, workerName, options = {}) {
   const attempt = options.attempt ?? attemptRun;
   const capture = options.capture ?? captureRun;
   const status = attempt(
-    "pnpm",
+    "bun",
     [
-      "exec",
+      "x",
       "wrangler",
       "deployments",
       "status",
@@ -29,9 +29,9 @@ export function inspectActiveRelease(cwd, workerName, options = {}) {
   const versionId = activeVersionId(deployment);
   const version = JSON.parse(
     capture(
-      "pnpm",
+      "bun",
       [
-        "exec",
+        "x",
         "wrangler",
         "versions",
         "view",

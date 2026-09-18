@@ -100,8 +100,8 @@ async function restoreOriginal() {
 
 function deployReviewedSource({ accountId, configFile, runCommand = run }) {
   runCommand(
-    "pnpm",
-    ["exec", "wrangler", "deploy", "--strict", "--keep-vars", "--config", configFile],
+    "bun",
+    ["x", "wrangler", "deploy", "--strict", "--keep-vars", "--config", configFile],
     { env: { CLOUDFLARE_ACCOUNT_ID: accountId } }
   );
 }

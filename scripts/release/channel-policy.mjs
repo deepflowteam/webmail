@@ -47,7 +47,7 @@ export function assertPromotion({
     report.version !== manifest.version ||
     report.artifactSha256 !== manifest.artifact.sha256 ||
     report.sourceCommit !== manifest.sourceCommit ||
-    !/^https:\/\/github\.com\/Webmail\/hqbase\/(issues|discussions)\/\d+$/.test(
+    !/^https:\/\/github\.com\/HQBase\/hqbase\/(issues|discussions)\/\d+$/.test(
       report.reportUrl ?? ""
     ) ||
     mailChecks.some((check) => report.checks?.[check] !== true)
@@ -64,7 +64,7 @@ export function assertPromotion({
     run.event !== "workflow_dispatch" ||
     run.head_branch !== "main" ||
     run.path !== ".github/workflows/public-upgrade.yml" ||
-    run.repository?.full_name !== "Webmail/hqbase" ||
+    run.repository?.full_name !== "HQBase/hqbase" ||
     String(run.id) !== String(report.publicUpgradeRunId)
   ) {
     throw new Error(

@@ -39,27 +39,26 @@ jobs:
       - uses: actions/checkout@v7
         with:
           ref: ${{ inputs.candidate_ref || github.sha }}
-      - uses: pnpm/action-setup@v6
+      - uses: oven/setup-bun@v2
         with:
-          version: 11.7.0
+          bun-version: 1.4.2
       - uses: actions/setup-node@v7
         with:
           node-version: 24
-          cache: pnpm
       - name: Cache Playwright Chromium
         uses: actions/cache@v6
         with:
           path: ~/.cache/ms-playwright
           key: ${{ runner.os }}-${{ runner.arch }}-playwright-${{
-            hashFiles('pnpm-lock.yaml') }}
+            hashFiles('bun.lock') }}
           restore-keys: ${{ runner.os }}-${{ runner.arch }}-playwright-
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm exec playwright install --with-deps chromium
+      - run: bun install --frozen-lockfile
+      - run: bunx playwright install --with-deps chromium
       - name: Verify resumable operator provisioning and cleanup
         run: node scripts/test-cli-recovery.mjs "recovery-${{ github.run_id }}"
       - name: Create disposable customer resources
         run: >-
-          pnpm hqbase install --name "$DEPLOYMENT_NAME" --worker-name
+          bun run hqbase install --name "$DEPLOYMENT_NAME" --worker-name
           hqbase-e2e-staging --domain "$HQBASE_STAGING_EMAIL_DOMAIN" --no-email
           --app-domain "${HQBASE_STAGING_URL#https://}" --auth-url
           "$HQBASE_STAGING_URL" --oauth-mode customer --oauth-client-id
@@ -82,19 +81,19 @@ jobs:
           }
 
           set_migrations_dir "migrations-before-0014"
-          pnpm exec wrangler d1 migrations apply DB --remote --config "$config"
-          pnpm exec wrangler d1 execute DB --remote --config "$config" \
+          bunx wrangler d1 migrations apply DB --remote --config "$config"
+          bunx wrangler d1 execute DB --remote --config "$config" \
             --command "INSERT INTO app_settings (key, value_json, created_at, updated_at) VALUES ('sql-upgrade-probe', '{\"state\":\"preserved\"}', datetime('now'), datetime('now'))"
-          pnpm exec wrangler d1 execute DB --remote --config "$config" \
+          bunx wrangler d1 execute DB --remote --config "$config" \
             --command "INSERT INTO mail_domains (id, name, receiving_status, sending_status, dns_status, is_enabled, created_at, updated_at) VALUES ('dom_sql_upgrade', 'sql-upgrade.example.test', 'ready', 'ready', 'ready', 1, datetime('now'), datetime('now')); INSERT INTO mailboxes (id, address, display_name, is_active, created_at, updated_at) VALUES ('mbx_sql_upgrade', 'primary@sql-upgrade.example.test', 'SQL Upgrade', 1, datetime('now'), datetime('now')); INSERT INTO mailbox_addresses (id, mailbox_id, mail_domain_id, local_part, address, display_name, receive_enabled, send_enabled, is_primary, created_at, updated_at) VALUES ('addr_sql_upgrade_primary', 'mbx_sql_upgrade', 'dom_sql_upgrade', 'primary', 'primary@sql-upgrade.example.test', 'SQL Upgrade', 1, 1, 1, datetime('now'), datetime('now')), ('addr_sql_upgrade_alias', 'mbx_sql_upgrade', 'dom_sql_upgrade', 'alias', 'alias@sql-upgrade.example.test', 'SQL Upgrade Alias', 1, 1, 0, datetime('now'), datetime('now'))"
-          pnpm exec wrangler d1 execute DB --remote --config "$config" \
+          bunx wrangler d1 execute DB --remote --config "$config" \
             --command "INSERT INTO threads (id, subject_normalized, last_message_at, created_at, updated_at) VALUES ('thr_sql_upgrade', 'sql upgrade', datetime('now'), datetime('now'), datetime('now'))"
-          pnpm exec wrangler d1 execute DB --remote --config "$config" \
+          bunx wrangler d1 execute DB --remote --config "$config" \
             --command "INSERT INTO messages (id, thread_id, mailbox_id, direction, folder, from_address, to_json, cc_json, bcc_json, subject, snippet, text_body, references_json, created_at, updated_at, delivered_to_address_id) VALUES ('msg_sql_upgrade', 'thr_sql_upgrade', NULL, 'inbound', 'catchall', 'sender@example.com', '[]', '[]', '[]', 'SQL upgrade', 'SQL upgrade', 'SQL upgrade', '[]', datetime('now'), datetime('now'), NULL), ('msg_sql_alias_upgrade', 'thr_sql_upgrade', 'mbx_sql_upgrade', 'inbound', 'inbox', 'sender@example.com', '[]', '[]', '[]', 'Alias upgrade', 'Alias upgrade', 'Alias upgrade', '[]', datetime('now'), datetime('now'), 'addr_sql_upgrade_alias')"
           set_migrations_dir "../../../migrations"
-          pnpm exec wrangler d1 migrations apply DB --remote --config "$config"
-          pnpm exec wrangler d1 migrations apply DB --remote --config "$config"
-          before_deploy=$(pnpm exec wrangler d1 execute DB --remote --config "$config" --json \
+          bunx wrangler d1 migrations apply DB --remote --config "$config"
+          bunx wrangler d1 migrations apply DB --remote --config "$config"
+          before_deploy=$(bunx wrangler d1 execute DB --remote --config "$config" --json \
             --command "SELECT (SELECT value_json FROM app_settings WHERE key = 'sql-upgrade-probe') AS value_json, (SELECT is_unassigned FROM messages WHERE id = 'msg_sql_upgrade') AS is_unassigned, (SELECT from_name FROM messages WHERE id = 'msg_sql_upgrade') AS from_name, (SELECT is_unassigned FROM message_changes WHERE message_id = 'msg_sql_upgrade' LIMIT 1) AS change_is_unassigned, (SELECT catch_all_policy FROM mail_domains WHERE id = 'dom_sql_upgrade') AS catch_all_policy, (SELECT disconnected_at FROM mail_domains WHERE id = 'dom_sql_upgrade') AS disconnected_at, (SELECT COUNT(*) FROM mailboxes WHERE mail_domain_id = 'dom_sql_upgrade') AS migrated_mailbox_count, (SELECT id FROM mailboxes WHERE address = 'alias@sql-upgrade.example.test') AS alias_mailbox_id, (SELECT mailbox_id FROM messages WHERE id = 'msg_sql_alias_upgrade') AS reassigned_mailbox_id, (SELECT delivered_to_address FROM messages WHERE id = 'msg_sql_alias_upgrade') AS delivered_to_address, (SELECT COUNT(*) FROM sqlite_master WHERE type = 'table' AND name = 'mailbox_addresses') AS alias_table_count, (SELECT COUNT(*) FROM pragma_table_info('messages') WHERE name IN ('delivered_to_address_id', 'sent_from_address_id')) AS address_id_column_count, (SELECT COUNT(*) FROM pragma_table_info('draft_attachments') WHERE name = 'content_id') AS draft_content_id_column_count, (SELECT COUNT(*) FROM d1_migrations) AS migration_count, (SELECT installed_schema_version FROM release_state WHERE singleton = 1) AS schema_version")
           jq -e '.[0].results[0] == {"value_json":"{\"state\":\"preserved\"}","is_unassigned":1,"from_name":null,"change_is_unassigned":1,"catch_all_policy":"unassigned","disconnected_at":null,"migrated_mailbox_count":2,"alias_mailbox_id":"mbx_migrated_addr_sql_upgrade_alias","reassigned_mailbox_id":"mbx_migrated_addr_sql_upgrade_alias","delivered_to_address":"alias@sql-upgrade.example.test","alias_table_count":1,"address_id_column_count":2,"draft_content_id_column_count":1,"migration_count":30,"schema_version":2}' <<<"$before_deploy"
       - name: Deploy reviewed source candidate
@@ -113,9 +112,9 @@ jobs:
               VAPID_PRIVATE_KEY: vapid.privateKey
             })}\n`, { mode: 0o600 });
           '
-          pnpm build
-          pnpm exec wrangler d1 migrations apply DB --remote --config "$config"
-          pnpm exec wrangler deploy --config "$config" --secrets-file /tmp/hqbase-e2e-secrets.json
+          bun run build
+          bunx wrangler d1 migrations apply DB --remote --config "$config"
+          bunx wrangler deploy --config "$config" --secrets-file /tmp/hqbase-e2e-secrets.json
           node --input-type=module -e '
             import {
               configPath,
@@ -138,15 +137,15 @@ jobs:
           chmod 600 "$after_deploy_config"
           trap 'rm -f "$after_deploy_config"' EXIT
 
-          pnpm exec wrangler d1 migrations apply DB --remote --config "$after_deploy_config"
-          pnpm exec wrangler d1 migrations apply DB --remote --config "$after_deploy_config"
-          result=$(pnpm exec wrangler d1 execute DB --remote --config "$config" --json \
+          bunx wrangler d1 migrations apply DB --remote --config "$after_deploy_config"
+          bunx wrangler d1 migrations apply DB --remote --config "$after_deploy_config"
+          result=$(bunx wrangler d1 execute DB --remote --config "$config" --json \
             --command "SELECT (SELECT value_json FROM app_settings WHERE key = 'sql-upgrade-probe') AS value_json, (SELECT is_unassigned FROM messages WHERE id = 'msg_sql_upgrade') AS is_unassigned, (SELECT from_name FROM messages WHERE id = 'msg_sql_upgrade') AS from_name, (SELECT is_unassigned FROM message_changes WHERE message_id = 'msg_sql_upgrade' LIMIT 1) AS change_is_unassigned, (SELECT catch_all_policy FROM mail_domains WHERE id = 'dom_sql_upgrade') AS catch_all_policy, (SELECT disconnected_at FROM mail_domains WHERE id = 'dom_sql_upgrade') AS disconnected_at, (SELECT COUNT(*) FROM mailboxes WHERE mail_domain_id = 'dom_sql_upgrade') AS migrated_mailbox_count, (SELECT id FROM mailboxes WHERE address = 'alias@sql-upgrade.example.test') AS alias_mailbox_id, (SELECT mailbox_id FROM messages WHERE id = 'msg_sql_alias_upgrade') AS reassigned_mailbox_id, (SELECT delivered_to_address FROM messages WHERE id = 'msg_sql_alias_upgrade') AS delivered_to_address, (SELECT COUNT(*) FROM sqlite_master WHERE type = 'table' AND name IN ('mailbox_addresses', 'mailbox_address_migration')) AS alias_table_count, (SELECT COUNT(*) FROM pragma_table_info('messages') WHERE name IN ('delivered_to_address_id', 'sent_from_address_id')) AS address_id_column_count, (SELECT COUNT(*) FROM pragma_table_info('draft_attachments') WHERE name = 'content_id') AS draft_content_id_column_count, (SELECT COUNT(*) FROM d1_migrations) AS migration_count, (SELECT COUNT(*) FROM d1_migrations_after_deploy) AS post_migration_count, (SELECT installed_schema_version FROM release_state WHERE singleton = 1) AS schema_version")
           jq -e '.[0].results[0] == {"value_json":"{\"state\":\"preserved\"}","is_unassigned":1,"from_name":null,"change_is_unassigned":1,"catch_all_policy":"unassigned","disconnected_at":null,"migrated_mailbox_count":2,"alias_mailbox_id":"mbx_migrated_addr_sql_upgrade_alias","reassigned_mailbox_id":"mbx_migrated_addr_sql_upgrade_alias","delivered_to_address":"alias@sql-upgrade.example.test","alias_table_count":0,"address_id_column_count":0,"draft_content_id_column_count":1,"migration_count":30,"post_migration_count":4,"schema_version":4}' <<<"$result"
 
-          pnpm exec wrangler d1 execute DB --remote --config "$config" \
+          bunx wrangler d1 execute DB --remote --config "$config" \
             --command "DELETE FROM messages WHERE id IN ('msg_sql_upgrade', 'msg_sql_alias_upgrade'); DELETE FROM message_changes WHERE message_id IN ('msg_sql_upgrade', 'msg_sql_alias_upgrade'); DELETE FROM threads WHERE id = 'thr_sql_upgrade'; DELETE FROM mailboxes WHERE id IN ('mbx_sql_upgrade', 'mbx_migrated_addr_sql_upgrade_alias'); DELETE FROM mail_domains WHERE id = 'dom_sql_upgrade'; DELETE FROM app_settings WHERE key = 'sql-upgrade-probe'"
-          cleanup=$(pnpm exec wrangler d1 execute DB --remote --config "$config" --json \
+          cleanup=$(bunx wrangler d1 execute DB --remote --config "$config" --json \
             --command "SELECT (SELECT COUNT(*) FROM messages WHERE id IN ('msg_sql_upgrade', 'msg_sql_alias_upgrade')) + (SELECT COUNT(*) FROM message_changes WHERE message_id IN ('msg_sql_upgrade', 'msg_sql_alias_upgrade')) + (SELECT COUNT(*) FROM threads WHERE id = 'thr_sql_upgrade') + (SELECT COUNT(*) FROM mailboxes WHERE id IN ('mbx_sql_upgrade', 'mbx_migrated_addr_sql_upgrade_alias')) + (SELECT COUNT(*) FROM mail_domains WHERE id = 'dom_sql_upgrade') + (SELECT COUNT(*) FROM app_settings WHERE key = 'sql-upgrade-probe') AS fixture_row_count")
           jq -e '.[0].results[0].fixture_row_count == 0' <<<"$cleanup"
       - name: Wait for the disposable custom domain
@@ -201,7 +200,7 @@ jobs:
           echo "Disposable Webmail discovery surface was not ready within 300 seconds"
           exit 1
       - name: Verify PWA, app shell, access, and operator lifecycle
-        run: pnpm test:e2e:staging
+        run: bun run test:e2e:staging
       - name: Move the live portal hostname and move it back
         env:
           HQBASE_DOMAIN_API_TOKEN: ${{ secrets.HQBASE_E2E_CLOUDFLARE_API_TOKEN }}
@@ -221,13 +220,13 @@ jobs:
         run: |
           config=".hqbase/deployments/$DEPLOYMENT_NAME/wrangler.jsonc"
           database="hqbase-$DEPLOYMENT_NAME"
-          pnpm exec wrangler d1 execute "$database" --remote --config "$config" \
+          bunx wrangler d1 execute "$database" --remote --config "$config" \
             --command "INSERT INTO app_settings (key, value_json, created_at, updated_at) VALUES ('staging-restore-probe', '{\"state\":\"before\"}', datetime('now'), datetime('now'))"
-          pnpm hqbase backup --name "$DEPLOYMENT_NAME" --output /tmp/hqbase-backup.json
-          pnpm exec wrangler d1 execute "$database" --remote --config "$config" \
+          bun run hqbase backup --name "$DEPLOYMENT_NAME" --output /tmp/hqbase-backup.json
+          bunx wrangler d1 execute "$database" --remote --config "$config" \
             --command "UPDATE app_settings SET value_json = '{\"state\":\"after\"}', updated_at = datetime('now') WHERE key = 'staging-restore-probe'"
-          pnpm hqbase restore --name "$DEPLOYMENT_NAME" --backup /tmp/hqbase-backup.json --yes
-          result=$(pnpm exec wrangler d1 execute "$database" --remote --config "$config" --json \
+          bun run hqbase restore --name "$DEPLOYMENT_NAME" --backup /tmp/hqbase-backup.json --yes
+          result=$(bunx wrangler d1 execute "$database" --remote --config "$config" --json \
             --command "SELECT value_json FROM app_settings WHERE key = 'staging-restore-probe'")
           jq -e '.[0].results[0].value_json == "{\"state\":\"before\"}"' <<<"$result"
       - name: Upload non-secret deployment record
@@ -240,4 +239,4 @@ jobs:
           retention-days: 30
       - name: Destroy disposable resources
         if: always()
-        run: pnpm hqbase destroy --name "$DEPLOYMENT_NAME" --scope all --yes
+        run: bun run hqbase destroy --name "$DEPLOYMENT_NAME" --scope all --yes

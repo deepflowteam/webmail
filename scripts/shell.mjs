@@ -3,7 +3,7 @@ import { createRequire } from "node:module";
 
 const require = createRequire(import.meta.url);
 
-// pnpm and wrangler are installed as `.cmd` shims on Windows, which CreateProcess cannot launch
+// Bun and Wrangler can resolve to `.cmd` shims on Windows, which CreateProcess cannot launch
 // directly. cross-spawn resolves the shim and builds the command line itself, so argv reaches
 // the child unchanged. Node's `shell` option is not an alternative here: it concatenates
 // arguments without escaping them (DEP0190) and still lets cmd.exe expand `%VAR%` inside quoted

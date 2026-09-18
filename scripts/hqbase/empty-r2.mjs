@@ -88,7 +88,7 @@ export function readWranglerAuthentication(options = {}) {
 }
 
 function defaultAuthenticationCommand() {
-  const result = spawnSync("pnpm", ["exec", "wrangler", "auth", "token", "--json"], {
+  const result = spawnSync("bun", ["x", "wrangler", "auth", "token", "--json"], {
     cwd: rootDir,
     encoding: "utf8",
     env: { ...process.env, CI: process.env.CI ?? "true" }

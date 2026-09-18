@@ -29,11 +29,11 @@ checkout.
 ## Quality gate
 
 ```sh
-pnpm check
-pnpm deploy:dry-run
+bun run check
+bun run deploy:dry-run
 ```
 
-Run `pnpm cf:typegen` after changing `wrangler.jsonc`. The documentation integrity gate belongs to
+Run `bun run cf:typegen` after changing `wrangler.jsonc`. The documentation integrity gate belongs to
 `hqbase-site`; Webmail owns its staging E2E gate.
 
 ## graphify

@@ -17,7 +17,7 @@
       "!!playwright-report",
       "!!test-results",
       "!!worker-configuration.d.ts",
-      "!!pnpm-lock.yaml"
+      "!!bun.lock"
     ]
   },
   "formatter": {

@@ -14,8 +14,8 @@ export const workerTagPattern = /^[0-9a-f]{32}$/i;
 export const managedCommand = 'node --input-type=module --eval "$HQBASE_UPDATER_LOADER"';
 export const initialBuildCommand = "sleep 600";
 export const publicBuildCommand =
-  "pnpm install --frozen-lockfile && node scripts/release/staging-build-config.mjs";
-export const initialDeployCommand = "pnpm deploy";
+  "bun install --frozen-lockfile && node scripts/release/staging-build-config.mjs";
+export const initialDeployCommand = "bun run deploy";
 export const gatePath = ".hqbase-release-gate-never";
 export const branch = "main";
 export const terminalOutcomes = new Set(["cancelled", "terminated"]);

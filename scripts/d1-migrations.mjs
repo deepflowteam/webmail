@@ -55,8 +55,8 @@ export function applyLocalMigrations(cwd = root, options = {}) {
 
 function runMigrations(cwd, configFile, target, runCommand = run) {
   runCommand(
-    "pnpm",
-    ["exec", "wrangler", "d1", "migrations", "apply", "DB", `--${target}`, "--config", configFile],
+    "bun",
+    ["x", "wrangler", "d1", "migrations", "apply", "DB", `--${target}`, "--config", configFile],
     cwd
   );
 }

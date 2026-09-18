@@ -11,9 +11,9 @@ export const releaseInspectionSql = `SELECT s.value AS schema_product, r.product
 export function inspectRelease(manifest) {
   const rows = parseD1Rows(
     run(
-      "pnpm",
+      "bun",
       [
-        "exec",
+        "x",
         "wrangler",
         "d1",
         "execute",

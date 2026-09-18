@@ -65,16 +65,16 @@ function printHelp() {
   console.log(`Webmail operator
 
 Usage:
-  pnpm hqbase button --repo-url https://github.com/OWNER/REPO
-  pnpm hqbase install --name dev-01 [--domain example.com]
-  pnpm hqbase oauth --name dev-01 --mode official|customer
-  pnpm hqbase domain --name dev-01 --app-domain app.example.com|--detach
-  pnpm hqbase doctor --name dev-01
-  pnpm hqbase backup --name dev-01 [--output backup.json]
-  pnpm hqbase restore --name dev-01 --backup backup.json --yes
-  pnpm hqbase reset --name dev-01 --scope data|storage|domain|all
-  pnpm hqbase destroy --name dev-01 --scope worker|data|storage|state|domain|all --yes
-  pnpm hqbase postdeploy
+  bun run hqbase button --repo-url https://github.com/OWNER/REPO
+  bun run hqbase install --name dev-01 [--domain example.com]
+  bun run hqbase oauth --name dev-01 --mode official|customer
+  bun run hqbase domain --name dev-01 --app-domain app.example.com|--detach
+  bun run hqbase doctor --name dev-01
+  bun run hqbase backup --name dev-01 [--output backup.json]
+  bun run hqbase restore --name dev-01 --backup backup.json --yes
+  bun run hqbase reset --name dev-01 --scope data|storage|domain|all
+  bun run hqbase destroy --name dev-01 --scope worker|data|storage|state|domain|all --yes
+  bun run hqbase postdeploy
 
 Install options:
   --worker-name <name>   Override Worker name. Defaults to hqbase-<name>.
@@ -90,7 +90,7 @@ Install options:
   --oauth-client-id <id> Customer OAuth client ID. Requires --oauth-mode customer and --auth-url.
   HQBASE_AUTH_SECRET     Preserve an existing Better Auth secret without exposing it in argv.
   --auth-secret <value>  Compatibility fallback. Prefer HQBASE_AUTH_SECRET.
-  --skip-build           Skip pnpm build.
+  --skip-build           Skip bun run build.
   --skip-deploy          Create resources/config/migrations without deploying Worker.
   --dry-run              Print commands without mutating Cloudflare.
 

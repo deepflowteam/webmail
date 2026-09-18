@@ -38,9 +38,9 @@ import { prepareManifest, resolveCloudflareAccount } from "./resources.mjs";
  * move follows attach, verify, cutover, redirect, and it never moves the service origin unless the
  * operator asks for that explicitly.
  *
- *   pnpm hqbase domain --name dev-01 --app-domain app.example.com
- *   pnpm hqbase domain --name dev-01 --app-domain app.example.com --move-service-origin
- *   pnpm hqbase domain --name dev-01 --detach --move-service-origin --yes
+ *   bun run hqbase domain --name dev-01 --app-domain app.example.com
+ *   bun run hqbase domain --name dev-01 --app-domain app.example.com --move-service-origin
+ *   bun run hqbase domain --name dev-01 --detach --move-service-origin --yes
  */
 export async function configureDomain(flags, options = {}) {
   const name = requireString(flags, "name");

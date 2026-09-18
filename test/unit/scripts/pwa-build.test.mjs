@@ -96,7 +96,7 @@ describe("PWA build contract", () => {
     });
     expect(worker).toContain('request.mode === "navigate"');
     expect(worker).toContain('caches.match("/offline.html")');
-    expect(worker).not.toContain('PRECACHE_URLS.includes(url.pathname)');
+    expect(worker).not.toContain("PRECACHE_URLS.includes(url.pathname)");
     expect(worker).toContain('badge: "/icons/notification-badge.png"');
     expect(worker).toContain('event.data?.type === "SKIP_WAITING"');
     expect(worker).not.toContain("/api/");

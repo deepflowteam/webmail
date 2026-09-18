@@ -37,7 +37,7 @@ function evidence() {
       event: "workflow_dispatch",
       head_branch: "main",
       path: ".github/workflows/public-upgrade.yml",
-      repository: { full_name: "Webmail/hqbase" }
+      repository: { full_name: "HQBase/hqbase" }
     },
     receipts: [
       {

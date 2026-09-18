@@ -41,7 +41,7 @@ function fixture() {
       buildUuid: null,
       branch: "main",
       buildCommand: publicBuildCommand,
-      initialDeployCommand: "pnpm deploy",
+      initialDeployCommand: "bun run deploy",
       rootDirectory: "/",
       pathIncludes: [".hqbase-release-gate-never"],
       buildOutcome: null,
@@ -76,7 +76,7 @@ function fixture() {
 }
 
 describe("public upgrade build configuration", () => {
-  it.each([publicBuildCommand, "pnpm install --frozen-lockfile"])(
+  it.each([publicBuildCommand, "bun install --frozen-lockfile"])(
     "keeps cleanup compatible with %s",
     async (buildCommand) => {
       const f = fixture();

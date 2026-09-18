@@ -35,9 +35,9 @@ export function reset(flags) {
 
 function resetData(manifest, options) {
   run(
-    "pnpm",
+    "bun",
     [
-      "exec",
+      "x",
       "wrangler",
       "d1",
       "execute",
@@ -62,18 +62,8 @@ function resetData(manifest, options) {
 
 function resetStorage(manifest, options) {
   run(
-    "pnpm",
-    [
-      "exec",
-      "wrangler",
-      "r2",
-      "bucket",
-      "lifecycle",
-      "add",
-      manifest.r2.bucket,
-      "--expire-days",
-      "1"
-    ],
+    "bun",
+    ["x", "wrangler", "r2", "bucket", "lifecycle", "add", manifest.r2.bucket, "--expire-days", "1"],
     { ...options, allowFailure: true }
   );
   manifest.r2.resetMode = "lifecycle-expire-1-day";
@@ -88,9 +78,9 @@ function resetDomain(manifest, options) {
   const { domain } = manifest.email;
   if (manifest.email.catchAllToWorker) {
     run(
-      "pnpm",
+      "bun",
       [
-        "exec",
+        "x",
         "wrangler",
         "email",
         "routing",
@@ -109,7 +99,7 @@ function resetDomain(manifest, options) {
   }
 
   if (manifest.email.sendingEnabled) {
-    run("pnpm", ["exec", "wrangler", "email", "sending", "disable", domain], {
+    run("bun", ["x", "wrangler", "email", "sending", "disable", domain], {
       ...options,
       allowFailure: true
     });
@@ -117,7 +107,7 @@ function resetDomain(manifest, options) {
   }
 
   if (manifest.email.routingEnabled) {
-    run("pnpm", ["exec", "wrangler", "email", "routing", "disable", domain], {
+    run("bun", ["x", "wrangler", "email", "routing", "disable", domain], {
       ...options,
       allowFailure: true
     });

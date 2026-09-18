@@ -57,9 +57,9 @@ export async function restore(flags) {
   );
   parseTimeTravelBookmark(
     run(
-      "pnpm",
+      "bun",
       [
-        "exec",
+        "x",
         "wrangler",
         "d1",
         "time-travel",
@@ -76,8 +76,8 @@ export async function restore(flags) {
   );
   const safety = createBackup(name);
   console.log(`Pre-restore safety bookmark: ${safety.backup.d1.bookmark}`);
-  run("pnpm", [
-    "exec",
+  run("bun", [
+    "x",
     "wrangler",
     "d1",
     "time-travel",
@@ -88,8 +88,8 @@ export async function restore(flags) {
     "--config",
     configPath(name)
   ]);
-  run("pnpm", [
-    "exec",
+  run("bun", [
+    "x",
     "wrangler",
     "versions",
     "deploy",
@@ -103,9 +103,9 @@ export async function restore(flags) {
   validateRelease([inspectRelease(manifest)], target.release);
   const activeVersion = parseWorkerVersion(
     run(
-      "pnpm",
+      "bun",
       [
-        "exec",
+        "x",
         "wrangler",
         "deployments",
         "status",

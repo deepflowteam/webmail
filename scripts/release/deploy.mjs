@@ -70,8 +70,8 @@ export async function deploy(options = {}) {
     );
     const recordWorkerDeployed = () => recordWorkerDeployedForConfig(configFile, config.name);
     writeFileSync(resolve(source, "wrangler.jsonc"), `${JSON.stringify(config, null, 2)}\n`);
-    run("pnpm", ["install", "--frozen-lockfile"], source);
-    run("pnpm", ["build"], source);
+    run("bun", ["install", "--frozen-lockfile"], source);
+    run("bun", ["run", "build"], source);
     const activeRelease = inspectActiveRelease(source, config.name);
     const releaseTag = hqbaseReleaseTag(manifest.version, manifest.artifact.sha256);
     if (options.configurationOnly) {
@@ -102,7 +102,7 @@ export async function deploy(options = {}) {
         source,
         `UPDATE release_state SET installed_version = ${quote(manifest.version)}, installed_schema_version = ${manifest.schemaVersion}, updated_at = datetime('now') WHERE singleton = 1`
       );
-      run("pnpm", ["hqbase", "postdeploy"], source);
+      run("bun", ["run", "hqbase", "postdeploy"], source);
       console.log(`Webmail ${manifest.version} installed from its signed release.`);
       return;
     }
@@ -140,9 +140,9 @@ export async function deploy(options = {}) {
     const bookmark = findString(
       JSON.parse(
         capture(
-          "pnpm",
+          "bun",
           [
-            "exec",
+            "x",
             "wrangler",
             "d1",
             "time-travel",
@@ -169,9 +169,9 @@ export async function deploy(options = {}) {
       `INSERT INTO update_history (id, from_version, to_version, checkpoint_bookmark, worker_version, state, started_at) VALUES (${quote(updateId)}, ${quote(activeRelease.version)}, ${quote(manifest.version)}, ${quote(bookmark)}, ${quote(workerVersion)}, 'started', datetime('now'))`
     );
     run(
-      "pnpm",
+      "bun",
       [
-        "exec",
+        "x",
         "wrangler",
         "deploy",
         "--keep-vars",
@@ -225,9 +225,9 @@ export function deployConfiguration(source, workerName, releaseTag, options = {}
   const inspect = options.inspect ?? inspectActiveRelease;
   const before = inspect(source, workerName);
   runCommand(
-    "pnpm",
+    "bun",
     [
-      "exec",
+      "x",
       "wrangler",
       "deploy",
       "--strict",
@@ -325,9 +325,9 @@ export function createRecoveryBookmark(source, options = {}) {
   return findString(
     JSON.parse(
       (options.capture ?? capture)(
-        "pnpm",
+        "bun",
         [
-          "exec",
+          "x",
           "wrangler",
           "d1",
           "time-travel",
@@ -345,11 +345,11 @@ export function createRecoveryBookmark(source, options = {}) {
 }
 
 function sourceDeploy(cwd) {
-  run("pnpm", ["build"], cwd);
+  run("bun", ["run", "build"], cwd);
   applyMigrationPhase(cwd, "normal", { target: "remote" });
   deploySource(cwd);
   applyMigrationPhase(cwd, "after-deploy", { target: "remote" });
-  run("pnpm", ["hqbase", "postdeploy"], cwd);
+  run("bun", ["run", "hqbase", "postdeploy"], cwd);
 }
 
 export function reportRecovery(recovery) {
@@ -362,10 +362,10 @@ export function reportRecovery(recovery) {
   const config = shellQuote(recovery.configFile);
   console.error("Run these recovery commands in order:");
   console.error(
-    `Worker recovery: pnpm exec wrangler versions deploy ${shellQuote(`${recovery.workerVersion}@100%`)} --name ${shellQuote(recovery.name)} --config ${config}`
+    `Worker recovery: bunx wrangler versions deploy ${shellQuote(`${recovery.workerVersion}@100%`)} --name ${shellQuote(recovery.name)} --config ${config}`
   );
   console.error(
-    `D1 recovery: pnpm exec wrangler d1 time-travel restore DB --bookmark ${shellQuote(recovery.bookmark)} --config ${config}`
+    `D1 recovery: bunx wrangler d1 time-travel restore DB --bookmark ${shellQuote(recovery.bookmark)} --config ${config}`
   );
 }
 

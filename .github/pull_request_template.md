@@ -2,6 +2,6 @@
 
 ## Verification
 
-- [ ] `pnpm check`
+- [ ] `bun run check`
 
 ## Notes

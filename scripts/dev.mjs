@@ -1,7 +1,7 @@
 import { spawn } from "node:child_process";
 
-const pnpm = process.platform === "win32" ? "pnpm.cmd" : "pnpm";
-const worker = spawn(pnpm, ["build"], { stdio: "inherit" });
+const bun = process.platform === "win32" ? "bun.exe" : "bun";
+const worker = spawn(bun, ["run", "build"], { stdio: "inherit" });
 
 let vite;
 let wrangler;
@@ -24,10 +24,10 @@ worker.once("exit", (code, signal) => {
     return;
   }
 
-  wrangler = spawn(pnpm, ["exec", "wrangler", "dev", "--port", "8787"], {
+  wrangler = spawn(bun, ["x", "wrangler", "dev", "--port", "8787"], {
     stdio: "inherit"
   });
-  vite = spawn(pnpm, ["exec", "vite", "--host", "127.0.0.1", "--port", "5173"], {
+  vite = spawn(bun, ["x", "vite", "--host", "127.0.0.1", "--port", "5173"], {
     stdio: "inherit"
   });
 

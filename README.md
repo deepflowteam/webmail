@@ -79,10 +79,10 @@ Please review the project and decide whether it is right for your workspace.
 ### Start the application
 
 ```sh
-pnpm install
-pnpm db:migrate:local
-pnpm db:seed:local
-pnpm dev
+bun install
+bun run db:migrate:local
+bun run db:seed:local
+bun run dev
 ```
 
 Before you run the optional seed command, add these values to `.dev.vars`:
@@ -102,8 +102,8 @@ To use the first-run setup flow, omit the seed command and open `http://localhos
 To discard all local D1 data, rebuild the schema, and recreate the demo workspace:
 
 ```sh
-pnpm db:reset:local
-pnpm db:seed:local
+bun run db:reset:local
+bun run db:seed:local
 ```
 
 The reset command is destructive and local only. It does not change a deployed database.
@@ -113,7 +113,7 @@ The reset command is destructive and local only. It does not change a deployed d
 For presentation-only onboarding work:
 
 ```sh
-pnpm dev:setup-ui
+bun run dev:setup-ui
 ```
 
 Open `http://127.0.0.1:5173/__ui/setup`.
@@ -123,7 +123,7 @@ Open `http://127.0.0.1:5173/__ui/setup`.
 To inspect the shared components, interactive states, product patterns, and local screen routes:
 
 ```sh
-pnpm dev:ui
+bun run dev:ui
 ```
 
 Open `http://127.0.0.1:5173/__ui/design`. The gallery uses deterministic presentation fixtures
@@ -134,11 +134,11 @@ and does not call product APIs.
 Run the full local quality gate:
 
 ```sh
-pnpm check
-pnpm deploy:dry-run
+bun run check
+bun run deploy:dry-run
 ```
 
-Run `pnpm cf:typegen` after you change `wrangler.jsonc`.
+Run `bun run cf:typegen` after you change `wrangler.jsonc`.
 
 Pushes to `main` run the same quality gate and deployment dry-run. Deployed staging is manual and
 also runs inside the signed release workflow. A release stays in draft until the previous stable
