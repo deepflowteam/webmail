@@ -63,6 +63,12 @@ and Cloudflare credentials in customer infrastructure. It includes:
 See the [product documentation](https://hqbase.io/docs/) for installation, daily use, architecture,
 and operations.
 
+### Recent UI updates
+
+- Redesigned the desktop shell into three flat, edge-to-edge panels (icon rail, mailbox list, and
+  reading pane) separated by thin borders instead of floating rounded cards.
+- Refreshed the logo and favicon.
+
 ## Made by the community
 
 We love seeing people build around Webmail. Independent clients give you more ways to use your
@@ -139,13 +145,6 @@ bun run deploy:dry-run
 ```
 
 Run `bun run cf:typegen` after you change `wrangler.jsonc`.
-
-`bun run test:integration` runs on `@cloudflare/vitest-pool-workers`, which currently only supports
-Vitest 4 / Vite 7 (its published `peerDependencies` pin `vitest: ^4.1.0`). `vite`, `vitest`,
-`@vitejs/plugin-react`, and `@vitest/coverage-v8` stay pinned to that line, and `bun run update:pkg`
-excludes them from major-version bumps, until Cloudflare ships a compatible release. `wrangler`
-itself tracks latest normally — bun installs Wrangler's own pinned copy alongside it for
-`vitest-pool-workers` to use internally, so the two don't need to match.
 
 Pushes to `main` run the same quality gate and deployment dry-run. Deployed staging is manual and
 also runs inside the signed release workflow. A release stays in draft until the previous stable
