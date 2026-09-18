@@ -19,7 +19,7 @@ export function DesignPreview(): React.ReactElement {
       <header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur">
         <div className="mx-auto flex min-h-16 max-w-[1600px] items-center justify-between gap-4 px-4 sm:px-6">
           <div className="flex min-w-0 items-center gap-3">
-            <img alt="HQBase" className="h-7 w-auto shrink-0" src="/logo.svg" />
+            <img alt="HQBase" className="h-7 w-auto shrink-0" src="/logo.png" />
             <Separator className="hidden h-6 sm:block" orientation="vertical" />
             <div className="min-w-0">
               <p className="truncate text-sm font-semibold">Design UI lab</p>

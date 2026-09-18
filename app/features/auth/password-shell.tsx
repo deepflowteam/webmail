@@ -15,7 +15,7 @@ export function PasswordShell({
     <main className="flex min-h-screen items-center justify-center bg-rail px-4 py-12">
       <div className="w-full max-w-md">
         <div className="mb-10 flex items-center justify-center gap-2">
-          <img alt="" className="h-7 w-auto rounded-md object-contain" src="/logo.svg" />
+          <img alt="" className="h-7 w-auto rounded-md object-contain" src="/logo.png" />
         </div>
         <section className="overflow-hidden rounded-[24px] border border-divider bg-sidebar shadow-sm">
           <header className="px-6 pb-2 pt-5">

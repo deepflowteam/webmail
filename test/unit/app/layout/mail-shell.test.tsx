@@ -227,7 +227,7 @@ describe("mail shell", () => {
       />
     );
 
-    expect(html).toContain('src="/logo.svg"');
+    expect(html).toContain('src="/logo.png"');
     expect(html).toContain('href="/mail/inbox"');
     expect(html).toContain('href="/mail/catch-all"');
     expect(html).toContain('href="/settings/mailboxes"');
@@ -259,7 +259,7 @@ describe("mail shell", () => {
   it("uses the canonical logo on the signed-out surface", () => {
     const html = renderToStaticMarkup(<LoginPage onLogin={() => undefined} />);
 
-    expect(html).toContain('src="/logo.svg"');
+    expect(html).toContain('src="/logo.png"');
     expect(html).toContain(
       '<a class="underline-offset-4 transition-colors hover:text-foreground hover:underline" href="https://hqbase.io/" rel="noopener" target="_blank">Powered by HQBase</a>'
     );

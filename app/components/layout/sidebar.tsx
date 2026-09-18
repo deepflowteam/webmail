@@ -80,7 +80,7 @@ function QuickAccessRail({
           handleSectionChange("inbox");
         }}
       >
-        <img alt="" className="size-7 rounded-md object-contain" src="/logo.svg" />
+        <img alt="" className="size-7 rounded-md object-contain" src="/logo.png" />
       </a>
       <div className={cn("mt-5 flex flex-col gap-1", isDrawer && "w-full items-center")}>
         {quickAccess.map(({ folder, icon: Icon, label }) => {

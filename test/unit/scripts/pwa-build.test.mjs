@@ -34,21 +34,19 @@ describe("PWA build contract", () => {
       readFile("public/favicon.svg", "utf8")
     ]);
     expect(html).toContain('rel="manifest" href="/manifest.webmanifest"');
-    expect(html).toContain('rel="icon" href="/favicon.svg" type="image/svg+xml"');
+    expect(html).toContain('rel="icon" href="/favicon.png" type="image/png"');
     expect(html).toContain('rel="apple-touch-icon"');
     expect(html).toContain("viewport-fit=cover");
     expect(html).toContain('<meta name="theme-color" content="#0f0f10" />');
-    expect(iconGenerator).toContain('readFile(path.join(root, "public/logo.svg"), "utf8")');
+    expect(iconGenerator).toContain('readFile(path.join(root, "public/logo.png"))');
     expect(iconGenerator).toContain('file: "apple-touch-icon.png", markWidth: 108');
     expect(iconGenerator).toContain('file: "icon-512.png", markWidth: 308');
     expect(iconGenerator).toContain('file: "icon-maskable-512.png", markWidth: 266');
     expect(iconGenerator).toContain('file: "notification-badge.png"');
-    expect(logo).toContain('width="168" height="132" viewBox="42 55 168 132"');
     expect(logo).toContain("<title>HQBase</title>");
-    expect(logo).not.toContain('fill="black"');
-    expect(logo).toContain('id="paint0_linear_68_26"');
-    expect(favicon).toContain('width="191" height="191" viewBox="30.5 25.5 191 191"');
-    expect(favicon).not.toContain('fill="black"');
+    expect(logo).toContain('<image href="data:image/png;base64,');
+    expect(favicon).toContain("<title>HQBase</title>");
+    expect(favicon).toContain('<image href="data:image/png;base64,');
     expect(headers).toMatch(/\/service-worker\.js[\s\S]*no-cache, no-store, must-revalidate/);
     expect(headers).toMatch(/\/assets\/\*[\s\S]*max-age=31536000, immutable/);
   });

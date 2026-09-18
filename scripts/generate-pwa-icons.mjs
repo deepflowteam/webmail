@@ -4,7 +4,8 @@ import { fileURLToPath } from "node:url";
 import { chromium } from "@playwright/test";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const logo = await readFile(path.join(root, "public/logo.svg"), "utf8");
+const logoBytes = await readFile(path.join(root, "public/logo.png"));
+const logoDataUri = `data:image/png;base64,${logoBytes.toString("base64")}`;
 const browser = await chromium.launch({ headless: true });
 
 try {
@@ -40,19 +41,14 @@ try {
           display: grid;
           place-items: center;
         }
-        svg {
+        img {
           display: block;
           width: ${icon.markWidth}px;
           height: auto;
-        }
-        ${
-          icon.monochrome
-            ? `svg rect, svg path { fill: #fff !important; }
-        svg stop { stop-color: #fff !important; }`
-            : ""
+          ${icon.monochrome ? "filter: brightness(0) invert(1);" : ""}
         }
       </style>
-      ${logo}`,
+      <img alt="" src="${logoDataUri}" />`,
       { waitUntil: "load" }
     );
     await page.screenshot({
