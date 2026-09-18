@@ -18,6 +18,7 @@ import draftChangesMigration from "../../../migrations/0015_draft_changes.sql?ra
 import oneAddressPerMailboxMigration from "../../../migrations/0016_one_address_per_mailbox.sql?raw";
 import agentPrincipalsMigration from "../../../migrations/0017_agent_principals.sql?raw";
 import mailboxLifecycleMigration from "../../../migrations/0018_mailbox_lifecycle.sql?raw";
+import accountIssuerNullableMigration from "../../../migrations/0030_account_issuer_nullable.sql?raw";
 import { createAuth } from "../../../worker/auth/auth";
 import { migrationStatements } from "./migration-statements";
 
@@ -78,6 +79,7 @@ describe("Better Auth schema", () => {
     await applyMigration(oneAddressPerMailboxMigration);
     await applyMigration(agentPrincipalsMigration);
     await applyMigration(mailboxLifecycleMigration);
+    await applyMigration(accountIssuerNullableMigration);
   });
 
   it("backfills the Better Auth 1.7 account identity without losing credential rows", async () => {

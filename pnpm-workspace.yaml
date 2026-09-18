@@ -7,7 +7,7 @@ allowBuilds:
   workerd: true
 
 overrides:
-  '@better-auth/core': 1.7.0-rc.6
+  '@better-auth/core': 1.7.5
   '@hono/node-server': 2.0.12
   '@tiptap/extension-bubble-menu': 3.30.5
   '@tiptap/extension-floating-menu': 3.30.5
@@ -20,12 +20,12 @@ overrides:
 
 minimumReleaseAgeExclude:
   - '@cloudflare/workers-types@5.20260711.1'
-  - '@better-auth/core@1.7.0-rc.6'
-  - '@better-auth/drizzle-adapter@1.7.0-rc.6'
-  - '@better-auth/kysely-adapter@1.7.0-rc.6'
-  - '@better-auth/memory-adapter@1.7.0-rc.6'
-  - '@better-auth/mongo-adapter@1.7.0-rc.6'
-  - '@better-auth/oauth-provider@1.7.0-rc.6'
-  - '@better-auth/prisma-adapter@1.7.0-rc.6'
-  - '@better-auth/telemetry@1.7.0-rc.6'
-  - better-auth@1.7.0-rc.6
+  - '@better-auth/core@1.7.5'
+  - '@better-auth/drizzle-adapter@1.7.5'
+  - '@better-auth/kysely-adapter@1.7.5'
+  - '@better-auth/memory-adapter@1.7.5'
+  - '@better-auth/mongo-adapter@1.7.5'
+  - '@better-auth/oauth-provider@1.7.5'
+  - '@better-auth/prisma-adapter@1.7.5'
+  - '@better-auth/telemetry@1.7.5'
+  - better-auth@1.7.5

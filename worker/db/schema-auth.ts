@@ -51,7 +51,7 @@ export const accounts = sqliteTable(
   "account",
   {
     id: text("id").primaryKey().notNull(),
-    issuer: text("issuer").notNull(),
+    issuer: text("issuer"),
     providerAccountId: text("providerAccountId").notNull(),
     providerId: text("providerId").notNull(),
     userId: text("userId")

@@ -42,7 +42,8 @@ const expectedMigrationNames = [
   "0026_domain_disconnect.sql",
   "0027_message_attachment_disposition.sql",
   "0028_draft_labels.sql",
-  "0029_mail_reliability.sql"
+  "0029_mail_reliability.sql",
+  "0030_account_issuer_nullable.sql"
 ];
 const expectedAfterDeployMigrationNames = [
   "0001_remove_mailbox_alias_storage.sql",
