@@ -13,8 +13,8 @@ import type { Signature } from "@/features/signatures/types";
 const signature: Signature = {
   id: "sig_support",
   name: "Support",
-  html: "<p>HQBase Support</p>",
-  text: "HQBase Support",
+  html: "<p>Webmail Support</p>",
+  text: "Webmail Support",
   scope: "mailbox",
   scopeId: "mbx_support",
   scopeLabel: "Support · support@example.com",
@@ -56,7 +56,7 @@ describe("signature API", () => {
     vi.stubGlobal("fetch", fetchMock);
     const input = {
       name: "Support",
-      html: "<p>HQBase Support</p>",
+      html: "<p>Webmail Support</p>",
       scope: { type: "mailbox" as const, id: "mbx_support" },
       isDefault: true
     };

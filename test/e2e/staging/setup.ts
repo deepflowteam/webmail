@@ -24,9 +24,9 @@ export async function ensureStagingSetup(request: APIRequestContext): Promise<vo
             name: domain
           }
         ],
-        mailboxes: [{ address: sender, displayName: "HQBase E2E" }],
+        mailboxes: [{ address: sender, displayName: "Webmail E2E" }],
         ownerEmail: email,
-        ownerName: "HQBase E2E Owner",
+        ownerName: "Webmail E2E Owner",
         ownerPassword: password,
         portalHostname: new URL(stagingUrl).hostname,
         primaryDomain: domain
@@ -52,6 +52,6 @@ function stagingSetupGrantCookie(secret: string): string {
 
 function required(name: string): string {
   const value = process.env[name];
-  if (!value) throw new Error(`${name} is required for HQBase staging setup.`);
+  if (!value) throw new Error(`${name} is required for Webmail staging setup.`);
   return value;
 }

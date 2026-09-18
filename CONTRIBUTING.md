@@ -1,15 +1,15 @@
 # Contributing
 
-HQBase is licensed under AGPL-3.0-only.
+Webmail is licensed under AGPL-3.0-only.
 
 Submission does not guarantee acceptance. Maintainers retain sole discretion over which
-contributions are merged into the official HQBase project.
+contributions are merged into the official Webmail project.
 
 ## Contributor License Agreement
 
 Every human-authored contribution requires CLA acceptance before it can be merged, including
 documentation, typo fixes, and other small changes. Maintainers may exempt contributions created
-by automated bots. CLA Assistant will prompt the contributor to review and accept the [HQBase
+by automated bots. CLA Assistant will prompt the contributor to review and accept the [Webmail
 Individual Contributor License
 Agreement](https://gist.github.com/bermanto/6a6d2ea2d93119229f871bb186a4168c) through the pull
 request.
@@ -19,7 +19,7 @@ the community project under AGPL-3.0-only. The CLA also permits Berman Digital L
 license contributions under alternative terms, including commercial terms.
 
 Read the public [Contributing to
-HQBase](https://hqbase.io/docs/maintainers/contributing/) guide for repository ownership,
+Webmail](https://hqbase.io/docs/maintainers/contributing/) guide for repository ownership,
 documentation changes, pull requests, optional Cloudflare testing, and the official staging and
 release handoff.
 

@@ -150,7 +150,7 @@ async function releaseStatus(
     } catch {
       throw new AppError(
         "UPDATE_SCHEMA_INCONSISTENT",
-        "HQBase cannot verify this installation's database migration state. Run the signed deployment diagnostic before updating.",
+        "Webmail cannot verify this installation's database migration state. Run the signed deployment diagnostic before updating.",
         503
       );
     }

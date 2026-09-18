@@ -4,7 +4,7 @@ import { getRow } from "../db/drizzle";
 import { AppError } from "../lib/errors";
 
 export const LOGIN_EMAIL_DOMAIN_MESSAGE =
-  "Use an email account you can always access, even when HQBase is unavailable. It cannot use a domain connected to this workspace.";
+  "Use an email account you can always access, even when Webmail is unavailable. It cannot use a domain connected to this workspace.";
 
 function loginEmailDomain(email: string): string | null {
   const normalized = email.trim().toLowerCase();

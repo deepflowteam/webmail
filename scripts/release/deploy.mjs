@@ -79,17 +79,17 @@ export async function deploy(options = {}) {
       // already active. `wrangler triggers deploy` is experimental and never updates variables.
       if (!activeRelease) {
         throw new Error(
-          "Refusing to deploy configuration: the Worker has no active signed HQBase release."
+          "Refusing to deploy configuration: the Worker has no active signed Webmail release."
         );
       }
       if (activeRelease.version !== manifest.version || activeRelease.tag !== releaseTag) {
         throw new Error(
-          `Refusing to deploy configuration: the Worker runs HQBase ${activeRelease.version}, not the signed stable release ${manifest.version}. Update the deployment first.`
+          `Refusing to deploy configuration: the Worker runs Webmail ${activeRelease.version}, not the signed stable release ${manifest.version}. Update the deployment first.`
         );
       }
       deployConfiguration(source, config.name, releaseTag);
       recordWorkerDeployed();
-      console.log(`HQBase ${manifest.version} configuration deployed.`);
+      console.log(`Webmail ${manifest.version} configuration deployed.`);
       return;
     }
     if (!activeRelease) {
@@ -103,16 +103,16 @@ export async function deploy(options = {}) {
         `UPDATE release_state SET installed_version = ${quote(manifest.version)}, installed_schema_version = ${manifest.schemaVersion}, updated_at = datetime('now') WHERE singleton = 1`
       );
       run("pnpm", ["hqbase", "postdeploy"], source);
-      console.log(`HQBase ${manifest.version} installed from its signed release.`);
+      console.log(`Webmail ${manifest.version} installed from its signed release.`);
       return;
     }
     assertRemoteDatabaseUpdate(source, manifest);
     if (compareVersions(activeRelease.version, manifest.version) > 0) {
-      throw new Error("The active HQBase Worker is newer than the signed stable release.");
+      throw new Error("The active Webmail Worker is newer than the signed stable release.");
     }
     if (compareVersions(activeRelease.version, manifest.minVersion) < 0) {
       throw new Error(
-        `HQBase ${activeRelease.version} cannot update directly to ${manifest.version}.`
+        `Webmail ${activeRelease.version} cannot update directly to ${manifest.version}.`
       );
     }
     if (activeRelease.version === manifest.version && activeRelease.tag === releaseTag) {
@@ -133,7 +133,7 @@ export async function deploy(options = {}) {
       if (activeRelease.missingBindings.length > 0 && !retry.workerRecorded) {
         recordWorkerDeployed();
       }
-      console.log(`HQBase ${manifest.version} is already the active signed release.`);
+      console.log(`Webmail ${manifest.version} is already the active signed release.`);
       return;
     }
 
@@ -192,7 +192,7 @@ export async function deploy(options = {}) {
       source,
       `UPDATE release_state SET installed_version = ${quote(manifest.version)}, installed_schema_version = ${manifest.schemaVersion}, updated_at = datetime('now') WHERE singleton = 1; UPDATE update_history SET state = 'verified', completed_at = datetime('now') WHERE id = ${quote(updateId)}`
     );
-    console.log(`HQBase updated to ${manifest.version}.`);
+    console.log(`Webmail updated to ${manifest.version}.`);
   } catch (error) {
     if (recovery) reportRecovery(recovery);
     throw error;
@@ -257,7 +257,7 @@ export function completeActiveReleaseRetry(source, manifest, recordWorkerDeploye
     options.afterDeployState ??
     (options.inspectAfterDeployState ?? inspectRemoteAfterDeployState)(source, manifest.version);
   if (!["S0", "S1", "S2", "S3", finalAfterDeployPhase].includes(afterDeployState?.phase)) {
-    throw new Error("Refusing to repair HQBase because the D1 post-deploy state is invalid.");
+    throw new Error("Refusing to repair Webmail because the D1 post-deploy state is invalid.");
   }
 
   let update = afterDeployState.pendingUpdate;
@@ -355,7 +355,7 @@ function sourceDeploy(cwd) {
 export function reportRecovery(recovery) {
   if (recovery.cleanupComplete) {
     console.error(
-      "Recovery: rerun the same signed HQBase deployment. Schema cleanup completed, and the retry will finish release bookkeeping."
+      "Recovery: rerun the same signed Webmail deployment. Schema cleanup completed, and the retry will finish release bookkeeping."
     );
     return;
   }

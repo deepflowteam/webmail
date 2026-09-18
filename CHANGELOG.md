@@ -63,8 +63,8 @@
 ### Fixed
 
 - Start managed updates with a short Workers Builds deploy command and a verified updater-loader
-  variable. This prevents the **Invalid request body** failure after HQBase 1.3.4 is installed and
-  does not change customer source repositories. An affected HQBase 1.3.3 installation that still
+  variable. This prevents the **Invalid request body** failure after Webmail 1.3.4 is installed and
+  does not change customer source repositories. An affected Webmail 1.3.3 installation that still
   uses `pnpm deploy` needs the documented one-time Cloudflare recovery to reach this release.
 - Report the exact failed Cloudflare operation after authorization, restore verified trigger changes
   when setup is rejected, and reconcile an uncertain build response before reporting its result.
@@ -76,7 +76,7 @@
 
 ### Fixed
 
-- Repair installations that reached HQBase 1.3 without completing the signed post-deploy database
+- Repair installations that reached Webmail 1.3 without completing the signed post-deploy database
   phase. This fixes connection loading errors while preserving mail, drafts, labels, grants, and
   other workspace data behind a new D1 recovery checkpoint.
 - Replace the frozen customer-repository update command with a signed canonical updater after owner
@@ -129,7 +129,7 @@
   without changing the rest of its conversation.
 - Add safer administration. Delete and restore mailboxes without deleting mail, remove and restore
   people while revoking old access, choose how each domain handles unknown addresses, and move
-  HQBase to a new app domain.
+  Webmail to a new app domain.
 
 ### Changed
 
@@ -170,7 +170,7 @@
 - Preserve attachment media types through draft upload and forwarding, and document the attachment
   size limits in the public API contract.
 - Block direct HTTP access to Better Auth admin endpoints so an admin cannot promote themselves to
-  owner or replace an owner's password outside HQBase's owner-only controls.
+  owner or replace an owner's password outside Webmail's owner-only controls.
 - Show the requesting OAuth client's ID and homepage on the consent page, and clarify native PKCE
   registration so people can verify the client before approval.
 - Prevent Reply from addressing the workspace sender, repair compact Settings navigation, and wait
@@ -201,7 +201,7 @@
   sending, and replies. API clients can use audience-bound OAuth bearer tokens, while the web app
   uses the same `/api/v1` routes with its existing session cookie.
 - Publish deployment-local `AGENTS.md`, OpenAPI 3.1, and Postman artifacts so people and AI agents
-  can discover, inspect, and test each installation's API without an HQBase-specific SDK.
+  can discover, inspect, and test each installation's API without an Webmail-specific SDK.
 - Add OAuth Device Authorization for agents and command-line clients, including normal-browser
   approval, short-lived single-use codes, scoped access, and persistent D1-backed verification
   rate limits.
@@ -218,7 +218,7 @@
 
 ## 1.0.0
 
-- Publish HQBase as one free and open-source shared email workspace for customer-owned Cloudflare
+- Publish Webmail as one free and open-source shared email workspace for customer-owned Cloudflare
   infrastructure, with one signed public release and update channel.
 - Support multiple email domains, shared mailboxes, aliases, catch-all delivery, drafts,
   conversations, replies, forwarding, attachments, and Gmail-compatible quoted history.

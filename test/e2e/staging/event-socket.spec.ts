@@ -34,7 +34,7 @@ test("authenticated event WebSocket opens", async ({ page }) => {
 
   const cookies = await page.context().cookies(stagingUrl);
   const cookieHeader = cookies.map(({ name, value }) => `${name}=${value}`).join("; ");
-  expect(cookieHeader, "HQBase sign-in did not create a session cookie.").not.toBe("");
+  expect(cookieHeader, "Webmail sign-in did not create a session cookie.").not.toBe("");
 
   const outcome = await probeEventWebSocket(cookieHeader);
   expect(outcome, `WebSocket upgrade failed: ${JSON.stringify(outcome)}`).toMatchObject({

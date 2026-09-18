@@ -34,7 +34,7 @@ import {
 } from "../../../scripts/release/worker-deploy.mjs";
 import { foreignTrustees } from "../../../scripts/secure-directory.mjs";
 
-describe("HQBase release deployment", () => {
+describe("Webmail release deployment", () => {
   it("generates a standard P-256 VAPID key pair without package dependencies", () => {
     const keys = generateVapidKeys();
     expect(Buffer.from(keys.publicKey, "base64url")).toHaveLength(65);
@@ -146,7 +146,7 @@ describe("HQBase release deployment", () => {
           manifestFile,
           publicKeyBase64
         })
-      ).rejects.toThrow("Expected signed HQBase 1.2.4");
+      ).rejects.toThrow("Expected signed Webmail 1.2.4");
       writeFileSync(artifactFile, "tampered");
       await expect(
         loadVerifiedRelease({
@@ -253,7 +253,7 @@ describe("HQBase release deployment", () => {
     ]);
     expect(() => assertRequiredWorkerConfig(prepared)).not.toThrow();
   });
-  it("creates an immutable active-version tag from the signed HQBase artifact", () => {
+  it("creates an immutable active-version tag from the signed Webmail artifact", () => {
     expect(hqbaseReleaseTag("0.1.5", "a".repeat(64))).toBe(`hqbase:0.1.5:${"a".repeat(64)}`);
     expect(() => hqbaseReleaseTag("0.1.5", "not-a-digest")).toThrow("identity");
   });
@@ -548,7 +548,7 @@ describe("HQBase release deployment", () => {
       ]
     });
   });
-  it("keeps HQBase product constants out of the Deploy to Cloudflare form", () => {
+  it("keeps Webmail product constants out of the Deploy to Cloudflare form", () => {
     const wranglerConfig = JSON.parse(readFileSync("wrangler.jsonc", "utf8"));
     expect(wranglerConfig).not.toHaveProperty("vars");
     const normalized = normalizeConfig(wranglerConfig, "0.1.23", "b".repeat(64));

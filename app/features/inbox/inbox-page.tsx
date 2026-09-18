@@ -1,7 +1,7 @@
 import * as React from "react";
 import { PiArrowLeft } from "react-icons/pi";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/button";
 import { setConversationLabel } from "@/features/labels/api";
 import { LabelFilter } from "@/features/labels/label-filter";
 import type { MailLabel } from "@/features/labels/types";

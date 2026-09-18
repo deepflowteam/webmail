@@ -1,5 +1,5 @@
-import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
+import { Field, FieldDescription, FieldLabel } from "@/components/field";
+import { Input } from "@/components/input";
 
 export function PasswordFields({
   confirmPassword,

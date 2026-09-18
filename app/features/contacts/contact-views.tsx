@@ -1,11 +1,11 @@
 import * as React from "react";
 import { PiArrowLeft, PiCaretDown, PiEnvelopeSimple, PiNotePencil, PiTrash } from "react-icons/pi";
 import { toast } from "sonner";
+import { Avatar, AvatarFallback } from "@/components/avatar";
+import { Button } from "@/components/button";
+import { Field, FieldGroup, FieldLabel } from "@/components/field";
+import { Input } from "@/components/input";
 import { Textarea } from "@/components/textarea";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { setConversationLabel } from "@/features/labels/api";
 import type { MailLabel } from "@/features/labels/types";

@@ -2,7 +2,7 @@ import * as React from "react";
 import { createPortal } from "react-dom";
 import { PiArrowLeft, PiArrowSquareOut, PiPaperPlaneTilt, PiX } from "react-icons/pi";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/button";
 
 type ThreadComposeSurfaceProps = {
   children: React.ReactNode;

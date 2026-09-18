@@ -30,7 +30,7 @@ describe("Cloudflare setup API", () => {
 
     await expect(listCloudflareZones({ apiToken: "token-123" })).resolves.toEqual([
       {
-        accountName: "HQBase",
+        accountName: "Webmail",
         accountId: "account-1",
         id: "zone-a",
         name: "alpha.com",
@@ -38,7 +38,7 @@ describe("Cloudflare setup API", () => {
         type: "full"
       },
       {
-        accountName: "HQBase",
+        accountName: "Webmail",
         accountId: "account-1",
         id: "zone-b",
         name: "zeta.com",
@@ -196,7 +196,7 @@ describe("Cloudflare setup API", () => {
         actions: [{ type: "worker", value: ["hqbase"] }],
         enabled: true,
         matchers: [{ type: "all" }],
-        name: "HQBase catch-all"
+        name: "Webmail catch-all"
       })
     );
     expect(catchAllCall?.[1]?.method).toBe("PUT");
@@ -313,11 +313,11 @@ describe("Cloudflare setup API", () => {
     const routingStep = result.steps.find((step) => step.id === "routing");
     expect(routingStep).toMatchObject({
       message:
-        "Cloudflare rejected the Email Routing DNS/settings request. Authorize HQBase with Zone Settings Edit, then retry the domain connection.",
+        "Cloudflare rejected the Email Routing DNS/settings request. Authorize Webmail with Zone Settings Edit, then retry the domain connection.",
       status: "failed"
     });
     expect(result.status.routing.error).toBe(
-      "Cloudflare rejected the Email Routing DNS/settings request. Authorize HQBase with Zone Settings Edit, then retry the domain connection."
+      "Cloudflare rejected the Email Routing DNS/settings request. Authorize Webmail with Zone Settings Edit, then retry the domain connection."
     );
   });
 
@@ -378,7 +378,7 @@ describe("Cloudflare setup API", () => {
         workerName: "hqbase",
         zone: {
           accountId: "account-1",
-          accountName: "HQBase",
+          accountName: "Webmail",
           id: "zone-1",
           name: "example.com",
           status: "active",
@@ -425,7 +425,7 @@ describe("Cloudflare setup API", () => {
         actions: [{ type: "drop" }],
         enabled: false,
         matchers: [{ type: "all" }],
-        name: "HQBase catch-all"
+        name: "Webmail catch-all"
       })
     );
   });
@@ -514,7 +514,7 @@ function fetchInputUrl(input: Parameters<typeof fetch>[0]): string {
 
 function zone({ id, name }: { id: string; name: string }) {
   return {
-    account: { id: "account-1", name: "HQBase" },
+    account: { id: "account-1", name: "Webmail" },
     id,
     name,
     status: "active",

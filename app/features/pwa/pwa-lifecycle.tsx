@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/button";
 import { readUpdateProgress } from "@/features/updates/update-progress";
 import { playNotificationSound } from "@/lib/notification-sounds";
 import { type PwaUpdate, registerPwa } from "./register";
@@ -44,8 +44,8 @@ export function PwaLifecycle(): React.ReactElement | null {
     >
       <span className={online && update ? "text-xs font-semibold" : undefined}>
         {online
-          ? "A new version of HQBase is ready."
-          : "You're offline. HQBase will reconnect when your connection returns."}
+          ? "A new version of Webmail is ready."
+          : "You're offline. Webmail will reconnect when your connection returns."}
       </span>
       {online && update ? (
         <Button

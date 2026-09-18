@@ -12,7 +12,7 @@ const readToken = "hqb_access_changes-read-token";
 const writeToken = "hqb_access_changes-write-token";
 let userId = "";
 
-describe("HQBase Mail API message changes", () => {
+describe("Webmail Mail API message changes", () => {
   beforeAll(async () => {
     await applyCurrentMigrations();
     const auth = createAuth(env, new Request(`${origin}/api/auth/sign-up/email`));

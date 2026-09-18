@@ -36,7 +36,7 @@ export function createAuth(
   const mailApiResources = [mailApiResource(env, request), mailApiV1Resource(env, request)];
 
   return betterAuth({
-    appName: "HQBase",
+    appName: "Webmail",
     basePath: "/api/auth",
     baseURL,
     trustedOrigins: async (request) => {

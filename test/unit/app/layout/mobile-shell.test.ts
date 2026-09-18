@@ -34,7 +34,7 @@ const sidebar = readFileSync(
   "utf8"
 );
 const sheet = readFileSync(
-  new URL("../../../../app/components/ui/sheet.tsx", import.meta.url),
+  new URL("../../../../app/components/sheet.tsx", import.meta.url),
   "utf8"
 );
 const dialog = readFileSync(

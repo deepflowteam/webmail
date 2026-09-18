@@ -182,7 +182,7 @@ export function DeviceAuthorizationPage(): React.ReactElement {
     );
   }
 
-  if (!identityChecked) return <FullScreenStatus label="Checking your HQBase session" />;
+  if (!identityChecked) return <FullScreenStatus label="Checking your Webmail session" />;
   if (!user) {
     return (
       <>

@@ -22,7 +22,7 @@ function expectMailEventsConfiguration(config) {
   expect(config.migrations).toEqual(mailEventsMigration);
 }
 
-describe("HQBase installation resources", () => {
+describe("Webmail installation resources", () => {
   it("creates a fresh manifest with independent unclaimed resources", () => {
     const manifest = createManifest("qa", {});
 

@@ -64,7 +64,7 @@ apiRoutes.onError((error, c) => {
   if (error instanceof MailApiAuthError) {
     response.headers.set("www-authenticate", mailApiChallenge(c.env, c.req.raw, error));
   } else if (appError.code === "INVALID_AGENT_CREDENTIAL") {
-    response.headers.set("www-authenticate", 'Bearer realm="HQBase Management API"');
+    response.headers.set("www-authenticate", 'Bearer realm="Webmail Management API"');
   }
   return response;
 });

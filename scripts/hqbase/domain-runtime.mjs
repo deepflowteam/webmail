@@ -115,7 +115,7 @@ export async function probeServiceOrigin({ origin, probe, retry }) {
     }
   }
   throw new Error(
-    `Refusing to continue: ${origin} did not serve a healthy HQBase installation (${lastFailures.join("; ") || "no response"}). DNS or the certificate is not ready.`
+    `Refusing to continue: ${origin} did not serve a healthy Webmail installation (${lastFailures.join("; ") || "no response"}). DNS or the certificate is not ready.`
   );
 }
 

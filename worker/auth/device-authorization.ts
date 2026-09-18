@@ -60,7 +60,7 @@ export async function approveDeviceAuthorization(
     return oauthError(
       403,
       "access_denied",
-      "The approval request must come from this HQBase installation."
+      "The approval request must come from this Webmail installation."
     );
   }
 
@@ -152,7 +152,7 @@ export async function handleDeviceTokenRequest(
   if (code?.status === "approved") {
     if (!code.userId || !code.sessionId || !(await isActiveSession(env.DB, code))) {
       await createDatabase(env.DB).delete(deviceCodes).where(eq(deviceCodes.id, code.id)).run();
-      return oauthError(400, "access_denied", "The approving HQBase session is no longer active.");
+      return oauthError(400, "access_denied", "The approving Webmail session is no longer active.");
     }
   }
 
@@ -163,7 +163,7 @@ export async function handleDeviceTokenRequest(
     return discardUnboundTokenResponse(
       env.DB,
       response,
-      "The device authorization was not bound to an HQBase session."
+      "The device authorization was not bound to an Webmail session."
     );
   }
 

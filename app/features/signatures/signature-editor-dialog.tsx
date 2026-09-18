@@ -1,5 +1,7 @@
 import * as React from "react";
 import { toast } from "sonner";
+import { Button } from "@/components/button";
+import { Checkbox } from "@/components/checkbox";
 import {
   Dialog,
   DialogContent,
@@ -9,10 +11,8 @@ import {
   DialogTitle
 } from "@/components/dialog";
 import { DropdownSelect, type DropdownSelectOption } from "@/components/dropdown-select";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Input } from "@/components/input";
+import { Label } from "@/components/label";
 import { Spinner } from "@/components/ui/spinner";
 import { signatureImagesFromFiles } from "@/features/compose/email-images";
 import { RichEmailEditor } from "@/features/compose/rich-email-editor";
@@ -81,7 +81,7 @@ export function SignatureEditorDialog({
         <DialogHeader>
           <DialogTitle>{editing === "new" ? "Add signature" : "Edit signature"}</DialogTitle>
           <DialogDescription>
-            Use simple formatting and up to five images (256 KiB total). HQBase makes a safe
+            Use simple formatting and up to five images (256 KiB total). Webmail makes a safe
             plain-text version when you save.
           </DialogDescription>
         </DialogHeader>

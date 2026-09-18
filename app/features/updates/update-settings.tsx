@@ -1,9 +1,9 @@
 import * as React from "react";
 import { PiArrowRight, PiArrowsClockwise } from "react-icons/pi";
+import { Button } from "@/components/button";
+import { Checkbox } from "@/components/checkbox";
+import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/field";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Spinner } from "@/components/ui/spinner";
 import { CloudflareAuthorizationDialog } from "@/features/settings/cloudflare-authorization-dialog";
 import { SettingsSection } from "@/features/settings/settings-section";
@@ -200,10 +200,10 @@ export function UpdateSettings({
               <p className="mt-1 text-xs leading-5 text-muted-foreground">
                 {repairInProgress
                   ? status?.release.version
-                    ? `HQBase ${status.release.version} is completing its signed installation. `
-                    : "HQBase is completing its signed installation. "
+                    ? `Webmail ${status.release.version} is completing its signed installation. `
+                    : "Webmail is completing its signed installation. "
                   : status?.release.version
-                    ? `HQBase ${status.release.version} is being deployed. `
+                    ? `Webmail ${status.release.version} is being deployed. `
                     : "The new version is being deployed. "}
                 You can keep working while Cloudflare finishes the build.
               </p>
@@ -265,8 +265,8 @@ export function UpdateSettings({
             <Alert>
               <AlertTitle>Finish installation repair</AlertTitle>
               <AlertDescription>
-                This installation runs HQBase {status.release.version}, but its older build
-                bootstrap did not finish the signed database migration phase. HQBase will replace
+                This installation runs Webmail {status.release.version}, but its older build
+                bootstrap did not finish the signed database migration phase. Webmail will replace
                 that bootstrap and complete the same release from a fresh recovery checkpoint. It
                 will not change your source repository.
               </AlertDescription>
@@ -302,8 +302,8 @@ export function UpdateSettings({
               {repairOnly ? "Complete repair" : "Apply update"}
             </h3>
             <p className="mt-1 max-w-2xl text-xs leading-5 text-muted-foreground">
-              HQBase verifies the signed artifact, records the Worker version and a new D1 bookmark,
-              completes the migrations, and verifies the result before reporting success.
+              Webmail verifies the signed artifact, records the Worker version and a new D1
+              bookmark, completes the migrations, and verifies the result before reporting success.
             </p>
           </div>
           <div className="flex flex-col gap-4">
@@ -341,8 +341,8 @@ export function UpdateSettings({
         authorizeHref="/api/updates/cloudflare/oauth/start"
         description={
           repairOnly
-            ? "To finish this installation repair, HQBase needs temporary access to your Cloudflare account. You’ll return to Updates automatically, and HQBase will start the signed repair."
-            : "To install this update, HQBase needs temporary access to your Cloudflare account. You’ll return to Updates automatically, and HQBase will start the update."
+            ? "To finish this installation repair, Webmail needs temporary access to your Cloudflare account. You’ll return to Updates automatically, and Webmail will start the signed repair."
+            : "To install this update, Webmail needs temporary access to your Cloudflare account. You’ll return to Updates automatically, and Webmail will start the update."
         }
         open={authorizationOpen}
         onAuthorize={() => {
@@ -360,7 +360,7 @@ export function UpdateSettings({
 function oauthErrorMessage(result: string): string {
   if (result === "denied") return "Cloudflare authorization was cancelled.";
   if (result === "invalid") return "Cloudflare authorization expired. Please try again.";
-  return "Cloudflare could not authorize the update. Ask a Cloudflare administrator to allow HQBase or configure customer-managed OAuth from the deployment guide.";
+  return "Cloudflare could not authorize the update. Ask a Cloudflare administrator to allow Webmail or configure customer-managed OAuth from the deployment guide.";
 }
 
 function Version({ label, value }: { label: string; value: string }): React.ReactElement {

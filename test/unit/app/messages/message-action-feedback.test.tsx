@@ -125,9 +125,7 @@ describe("conversation action feedback", () => {
     expect(more?.className).toContain("sm:hidden");
 
     await flushHookEffects(() => {
-      more?.dispatchEvent(
-        new PointerEvent("pointerdown", { bubbles: true, button: 0, pointerType: "mouse" })
-      );
+      more?.dispatchEvent(new MouseEvent("mousedown", { bubbles: true, button: 0 }));
       more?.click();
     });
 
@@ -142,9 +140,7 @@ describe("conversation action feedback", () => {
     expect(menu?.textContent).toContain("Trash conversation");
 
     await flushHookEffects(() => {
-      desktopLabels?.dispatchEvent(
-        new PointerEvent("pointerdown", { bubbles: true, button: 0, pointerType: "mouse" })
-      );
+      desktopLabels?.dispatchEvent(new MouseEvent("mousedown", { bubbles: true, button: 0 }));
       desktopLabels?.click();
     });
     const labelItem = [
@@ -235,9 +231,7 @@ describe("conversation action feedback", () => {
       '[aria-label="More conversation actions"]'
     );
     await flushHookEffects(() => {
-      more?.dispatchEvent(
-        new PointerEvent("pointerdown", { bubbles: true, button: 0, pointerType: "mouse" })
-      );
+      more?.dispatchEvent(new MouseEvent("mousedown", { bubbles: true, button: 0 }));
       more?.click();
     });
     const menu = document.body.querySelector<HTMLElement>("[data-mobile-thread-actions]");
@@ -275,9 +269,7 @@ describe("conversation action feedback", () => {
 
       expect(folderAction?.className).toContain("hidden sm:inline-flex");
       await flushHookEffects(() => {
-        more?.dispatchEvent(
-          new PointerEvent("pointerdown", { bubbles: true, button: 0, pointerType: "mouse" })
-        );
+        more?.dispatchEvent(new MouseEvent("mousedown", { bubbles: true, button: 0 }));
         more?.click();
       });
       expect(
@@ -345,9 +337,7 @@ describe("conversation action feedback", () => {
       '[data-message-actions-id="msg_1"]'
     );
     await flushHookEffects(() => {
-      trigger?.dispatchEvent(
-        new PointerEvent("pointerdown", { bubbles: true, button: 0, pointerType: "mouse" })
-      );
+      trigger?.dispatchEvent(new MouseEvent("mousedown", { bubbles: true, button: 0 }));
       trigger?.click();
     });
     await flushHookEffects(() =>

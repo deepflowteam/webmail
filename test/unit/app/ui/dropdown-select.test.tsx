@@ -31,9 +31,7 @@ describe("dropdown select", () => {
     expect(trigger?.dataset.slot).toBe("dropdown-select");
 
     await flushHookEffects(() => {
-      trigger?.dispatchEvent(
-        new PointerEvent("pointerdown", { bubbles: true, button: 0, pointerType: "mouse" })
-      );
+      trigger?.dispatchEvent(new MouseEvent("mousedown", { bubbles: true, button: 0 }));
       trigger?.dispatchEvent(new MouseEvent("click", { bubbles: true, button: 0 }));
     });
     const manager = [...document.body.querySelectorAll<HTMLElement>('[role="menuitemradio"]')].find(

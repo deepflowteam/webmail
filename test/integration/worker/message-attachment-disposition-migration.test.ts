@@ -26,7 +26,7 @@ describe("message attachment disposition migration", () => {
     }
   });
 
-  it("keeps Gmail files downloadable while preserving HQBase inline images", async () => {
+  it("keeps Gmail files downloadable while preserving Webmail inline images", async () => {
     const rows = await env.DB.prepare(
       "SELECT id, disposition FROM message_attachments ORDER BY id"
     ).all<{ disposition: "attachment" | "inline"; id: string }>();

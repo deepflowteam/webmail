@@ -1,6 +1,7 @@
 import * as React from "react";
 import { PiArrowLeft, PiWarning } from "react-icons/pi";
 import { toast } from "sonner";
+import { Button } from "@/components/button";
 import {
   DialogClose,
   DialogDescription,
@@ -9,10 +10,9 @@ import {
   DialogTitle
 } from "@/components/dialog";
 import { DropdownSelect } from "@/components/dropdown-select";
+import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/field";
+import { Input } from "@/components/input";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
-import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { DomainSuffixInput, hasCompleteDomainSuffix } from "@/features/domains/domain-suffix-input";
 import type { Mailbox } from "@/features/mailboxes/types";
@@ -114,8 +114,8 @@ export function AgentCreateForm({
         </DialogTitle>
         <DialogDescription>
           {profile === "provisioner"
-            ? "Give trusted software restricted provisioning access to HQBase."
-            : "Give software restricted access to HQBase."}
+            ? "Give trusted software restricted provisioning access to Webmail."
+            : "Give software restricted access to Webmail."}
         </DialogDescription>
       </DialogHeader>
       <form className="flex flex-col gap-5" onSubmit={(event) => void submit(event)}>

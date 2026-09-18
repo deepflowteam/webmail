@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Button } from "@/components/button";
 import {
   Dialog,
   DialogClose,
@@ -9,8 +10,7 @@ import {
   DialogTitle
 } from "@/components/dialog";
 import { DropdownSelect } from "@/components/dropdown-select";
-import { Button } from "@/components/ui/button";
-import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/field";
 import type { Mailbox } from "@/features/mailboxes/types";
 import type { WorkspaceUser } from "@/features/users/types";
 import type { AccessChoice, MailboxAccessPolicies } from "./mailbox-access-policies";

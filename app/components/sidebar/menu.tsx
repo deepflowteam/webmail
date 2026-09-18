@@ -1,6 +1,6 @@
-import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
+import { RenderSlot as Slot } from "@/components/render-slot";
 import { Skeleton } from "@/components/skeleton";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/tooltip";
 import { cn } from "@/lib/cn";

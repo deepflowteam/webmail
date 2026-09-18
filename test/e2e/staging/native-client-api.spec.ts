@@ -24,7 +24,7 @@ test("a native v1 client manages signatures and refreshes after browser sign-out
   const registration = await request.post("/api/auth/oauth2/register", {
     data: {
       application_type: "native",
-      client_name: "HQBase native client staging test",
+      client_name: "Webmail native client staging test",
       grant_types: ["urn:ietf:params:oauth:grant-type:device_code", "refresh_token"],
       resources: [resource],
       scope,

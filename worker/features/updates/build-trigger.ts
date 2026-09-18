@@ -35,7 +35,7 @@ export function assertManagedTrigger(trigger: {
   if (!isManagedDeployCommand(command) || !["", "/", ".", "./"].includes(root)) {
     throw new AppError(
       "UPDATE_TRIGGER_UNMANAGED",
-      "Signed updates require a repository-root Workers Builds trigger that uses the HQBase updater. Use the custom-source deployment process instead.",
+      "Signed updates require a repository-root Workers Builds trigger that uses the Webmail updater. Use the custom-source deployment process instead.",
       409
     );
   }
@@ -47,7 +47,7 @@ export function managedDeployCommand(): string {
 
 export function managedUpdaterLoader(updater: NonNullable<ReleaseManifest["updater"]>): string {
   const { sha256, size, sourceUrl } = updater;
-  return `const u="${sourceUrl}";const h="${sha256}";const n=${size};const r=await fetch(u);if(!r.ok)throw new Error("HQBase updater download failed.");const b=Buffer.from(await r.arrayBuffer());const {createHash}=await import("node:crypto");if(b.length!==n||createHash("sha256").update(b).digest("hex")!==h)throw new Error("HQBase updater verification failed.");await import("data:text/javascript;base64,"+b.toString("base64"));`;
+  return `const u="${sourceUrl}";const h="${sha256}";const n=${size};const r=await fetch(u);if(!r.ok)throw new Error("Webmail updater download failed.");const b=Buffer.from(await r.arrayBuffer());const {createHash}=await import("node:crypto");if(b.length!==n||createHash("sha256").update(b).digest("hex")!==h)throw new Error("Webmail updater verification failed.");await import("data:text/javascript;base64,"+b.toString("base64"));`;
 }
 
 export function isManagedDeployCommand(command: string): boolean {
@@ -285,7 +285,7 @@ export async function restoreOrThrow(
   } catch {
     throw new AppError(
       "UPDATE_TRIGGER_ROLLBACK_FAILED",
-      "The build did not start, and HQBase could not restore the previous Cloudflare build configuration. Review the production Workers Builds trigger before trying again.",
+      "The build did not start, and Webmail could not restore the previous Cloudflare build configuration. Review the production Workers Builds trigger before trying again.",
       502
     );
   }

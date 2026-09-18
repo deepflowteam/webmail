@@ -1,10 +1,10 @@
 <p align="center">
   <a href="https://hqbase.io/">
-    <img src="public/logo.svg" alt="HQBase" width="118">
+    <img src="public/logo.svg" alt="Webmail" width="118">
   </a>
 </p>
 
-<h1 align="center">HQBase</h1>
+<h1 align="center">Webmail</h1>
 
 <p align="center">
   <strong>Your team's email workspace. On your infrastructure.</strong>
@@ -27,13 +27,13 @@
     <img src="https://github.com/HQBase/hqbase/actions/workflows/ci.yml/badge.svg?branch=main" alt="CI status">
   </a>
   <a href="https://github.com/HQBase/hqbase/releases/latest">
-    <img src="https://img.shields.io/github/v/release/HQBase/hqbase?display_name=tag&amp;sort=semver" alt="Latest release">
+    <img src="https://img.shields.io/github/v/release/Webmail/hqbase?display_name=tag&amp;sort=semver" alt="Latest release">
   </a>
   <a href="LICENSE">
-    <img src="https://img.shields.io/github/license/HQBase/hqbase" alt="AGPL-3.0-only license">
+    <img src="https://img.shields.io/github/license/Webmail/hqbase" alt="AGPL-3.0-only license">
   </a>
   <a href="https://discord.gg/U67PB663nf">
-    <img src="https://img.shields.io/badge/Discord-Join%20the%20community-5865F2?logo=discord&amp;logoColor=white" alt="Join the HQBase Discord">
+    <img src="https://img.shields.io/badge/Discord-Join%20the%20community-5865F2?logo=discord&amp;logoColor=white" alt="Join the Webmail Discord">
   </a>
   <a href="https://x.com/berman_to">
     <img src="https://img.shields.io/badge/X-Follow-000000?logo=x&amp;logoColor=white" alt="Follow @berman_to on X">
@@ -41,18 +41,18 @@
 </p>
 
 <p align="center">
-  <a href="https://deploy.workers.cloudflare.com/?url=https%3A%2F%2Fgithub.com%2FHQBase%2Fhqbase%2Ftree%2Fdeploy">
+  <a href="https://deploy.workers.cloudflare.com/?url=https%3A%2F%2Fgithub.com%2FWebmail%2Fhqbase%2Ftree%2Fdeploy">
     <img src="https://deploy.workers.cloudflare.com/button" alt="Deploy to Cloudflare">
   </a>
 </p>
 
-## About HQBase
+## About Webmail
 
 <p align="center">
-  <img src="public/hqbase-desktop-screenshot.png" alt="HQBase shared inbox interface">
+  <img src="public/hqbase-desktop-screenshot.png" alt="Webmail shared inbox interface">
 </p>
 
-HQBase gives teams one place to work with shared mailboxes while keeping the application, mail,
+Webmail gives teams one place to work with shared mailboxes while keeping the application, mail,
 and Cloudflare credentials in customer infrastructure. It includes:
 
 - Shared mailboxes and team access controls.
@@ -65,13 +65,13 @@ and operations.
 
 ## Made by the community
 
-We love seeing people build around HQBase. Independent clients give you more ways to use your
+We love seeing people build around Webmail. Independent clients give you more ways to use your
 workspace:
 
-- [Herald](https://github.com/awizemann/herald) — A native macOS email client for HQBase.
+- [Herald](https://github.com/awizemann/herald) — A native macOS email client for Webmail.
 
-HQBase has tested Herald for compatibility. It is made and maintained by independent community
-developers, so its releases, support, and behavior remain in their care rather than HQBase's.
+Webmail has tested Herald for compatibility. It is made and maintained by independent community
+developers, so its releases, support, and behavior remain in their care rather than Webmail's.
 Please review the project and decide whether it is right for your workspace.
 
 ## Develop locally
@@ -160,4 +160,4 @@ To report a vulnerability, follow the private process in the [security policy](S
 
 ## License
 
-HQBase is available under the [GNU Affero General Public License v3.0 only](LICENSE).
+Webmail is available under the [GNU Affero General Public License v3.0 only](LICENSE).

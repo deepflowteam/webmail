@@ -15,7 +15,7 @@ import {
   PiTextB,
   PiTextItalic
 } from "react-icons/pi";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/button";
 import { cn } from "@/lib/cn";
 import { EMAIL_IMAGE_ACCEPT, isSafeRasterImage, type RichEmailImage } from "./email-images";
 import { Tool } from "./rich-email-editor-tool";

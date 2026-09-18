@@ -30,7 +30,7 @@ describe("release package", () => {
       mkdirSync(releaseDirectory, { recursive: true });
       git(workspace, "init", "--quiet");
       git(workspace, "config", "user.email", "release-test@hqbase.test");
-      git(workspace, "config", "user.name", "HQBase release test");
+      git(workspace, "config", "user.name", "Webmail release test");
       writeFileSync(resolve(releaseDirectory, "bootstrap.mjs"), oldUpdater);
       git(workspace, "add", ".");
       git(workspace, "commit", "--quiet", "-m", "old updater");

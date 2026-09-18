@@ -43,7 +43,7 @@ async function restoreDomain(context, snapshot) {
   if (current?.service === committed.worker.name) return;
   if (current) {
     throw new Error(
-      `${snapshot.hostname} now routes to Worker "${current.service}"; HQBase will not take it over.`
+      `${snapshot.hostname} now routes to Worker "${current.service}"; Webmail will not take it over.`
     );
   }
   const zone =
@@ -74,7 +74,7 @@ async function removeDomainForWorker(context, hostname) {
   const remains = (await domains.list({ hostname })).some(
     (record) => record?.hostname === hostname && record?.service === committed.worker.name
   );
-  if (remains) throw new Error(`Cloudflare still reports ${hostname} on the HQBase Worker.`);
+  if (remains) throw new Error(`Cloudflare still reports ${hostname} on the Webmail Worker.`);
 }
 
 export async function rollbackDomainMove(context, move, cause) {

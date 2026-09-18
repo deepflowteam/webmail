@@ -57,7 +57,7 @@ export async function cloudflare<T>(
     if (signal.aborted) {
       throw new CloudflareUpdateError(
         "UPDATE_CLOUDFLARE_TIMEOUT",
-        `Cloudflare did not respond while HQBase tried to ${operationLabels[operation]}.`,
+        `Cloudflare did not respond while Webmail tried to ${operationLabels[operation]}.`,
         504,
         operation,
         true
@@ -65,7 +65,7 @@ export async function cloudflare<T>(
     }
     throw new CloudflareUpdateError(
       "UPDATE_CLOUDFLARE_UNAVAILABLE",
-      `HQBase could not ${operationLabels[operation]} because the Cloudflare request failed.`,
+      `Webmail could not ${operationLabels[operation]} because the Cloudflare request failed.`,
       502,
       operation,
       true

@@ -56,9 +56,9 @@ function buildInstanceOpenApi(document: object, origin: string): string {
   return `${JSON.stringify(
     {
       ...document,
-      servers: [{ url: origin, description: "This HQBase installation" }],
+      servers: [{ url: origin, description: "This Webmail installation" }],
       externalDocs: {
-        description: "Connect through the HQBase Mail API with human approval",
+        description: "Connect through the Webmail Mail API with human approval",
         url: `${origin}${humanMailSkillPath}`
       }
     },
@@ -75,12 +75,12 @@ function buildHumanMailSkill(origin: string): string {
 
   return `---
 name: hqbase-mail
-description: Use human OAuth to operate mail available to a signed-in person in this HQBase installation.
+description: Use human OAuth to operate mail available to a signed-in person in this Webmail installation.
 ---
 
-# HQBase Mail for Your Account
+# Webmail Mail for Your Account
 
-Use this skill when a person asks an AI agent to work with mail available to their HQBase account. For a machine identity, use the separate mailbox-agent or provisioning skill shown under **Agents**.
+Use this skill when a person asks an AI agent to work with mail available to their Webmail account. For a machine identity, use the separate mailbox-agent or provisioning skill shown under **Agents**.
 
 ## Instance
 
@@ -94,7 +94,7 @@ The OpenAPI document is authoritative for query parameters, request bodies, resp
 
 ## Authentication
 
-Use OAuth. Do not copy or reuse an HQBase browser session cookie.
+Use OAuth. Do not copy or reuse an Webmail browser session cookie.
 
 1. Fetch the OAuth protected-resource metadata.
 2. Fetch the advertised authorization-server metadata.
@@ -107,7 +107,7 @@ Use OAuth. Do not copy or reuse an HQBase browser session cookie.
 
 Prefer Device Authorization for command-line tools and other clients that cannot safely receive a browser callback. A callback-capable client may instead register \`authorization_code\` and use Authorization Code with PKCE and the S256 challenge method. Both flows require the same resource, scopes, sign-in, and explicit approval.
 
-Native desktop and mobile clients that use Authorization Code with PKCE must register with \`application_type\` set to \`native\`. HQBase accepts the native redirect forms defined by RFC 8252: app-claimed HTTPS, loopback HTTP, and private-use schemes. A private-use redirect must use a reverse-domain scheme with no authority component, for example \`com.example.mail:/oauth/callback\`.
+Native desktop and mobile clients that use Authorization Code with PKCE must register with \`application_type\` set to \`native\`. Webmail accepts the native redirect forms defined by RFC 8252: app-claimed HTTPS, loopback HTTP, and private-use schemes. A private-use redirect must use a reverse-domain scheme with no authority component, for example \`com.example.mail:/oauth/callback\`.
 
 Use this exact OAuth resource and token audience: \`${apiBase}\`. MCP uses separate audiences at \`${origin}/mcp\` and \`${origin}/mcp/full\`; an MCP token cannot be used with the Mail API.
 
@@ -123,10 +123,10 @@ function buildMailboxAgentSkill(origin: string): string {
 
   return `---
 name: hqbase-mailbox
-description: Operate one assigned HQBase mailbox with a mailbox-agent bearer credential.
+description: Operate one assigned Webmail mailbox with a mailbox-agent bearer credential.
 ---
 
-# HQBase Mailbox Agent
+# Webmail Mailbox Agent
 
 Use this skill only with a mailbox-agent credential created in **Settings → Agents** or returned by an approved provisioner.
 
@@ -140,7 +140,7 @@ The OpenAPI document is authoritative for request and response shapes. Fetch it 
 
 ## Authentication
 
-Send the credential as \`Authorization: Bearer <agent-credential>\`. HQBase credentials currently start with \`hqb_agent_\`, but the prefix does not identify their permissions. This credential works only with the Mail API, only for its machine identity, and only while the agent and mailbox grant are active.
+Send the credential as \`Authorization: Bearer <agent-credential>\`. Webmail credentials currently start with \`hqb_agent_\`, but the prefix does not identify their permissions. This credential works only with the Mail API, only for its machine identity, and only while the agent and mailbox grant are active.
 
 Do not exchange the credential through OAuth. Do not use it with MCP or the Management API. Never log it or put it in a prompt, URL, or mail content.
 
@@ -156,7 +156,7 @@ function buildMailApiGuide(apiBase: string, openApiUrl: string): string {
 - \`mail:send\` — Create and manage drafts and attachments, send new messages, reply, and forward.
 - \`signatures:manage\` — Human OAuth only: manage personal and shared signatures within the person's current management access. Machine credentials cannot use this permission.
 
-Permissions do not override HQBase mailbox access. The caller must also have the necessary Read or Handle mail grant. Machine agents never inherit owner access or see unassigned catch-all mail. This API never grants Manager access.
+Permissions do not override Webmail mailbox access. The caller must also have the necessary Read or Handle mail grant. Machine agents never inherit owner access or see unassigned catch-all mail. This API never grants Manager access.
 
 ## API contract
 
@@ -189,7 +189,7 @@ JSON errors contain a stable \`error.code\` and human-readable \`error.message\`
 
 The Mail API covers mailboxes, messages, conversations, labels, signatures, attachments, drafts, sending, replying, and forwarding. It does not manage people, mailbox grants, label definitions, domains, setup, updates, audits, sessions, notifications, app secrets, or Cloudflare credentials.
 
-\`/api/v2\` is HQBase's stable public Mail API. Additive fields and endpoints may appear, so ignore unknown response fields. Breaking changes use a new versioned base path such as \`/api/v3\`.
+\`/api/v2\` is Webmail's stable public Mail API. Additive fields and endpoints may appear, so ignore unknown response fields. Breaking changes use a new versioned base path such as \`/api/v3\`.
 `;
 }
 
@@ -199,10 +199,10 @@ function buildProvisionerSkill(origin: string): string {
 
   return `---
 name: hqbase-provisioner
-description: Create and deprovision mailbox agents with a trusted HQBase provisioner credential.
+description: Create and deprovision mailbox agents with a trusted Webmail provisioner credential.
 ---
 
-# HQBase Provisioner
+# Webmail Provisioner
 
 Use this skill only with a provisioner credential created in **Settings → Agents**. A provisioner is a trusted control-plane service because it receives every child mailbox credential that it creates.
 
@@ -214,7 +214,7 @@ Use this skill only with a provisioner credential created in **Settings → Agen
 
 ## Authentication
 
-Send the provisioner credential as \`Authorization: Bearer <provisioner-credential>\`. HQBase credentials currently start with \`hqb_agent_\`, but the prefix does not identify their permissions. The stored provisioner profile and \`mailbox:provision\` permission are authoritative.
+Send the provisioner credential as \`Authorization: Bearer <provisioner-credential>\`. Webmail credentials currently start with \`hqb_agent_\`, but the prefix does not identify their permissions. The stored provisioner profile and \`mailbox:provision\` permission are authoritative.
 
 This credential works only with the Management API. It cannot read or send mail and does not work with the Mail API or MCP. Never log the provisioner credential or a child credential, and never put one in a prompt, URL, or mail content.
 
@@ -242,7 +242,7 @@ A successful response contains \`agent\` and the new \`credential\` once. Give t
 
 - \`GET ${managementBase}/agents\` lists only mailbox agents created by this provisioner.
 - \`POST ${managementBase}/agents/{agent-id}/credential\` creates a replacement credential for one listed child. The previous credential stops working immediately.
-- \`DELETE ${managementBase}/agents/{agent-id}\` deprovisions one listed child. It soft-deletes the child's mailbox, disables the child, and revokes its credentials. Its stored mail stays available to an HQBase owner. Repeating this request is safe.
+- \`DELETE ${managementBase}/agents/{agent-id}\` deprovisions one listed child. It soft-deletes the child's mailbox, disables the child, and revokes its credentials. Its stored mail stays available to an Webmail owner. Repeating this request is safe.
 
 Mailbox creation is not idempotent. Never retry a create request blindly. If a response is lost, list the provisioner's agents first. If the child exists, replace its credential instead of creating the address again.
 
@@ -253,9 +253,9 @@ JSON errors contain a stable \`error.code\` and human-readable \`error.message\`
 }
 
 function buildRetirementNotice(): string {
-  return `# HQBase AI connections
+  return `# Webmail AI connections
 
-This file is retired. Open **Agents** in HQBase to choose the correct Agent Skill or MCP server.
+This file is retired. Open **Agents** in Webmail to choose the correct Agent Skill or MCP server.
 `;
 }
 

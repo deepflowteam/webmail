@@ -1,8 +1,7 @@
 import type * as React from "react";
-
+import { Button } from "@/components/button";
+import { Separator } from "@/components/separator";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { Toaster } from "@/components/ui/sonner";
 import { useTheme } from "@/features/theme/theme-provider";
 
@@ -103,7 +102,7 @@ export function DesignPreview(): React.ReactElement {
               </Badge>
               <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">See the system.</h1>
               <p className="mt-4 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
-                Review shared tokens, real components, interactive states, and recurring HQBase
+                Review shared tokens, real components, interactive states, and recurring Webmail
                 patterns in one stable development view.
               </p>
             </section>

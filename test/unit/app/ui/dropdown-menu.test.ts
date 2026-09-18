@@ -15,6 +15,6 @@ describe("dropdown menu", () => {
     expect(source).toContain("avoidCollisions = true");
     expect(source).toContain("collisionPadding = 8");
     expect(source).toContain('side = "bottom"');
-    expect(source).toContain("--radix-dropdown-menu-content-available-height");
+    expect(source).toContain("--available-height");
   });
 });

@@ -1,5 +1,6 @@
 import type * as React from "react";
 import { PiCaretDown, PiRobot, PiSidebarSimple } from "react-icons/pi";
+import { Button } from "@/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,7 +10,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/dropdown-menu";
-import { Button } from "@/components/ui/button";
 import type { CurrentUser } from "@/features/auth/types";
 import { MailboxFilterLabel } from "@/features/mailboxes/mailbox-filter-label";
 import type { Mailbox } from "@/features/mailboxes/types";

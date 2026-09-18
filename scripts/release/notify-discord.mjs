@@ -50,8 +50,8 @@ export function buildDiscordReleaseMessages({ notes, repository, version, publis
         {
           title:
             index === 0
-              ? `HQBase ${version} is available${part}`
-              : `HQBase ${version} changes${part}`,
+              ? `Webmail ${version} is available${part}`
+              : `Webmail ${version} changes${part}`,
           url: releaseUrl,
           description,
           color: DISCORD_COLOR,
@@ -160,7 +160,7 @@ export async function main(argv = process.argv.slice(2), environment = process.e
     version: environment.HQBASE_RELEASE_VERSION ?? "",
     webhookUrl: environment.DISCORD_WEBHOOK_URL
   });
-  console.log(`Posted the HQBase release notes to Discord in ${messageCount} message(s).`);
+  console.log(`Posted the Webmail release notes to Discord in ${messageCount} message(s).`);
 }
 
 const isMain = process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url);

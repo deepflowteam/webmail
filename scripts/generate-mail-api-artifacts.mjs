@@ -31,7 +31,7 @@ if (process.argv.includes("--write")) {
       writeFile(path.join(outputDirectory, name), contents)
     )
   );
-  console.log("Generated HQBase Mail API OpenAPI and Postman artifacts.");
+  console.log("Generated Webmail Mail API OpenAPI and Postman artifacts.");
 } else {
   const drift = [];
   for (const [name, expected] of Object.entries(outputs)) {
@@ -46,7 +46,7 @@ if (process.argv.includes("--write")) {
       `Generated Mail API artifacts are stale:\n${drift.join("\n")}\nRun pnpm api:generate.`
     );
   }
-  console.log("Verified generated HQBase Mail API artifacts.");
+  console.log("Verified generated Webmail Mail API artifacts.");
 }
 
 function buildCollection(document, version) {
@@ -72,7 +72,7 @@ function buildCollection(document, version) {
         version === 1
           ? "62c6dbf4-835d-4a3f-87df-77b7ddcf2db1"
           : "72c6dbf4-835d-4a3f-87df-77b7ddcf2db2",
-      name: `HQBase Mail API v${version}`,
+      name: `Webmail Mail API v${version}`,
       description: `Generated from api/hqbase-mail-api-v${version}.openapi.json. ${version === 2 ? "For a tool acting for a person, set" : "Set"} base_url, run Register public client, and use Postman's OAuth 2.0 Authorization Code flow with PKCE (S256). Auth URL: {{base_url}}/api/auth/oauth2/authorize. Token URL: {{base_url}}/api/auth/oauth2/token. Client ID: {{client_id}}. Scope: mail:read mail:write mail:send offline_access. Add authorization request parameter resource={{api_resource}}, then store the resulting token only in your local environment as access_token.${version === 2 ? " For a mailbox agent, skip OAuth and set access_token to its one-time hqb_agent_ credential." : ""} Postman v2.1 HTTP collections cannot contain WebSocket requests. To receive change wakes, create a separate WebSocket request to {{ws_base_url}}${apiBasePath}/events and add Authorization: Bearer {{access_token}}. Sending, replying, and forwarding are not idempotent.`,
       schema: "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
     },
@@ -198,7 +198,7 @@ function oauthSetupFolder(version) {
             mode: "raw",
             raw: JSON.stringify(
               {
-                client_name: "HQBase Postman",
+                client_name: "Webmail Postman",
                 redirect_uris: ["https://oauth.pstmn.io/v1/browser-callback"],
                 token_endpoint_auth_method: "none",
                 grant_types: ["authorization_code", "refresh_token"],
@@ -300,7 +300,7 @@ function buildEnvironment(version) {
       version === 1
         ? "0757b49e-e97e-4ef6-bef1-e3b5f06ac106"
         : "1757b49e-e97e-4ef6-bef1-e3b5f06ac107",
-    name: `HQBase Mail API v${version} - local secrets`,
+    name: `Webmail Mail API v${version} - local secrets`,
     values: [
       { key: "base_url", value: "https://mail.example.com", enabled: true, type: "default" },
       { key: "ws_base_url", value: "wss://mail.example.com", enabled: true, type: "default" },
@@ -315,6 +315,6 @@ function buildEnvironment(version) {
     ],
     _postman_variable_scope: "environment",
     _postman_exported_at: "2026-08-15T00:00:00.000Z",
-    _postman_exported_using: "HQBase generator"
+    _postman_exported_using: "Webmail generator"
   };
 }

@@ -1,6 +1,6 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
-import { Dialog } from "@/components/ui/dialog";
+import { Dialog } from "@/components/dialog";
 import {
   CloudflareAuthorizationDialogBody,
   CloudflareReauthenticationForm
@@ -12,7 +12,7 @@ describe("Cloudflare authorization dialog", () => {
       <Dialog>
         <CloudflareAuthorizationDialogBody
           authorizeHref="/api/domains/cloudflare/oauth/start"
-          description="To save this change, HQBase needs temporary access to your Cloudflare account."
+          description="To save this change, Webmail needs temporary access to your Cloudflare account."
         />
       </Dialog>
     );
@@ -27,7 +27,7 @@ describe("Cloudflare authorization dialog", () => {
     const html = renderToStaticMarkup(
       <Dialog>
         <CloudflareReauthenticationForm
-          description="To install this update, HQBase needs temporary access to your Cloudflare account."
+          description="To install this update, Webmail needs temporary access to your Cloudflare account."
           error={null}
           layout="dialog"
           password=""

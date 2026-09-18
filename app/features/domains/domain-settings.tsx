@@ -1,8 +1,8 @@
 import * as React from "react";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
-import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
-import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/button";
+import { Field, FieldGroup, FieldLabel } from "@/components/field";
+import { Separator } from "@/components/separator";
 import type { Mailbox } from "@/features/mailboxes/types";
 import { CloudflareAuthorizationDialog } from "@/features/settings/cloudflare-authorization-dialog";
 import { SettingsSection } from "@/features/settings/settings-section";
@@ -122,7 +122,7 @@ export function DomainSettings({
         .then((domain) => {
           setDomains((current) => current.map((item) => (item.id === domain.id ? domain : item)));
           onChanged();
-          toast.success(`${domain.name} disconnected from HQBase mail.`);
+          toast.success(`${domain.name} disconnected from Webmail mail.`);
         })
         .catch((error: unknown) => {
           toast.error(error instanceof Error ? error.message : "Domain could not be disconnected.");
@@ -359,10 +359,10 @@ export function DomainSettings({
         authorizeHref="/api/domains/cloudflare/oauth/start"
         description={
           authorizationOperation?.action === "recheck"
-            ? "HQBase needs temporary access to read the current receiving, sending, and DNS status. It will not change Cloudflare."
+            ? "Webmail needs temporary access to read the current receiving, sending, and DNS status. It will not change Cloudflare."
             : authorizationOperation?.action === "disconnect"
-              ? "HQBase needs temporary access to remove its catch-all Worker route. It will leave shared Email Routing, Email Sending, DNS, and the workspace portal unchanged."
-              : "To save this change, HQBase needs temporary access to your Cloudflare account. You’ll return to Domains automatically, and HQBase will update the workspace portal."
+              ? "Webmail needs temporary access to remove its catch-all Worker route. It will leave shared Email Routing, Email Sending, DNS, and the workspace portal unchanged."
+              : "To save this change, Webmail needs temporary access to your Cloudflare account. You’ll return to Domains automatically, and Webmail will update the workspace portal."
         }
         open={authorizationOperation !== null && authorizationOperation.action !== "connect"}
         onAuthorize={() => {

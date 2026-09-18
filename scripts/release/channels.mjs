@@ -9,7 +9,7 @@ import { compareVersions, loadVerifiedRelease, verifyManifest } from "./manifest
 import { fetchPublicAsset } from "./public-assets.mjs";
 import { assertStableReleaseVersion } from "./version.mjs";
 
-const repository = "HQBase/hqbase";
+const repository = "Webmail/hqbase";
 const base = `https://github.com/${repository}/releases/download`;
 function gh(args) {
   return execFileSync("gh", args, { encoding: "utf8" }).trim();

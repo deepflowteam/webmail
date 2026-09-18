@@ -105,7 +105,7 @@ describe("settings table switches", () => {
     );
     const view = await renderComponent(table(null));
     const control = view.container.querySelector<HTMLButtonElement>(
-      '[aria-label="example.com active in HQBase"]'
+      '[aria-label="example.com active in Webmail"]'
     );
 
     expect(control?.getAttribute("role")).toBe("switch");
@@ -115,12 +115,13 @@ describe("settings table switches", () => {
 
     await view.rerender(table("domain-2"));
     expect(
-      view.container.querySelector<HTMLButtonElement>('[aria-label="example.com active in HQBase"]')
-        ?.disabled
+      view.container.querySelector<HTMLButtonElement>(
+        '[aria-label="example.com active in Webmail"]'
+      )?.disabled
     ).toBe(false);
     expect(
       view.container.querySelector<HTMLButtonElement>(
-        '[aria-label="second.example.com active in HQBase"]'
+        '[aria-label="second.example.com active in Webmail"]'
       )?.disabled
     ).toBe(true);
     await view.unmount();
@@ -147,18 +148,14 @@ describe("settings table switches", () => {
     );
 
     await flushHookEffects(() => {
-      selector?.dispatchEvent(
-        new PointerEvent("pointerdown", { bubbles: true, button: 0, pointerType: "mouse" })
-      );
+      selector?.dispatchEvent(new MouseEvent("mousedown", { bubbles: true, button: 0 }));
       selector?.dispatchEvent(new MouseEvent("click", { bubbles: true, button: 0 }));
     });
     const ownerReview = Array.from(
       document.body.querySelectorAll<HTMLElement>('[role="menuitemradio"]')
     ).find((item) => item.textContent?.includes("Keep for owner review"));
     await flushHookEffects(() => {
-      ownerReview?.dispatchEvent(
-        new PointerEvent("pointerdown", { bubbles: true, button: 0, pointerType: "mouse" })
-      );
+      ownerReview?.dispatchEvent(new MouseEvent("mousedown", { bubbles: true, button: 0 }));
       ownerReview?.dispatchEvent(new MouseEvent("click", { bubbles: true, button: 0 }));
     });
 
@@ -187,18 +184,14 @@ describe("settings table switches", () => {
     );
 
     await flushHookEffects(() => {
-      actions?.dispatchEvent(
-        new PointerEvent("pointerdown", { bubbles: true, button: 0, pointerType: "mouse" })
-      );
+      actions?.dispatchEvent(new MouseEvent("mousedown", { bubbles: true, button: 0 }));
       actions?.dispatchEvent(new MouseEvent("click", { bubbles: true, button: 0 }));
     });
     const disconnect = Array.from(
       document.body.querySelectorAll<HTMLElement>('[role="menuitem"]')
     ).find((item) => item.textContent?.includes("Disconnect domain"));
     await flushHookEffects(() => {
-      disconnect?.dispatchEvent(
-        new PointerEvent("pointerdown", { bubbles: true, button: 0, pointerType: "mouse" })
-      );
+      disconnect?.dispatchEvent(new MouseEvent("mousedown", { bubbles: true, button: 0 }));
       disconnect?.dispatchEvent(new MouseEvent("click", { bubbles: true, button: 0 }));
     });
 

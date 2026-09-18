@@ -1,5 +1,5 @@
 import type * as React from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/button";
 import { Spinner } from "@/components/ui/spinner";
 
 export function AccessStep({

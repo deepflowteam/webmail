@@ -10,6 +10,7 @@ import {
   PiDownloadSimple,
   PiTrash
 } from "react-icons/pi";
+import { Button } from "@/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,9 +18,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from "@/components/dropdown-menu";
+import { Separator } from "@/components/separator";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/cn";
 import { formatDateTime } from "@/lib/format";
 import { MessageHtml, PlainTextMessage } from "./message-html";

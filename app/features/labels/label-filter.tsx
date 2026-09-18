@@ -1,5 +1,6 @@
 import type * as React from "react";
 import { PiTag } from "react-icons/pi";
+import { Button } from "@/components/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -8,7 +9,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger
 } from "@/components/dropdown-menu";
-import { Button } from "@/components/ui/button";
 import { LabelColorDot } from "./label-colors";
 import { LabelStack } from "./label-controls";
 import type { MailLabel } from "./types";

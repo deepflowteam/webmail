@@ -1,8 +1,7 @@
 import * as React from "react";
 import { PiImageBroken } from "react-icons/pi";
-
+import { Button } from "@/components/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
 import { useTheme } from "@/features/theme/theme-provider";
 
 import { getMessageHtml, trustRemoteMediaSender } from "./api";

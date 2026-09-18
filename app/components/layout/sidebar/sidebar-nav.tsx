@@ -1,7 +1,7 @@
 import type * as React from "react";
+import { Button } from "@/components/button";
 import { DropdownSelect } from "@/components/dropdown-select";
-import { Button } from "@/components/ui/button";
-import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { Field, FieldGroup, FieldLabel } from "@/components/field";
 import { MailboxFilterLabel } from "@/features/mailboxes/mailbox-filter-label";
 import type { Mailbox } from "@/features/mailboxes/types";
 import type { UnreadCounts } from "@/features/notifications/types";

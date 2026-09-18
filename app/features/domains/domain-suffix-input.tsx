@@ -1,8 +1,8 @@
 import type * as React from "react";
 
 import { DropdownSelect } from "@/components/dropdown-select";
-import type { InputSize } from "@/components/ui/input";
-import { InputGroup, InputGroupInput } from "@/components/ui/input-group";
+import type { InputSize } from "@/components/input";
+import { InputGroup, InputGroupInput } from "@/components/input-group";
 import { cn } from "@/lib/cn";
 
 export type DomainSuffixOption = { id: string; name: string };

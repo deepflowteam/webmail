@@ -1,9 +1,9 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "HQBase Mail API",
+    "title": "Webmail Mail API",
     "version": "2.0.0",
-    "description": "Stable v2 mail API for HQBase clients, automations, and agents. Additive fields may be introduced within v2; clients must ignore unknown response fields. Administrative APIs are not part of this contract."
+    "description": "Stable v2 mail API for Webmail clients, automations, and agents. Additive fields may be introduced within v2; clients must ignore unknown response fields. Administrative APIs are not part of this contract."
   },
   "servers": [
     {
@@ -11,7 +11,7 @@
       "variables": {
         "origin": {
           "default": "https://mail.example.com",
-          "description": "HQBase origin"
+          "description": "Webmail origin"
         }
       }
     }
@@ -2917,7 +2917,7 @@
                 "cc": [],
                 "bcc": [],
                 "subject": "Hello",
-                "text": "Hello from HQBase",
+                "text": "Hello from Webmail",
                 "attachmentIds": []
               }
             }
@@ -3736,7 +3736,7 @@
         "type": "apiKey",
         "in": "cookie",
         "name": "better-auth.session_token",
-        "description": "Same-origin HQBase web session. Secure deployments may prefix the cookie name."
+        "description": "Same-origin Webmail web session. Secure deployments may prefix the cookie name."
       },
       "agentBearer": {
         "type": "http",

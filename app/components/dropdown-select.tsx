@@ -1,6 +1,6 @@
 import type * as React from "react";
 import { PiCaretDown } from "react-icons/pi";
-
+import { Button } from "@/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,7 +8,6 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger
 } from "@/components/dropdown-menu";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
 
 export type DropdownSelectOption = {
@@ -77,7 +76,7 @@ export function DropdownSelect({
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="start"
-        className="max-h-[min(20rem,var(--radix-dropdown-menu-content-available-height))] min-w-[var(--radix-dropdown-menu-trigger-width)] max-w-[min(24rem,calc(100vw-2rem))] overflow-y-auto"
+        className="max-h-[min(20rem,var(--available-height))] min-w-[var(--anchor-width)] max-w-[min(24rem,calc(100vw-2rem))] overflow-y-auto"
       >
         <DropdownMenuRadioGroup value={value} onValueChange={onValueChange}>
           {options.map((option) => (

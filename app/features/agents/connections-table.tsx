@@ -11,6 +11,7 @@ import {
   PiPlug,
   PiTrash
 } from "react-icons/pi";
+import { Button } from "@/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,7 +22,6 @@ import {
 } from "@/components/dropdown-menu";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/table";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import type { OAuthConnection } from "@/features/connected-apps/api";
 import type { ManagedAgent } from "./types";
 

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { PiNotePencil, PiPaperclip } from "react-icons/pi";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback } from "@/components/avatar";
+import { Button } from "@/components/button";
 import { Spinner } from "@/components/ui/spinner";
 import { LabelMenu, LabelStack } from "@/features/labels/label-controls";
 import { LabelFilter } from "@/features/labels/label-filter";

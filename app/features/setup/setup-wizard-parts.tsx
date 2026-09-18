@@ -9,7 +9,7 @@ import {
   PiWarningCircle
 } from "react-icons/pi";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/button";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/cn";
 
@@ -65,7 +65,7 @@ function InstallationTimeline({
         description="Worker and customer-owned storage"
         isLast={false}
         status={activePhase === 1 ? "current" : "complete"}
-        title="Deploy HQBase resources"
+        title="Deploy Webmail resources"
       >
         {activePhase === 1 ? children : null}
       </InstallationTimelineStep>

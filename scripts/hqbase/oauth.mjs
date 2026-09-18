@@ -22,8 +22,8 @@ export function configureOAuth(flags) {
   }
   console.log(
     dryRun
-      ? `HQBase deployment "${name}" OAuth configuration is valid.`
-      : `HQBase deployment "${name}" now uses ${manifest.cloudflareOAuth.mode} OAuth.`
+      ? `Webmail deployment "${name}" OAuth configuration is valid.`
+      : `Webmail deployment "${name}" now uses ${manifest.cloudflareOAuth.mode} OAuth.`
   );
 }
 

@@ -1,8 +1,8 @@
 import type * as React from "react";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/button";
+import { Input } from "@/components/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 
 const scopeDescriptions: Record<string, string> = {
   "mail:read":
@@ -197,7 +197,7 @@ function PageFrame({ children }: { children: React.ReactNode }): React.ReactElem
     <main className="flex min-h-screen flex-col items-center justify-center bg-background px-4 py-12">
       <div className="mb-8 flex items-center justify-center gap-2">
         <img alt="" className="h-7 w-auto" src="/logo.png" />
-        <span className="text-sm font-medium">HQBase</span>
+        <span className="text-sm font-medium">Webmail</span>
       </div>
       {children}
     </main>

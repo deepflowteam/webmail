@@ -125,7 +125,7 @@ export async function updateMailDomainSettings(
   if (current.disconnectedAt) {
     throw new AppError(
       "DOMAIN_DISCONNECTED",
-      "Reconnect this domain before changing its HQBase settings.",
+      "Reconnect this domain before changing its Webmail settings.",
       409
     );
   }

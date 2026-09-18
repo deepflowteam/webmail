@@ -26,7 +26,7 @@ describe("Discord release notifications", () => {
     const notes = `## Changes\n\n- ${"First change. ".repeat(400)}\n- @everyone stays plain text.`;
     const messages = buildDiscordReleaseMessages({
       notes,
-      repository: "HQBase/hqbase",
+      repository: "Webmail/hqbase",
       version: "1.2.3",
       publishedAt: "2026-08-16T00:00:00.000Z"
     });
@@ -37,7 +37,7 @@ describe("Discord release notifications", () => {
       allowed_mentions: { parse: [] },
       embeds: [
         {
-          title: `HQBase 1.2.3 is available (1/${messages.length})`,
+          title: `Webmail 1.2.3 is available (1/${messages.length})`,
           url: "https://github.com/HQBase/hqbase/releases/tag/v1.2.3",
           footer: { text: "Signed stable release" },
           timestamp: "2026-08-16T00:00:00.000Z"
@@ -45,7 +45,7 @@ describe("Discord release notifications", () => {
       ]
     });
     expect(messages.at(-1).embeds[0].title).toBe(
-      `HQBase 1.2.3 changes (${messages.length}/${messages.length})`
+      `Webmail 1.2.3 changes (${messages.length}/${messages.length})`
     );
   });
 
@@ -65,7 +65,7 @@ describe("Discord release notifications", () => {
       sendDiscordRelease({
         fetchImpl,
         notes: "- Complete release note",
-        repository: "HQBase/hqbase",
+        repository: "Webmail/hqbase",
         sleep,
         version: "1.2.3",
         webhookUrl: "https://discord.com/api/webhooks/123/secret"
@@ -91,7 +91,7 @@ describe("Discord release notifications", () => {
       sendDiscordRelease({
         fetchImpl,
         notes: "- Complete release note",
-        repository: "HQBase/hqbase",
+        repository: "Webmail/hqbase",
         sleep,
         version: "1.2.3",
         webhookUrl: "https://discord.com/api/webhooks/123/secret"
@@ -108,7 +108,7 @@ describe("Discord release notifications", () => {
       sendDiscordRelease({
         fetchImpl,
         notes: "- Complete release note",
-        repository: "HQBase/hqbase",
+        repository: "Webmail/hqbase",
         version: "1.2.3",
         webhookUrl: "https://example.com/api/webhooks/123/secret"
       })

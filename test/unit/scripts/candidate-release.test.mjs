@@ -14,7 +14,7 @@ describe("candidate release lookup", () => {
       "view",
       "v1.4.0",
       "--repo",
-      "HQBase/hqbase",
+      "Webmail/hqbase",
       "--json",
       "tagName,isDraft,isPrerelease"
     ]);

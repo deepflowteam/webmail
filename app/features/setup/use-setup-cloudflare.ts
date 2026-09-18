@@ -69,7 +69,7 @@ export function useSetupCloudflare(callbacks: {
       }
       const nextZones = await listCloudflareZones();
       if (nextZones.length === 0) {
-        setTokenError("Cloudflare authorized HQBase, but no domains are available.");
+        setTokenError("Cloudflare authorized Webmail, but no domains are available.");
         return;
       }
       setAccessStatus(verified);

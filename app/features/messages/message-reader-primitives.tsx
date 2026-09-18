@@ -1,7 +1,7 @@
 import type * as React from "react";
 import { PiEnvelopeOpen } from "react-icons/pi";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/button";
 import { cn } from "@/lib/cn";
 
 export function MessageReaderStatus({

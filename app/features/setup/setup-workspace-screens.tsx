@@ -1,5 +1,6 @@
 import * as React from "react";
 import { PiDotsThree, PiEye, PiEyeSlash, PiPlus, PiTrash, PiWarningCircle } from "react-icons/pi";
+import { Button } from "@/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,9 +9,6 @@ import {
   DropdownMenuTrigger
 } from "@/components/dropdown-menu";
 import { DropdownSelect } from "@/components/dropdown-select";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/table";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
 import {
   Field,
   FieldDescription,
@@ -18,8 +16,10 @@ import {
   FieldGroup,
   FieldLabel,
   FieldLabelRow
-} from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
+} from "@/components/field";
+import { Input } from "@/components/input";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/table";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { DomainSuffixInput } from "@/features/domains/domain-suffix-input";
 import { LOGIN_EMAIL_HINT } from "@/lib/login-email";
 import { SetupCatchAllSettings } from "./setup-catch-all-settings";

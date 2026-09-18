@@ -103,7 +103,7 @@ export function install(flags, options = {}) {
     checkpoint(manifest, { dryRun });
   }
 
-  console.log(`HQBase deployment "${name}" is ready.`);
+  console.log(`Webmail deployment "${name}" is ready.`);
 }
 
 export function createManifest(name, input) {

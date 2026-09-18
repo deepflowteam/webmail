@@ -1,35 +1,35 @@
 # Trademark and Brand Policy
 
-This policy covers the HQBase name, logo, and project branding. It is intended to avoid confusion about what is official.
+This policy covers the Webmail name, logo, and project branding. It is intended to avoid confusion about what is official.
 
-The AGPL license for the source code does not grant permission to use HQBase branding in a way that suggests endorsement, sponsorship, or official status.
+The AGPL license for the source code does not grant permission to use Webmail branding in a way that suggests endorsement, sponsorship, or official status.
 
 ## Allowed Uses
 
-You may use the HQBase name to:
+You may use the Webmail name to:
 
-- Refer to the official HQBase project.
-- State that a project is compatible with HQBase.
-- State that a project is forked from HQBase.
-- Link to the official HQBase repository.
+- Refer to the official Webmail project.
+- State that a project is compatible with Webmail.
+- State that a project is forked from Webmail.
+- Link to the official Webmail repository.
 
 Examples:
 
-- "Compatible with HQBase."
-- "Forked from HQBase."
-- "A plugin for HQBase."
+- "Compatible with Webmail."
+- "Forked from Webmail."
+- "A plugin for Webmail."
 
 ## Not Allowed
 
-Do not use the HQBase name, logo, or branding to:
+Do not use the Webmail name, logo, or branding to:
 
-- Name an unofficial fork `HQBase`.
-- Suggest an unofficial fork is maintained by the HQBase project.
-- Suggest endorsement by HQBase without written permission.
+- Name an unofficial fork `Webmail`.
+- Suggest an unofficial fork is maintained by the Webmail project.
+- Suggest endorsement by Webmail without written permission.
 - Use confusingly similar names, logos, or visual branding for a competing product.
 
-Unofficial forks should use a distinct name and should clearly state that they are not affiliated with or endorsed by HQBase.
+Unofficial forks should use a distinct name and should clearly state that they are not affiliated with or endorsed by Webmail.
 
 ## Questions
 
-Open an issue before using HQBase branding in a public product, package, event, or service where users could reasonably think the use is official.
+Open an issue before using Webmail branding in a public product, package, event, or service where users could reasonably think the use is official.

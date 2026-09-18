@@ -10,6 +10,7 @@ import {
   PiTrash
 } from "react-icons/pi";
 import { toast } from "sonner";
+import { Button } from "@/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,7 +18,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from "@/components/dropdown-menu";
-import { Button } from "@/components/ui/button";
 import { PullToRefresh } from "@/components/ui/pull-to-refresh";
 import { ComposerInlineTarget, useComposer } from "@/features/compose/composer-host";
 import { LabelMenu, LabelStack } from "@/features/labels/label-controls";

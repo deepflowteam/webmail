@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Button } from "@/components/button";
 import {
   Dialog,
   DialogClose,
@@ -8,8 +9,7 @@ import {
   DialogHeader,
   DialogTitle
 } from "@/components/dialog";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/input";
 import { getRecentAuthentication, reauthenticate } from "./cloudflare-authorization-api";
 
 export function CloudflareAuthorizationDialog({
@@ -183,12 +183,12 @@ export function CloudflareReauthenticationForm({
         <DialogHeader>
           <DialogTitle>Sign in again</DialogTitle>
           <DialogDescription>
-            Confirm your HQBase password before authorizing Cloudflare. {description}
+            Confirm your Webmail password before authorizing Cloudflare. {description}
           </DialogDescription>
         </DialogHeader>
       ) : (
         <p className="text-sm leading-6 text-muted-foreground">
-          Confirm your HQBase password before authorizing Cloudflare.
+          Confirm your Webmail password before authorizing Cloudflare.
         </p>
       )}
       <form className="flex flex-col gap-4" onSubmit={onSubmit}>

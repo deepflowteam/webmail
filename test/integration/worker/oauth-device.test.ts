@@ -50,7 +50,7 @@ describe("OAuth Device Authorization Grant", () => {
     const registration = await SELF.fetch(discovery.registration_endpoint ?? "", {
       body: JSON.stringify({
         application_type: "native",
-        client_name: "HQBase device test client",
+        client_name: "Webmail device test client",
         grant_types: [deviceCodeGrantType, "refresh_token"],
         resources: [apiResource],
         scope: "mail:read offline_access",

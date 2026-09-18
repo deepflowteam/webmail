@@ -1,5 +1,6 @@
 import * as React from "react";
 import { toast } from "sonner";
+import { Button } from "@/components/button";
 import {
   Dialog,
   DialogContent,
@@ -9,9 +10,8 @@ import {
   DialogTitle
 } from "@/components/dialog";
 import { DropdownSelect } from "@/components/dropdown-select";
-import { Button } from "@/components/ui/button";
-import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
+import { Field, FieldGroup, FieldLabel } from "@/components/field";
+import { Input } from "@/components/input";
 import { Spinner } from "@/components/ui/spinner";
 import { createLabel, updateLabel } from "./api";
 import { LabelColorDot } from "./label-colors";

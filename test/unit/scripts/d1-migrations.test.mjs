@@ -316,10 +316,10 @@ describe("two-phase D1 migrations", () => {
     );
     expectOrder(retry, [
       "completeActiveReleaseRetry(source, manifest, recordWorkerDeployed, {",
-      "console.log(`HQBase"
+      "console.log(`Webmail"
     ]);
 
-    const update = section("recovery = { bookmark", "console.log(`HQBase updated");
+    const update = section("recovery = { bookmark", "console.log(`Webmail updated");
     expect(update).toContain("configFile");
     expectOrder(update, [
       'applyMigrationPhase(source, "normal"',
@@ -357,7 +357,7 @@ describe("two-phase D1 migrations", () => {
       error.mockClear();
       reportRecovery({ ...checkpoint, cleanupComplete: true });
       expect(error.mock.calls.map(([message]) => message)).toEqual([
-        "Recovery: rerun the same signed HQBase deployment. Schema cleanup completed, and the retry will finish release bookkeeping."
+        "Recovery: rerun the same signed Webmail deployment. Schema cleanup completed, and the retry will finish release bookkeeping."
       ]);
     } finally {
       error.mockRestore();

@@ -1,5 +1,5 @@
 const lines = [
-  "🎉 HQBase is deployed!",
+  "🎉 Webmail is deployed!",
   "",
   "Your workspace is almost ready.",
   "👉 Open the Worker URL above to finish setting it up."

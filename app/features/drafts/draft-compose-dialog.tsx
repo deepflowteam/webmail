@@ -1,7 +1,7 @@
 import * as React from "react";
 import { PiArrowLeft } from "react-icons/pi";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/button";
 import { Spinner } from "@/components/ui/spinner";
 import type { ComposeMode } from "@/features/compose/compose-state";
 import { ComposerInlineTarget, useComposer } from "@/features/compose/composer-host";

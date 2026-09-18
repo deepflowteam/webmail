@@ -2,7 +2,7 @@ import * as React from "react";
 import { createPortal } from "react-dom";
 import { PiArrowBendUpLeft, PiCaretUp, PiMinus, PiX } from "react-icons/pi";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/button";
 import { cn } from "@/lib/cn";
 
 type ComposeWindowProps = {

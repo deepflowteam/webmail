@@ -34,7 +34,7 @@ export function createRuntimeGrantCookie(token, secret, iv = randomBytes(12)) {
 
 export function managedUpdaterLoader(updater) {
   const { sha256, size, sourceUrl } = updater;
-  return `const u="${sourceUrl}";const h="${sha256}";const n=${size};const r=await fetch(u);if(!r.ok)throw new Error("HQBase updater download failed.");const b=Buffer.from(await r.arrayBuffer());const {createHash}=await import("node:crypto");if(b.length!==n||createHash("sha256").update(b).digest("hex")!==h)throw new Error("HQBase updater verification failed.");await import("data:text/javascript;base64,"+b.toString("base64"));`;
+  return `const u="${sourceUrl}";const h="${sha256}";const n=${size};const r=await fetch(u);if(!r.ok)throw new Error("Webmail updater download failed.");const b=Buffer.from(await r.arrayBuffer());const {createHash}=await import("node:crypto");if(b.length!==n||createHash("sha256").update(b).digest("hex")!==h)throw new Error("Webmail updater verification failed.");await import("data:text/javascript;base64,"+b.toString("base64"));`;
 }
 
 export async function listWorkers(context, dependencies) {

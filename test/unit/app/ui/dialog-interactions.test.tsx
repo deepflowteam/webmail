@@ -43,7 +43,7 @@ function pointerClick(target: Element): void {
 }
 
 function dialogOverlay(): HTMLElement | undefined {
-  return [...document.body.querySelectorAll<HTMLElement>('[data-state="open"]')].find((element) =>
+  return [...document.body.querySelectorAll<HTMLElement>("[data-open]")].find((element) =>
     element.className.includes("fixed inset-0")
   );
 }
@@ -91,7 +91,7 @@ function DialogWithOpenDropdown({
 }
 
 describe("dialog interactions", () => {
-  it("ignores a backdrop click after Radix reports it", async () => {
+  it("ignores a backdrop click after Base UI reports it", async () => {
     const outside = vi.fn();
     const view = await openDialog(outside);
     const overlay = dialogOverlay();
@@ -100,7 +100,7 @@ describe("dialog interactions", () => {
     await flushHookEffects(() => pointerClick(overlay as HTMLElement));
 
     expect(outside).toHaveBeenCalledOnce();
-    expect(document.body.querySelector('[role="dialog"]')?.getAttribute("data-state")).toBe("open");
+    expect(document.body.querySelector('[role="dialog"]')?.hasAttribute("data-open")).toBe(true);
     await view.unmount();
   });
 
@@ -115,11 +115,11 @@ describe("dialog interactions", () => {
     await flushHookEffects(() => pointerClick(overlay as HTMLElement));
 
     expect(document.body.querySelector("[data-select-state]")?.textContent).toBe("closed");
-    // Radix's DismissableLayer now suppresses an outer layer's outside handler once an inner
-    // layer has already intercepted the same physical click, so the dialog's handler no longer
-    // fires here. The dialog still stays open regardless, which is the behavior that matters.
-    expect(outside).not.toHaveBeenCalled();
-    expect(document.body.querySelector('[role="dialog"]')?.getAttribute("data-state")).toBe("open");
+    // Base UI closes the nested menu before the dialog handles the same backdrop press.
+    // The dialog still stays open because pointer dismissal is disabled.
+    expect(outside).toHaveBeenCalledOnce();
+    expect(document.body.querySelector('[role="dialog"]')?.hasAttribute("data-open")).toBe(true);
+    await settleOutsideListeners();
     await view.unmount();
   });
 
@@ -146,8 +146,9 @@ describe("dialog interactions", () => {
     await flushHookEffects(() => pointerClick(second as HTMLElement));
 
     expect(navigate).not.toHaveBeenCalled();
-    expect(document.body.querySelector('[role="dialog"]')?.getAttribute("data-state")).toBe("open");
+    expect(document.body.querySelector('[role="dialog"]')?.hasAttribute("data-open")).toBe(true);
     expect(document.body.querySelector("[data-selected-value]")?.textContent).toBe("second");
+    await settleOutsideListeners();
     await view.unmount();
   });
 

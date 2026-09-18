@@ -1,7 +1,7 @@
 import * as React from "react";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "@/components/button";
+import { Input } from "@/components/input";
 import { signIn } from "./api";
 import { authenticationPath, safeAuthenticationReturnPath } from "./password-recovery";
 import { ProductAttribution } from "./password-shell";

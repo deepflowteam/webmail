@@ -1,7 +1,7 @@
 import * as React from "react";
+import { Button } from "@/components/button";
 import { DropdownSelect } from "@/components/dropdown-select";
-import { Button } from "@/components/ui/button";
-import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
+import { Field, FieldDescription, FieldLabel } from "@/components/field";
 
 import { SetupFrame } from "./setup-frame";
 import { defaultMailboxesForDomains } from "./setup-helpers";
@@ -94,7 +94,7 @@ export function SetupPreview(): React.ReactElement {
             ? "Add your domain, owner account, and mailboxes."
             : "Complete installation before configuring your workspace."
         }
-        title={activePhase === 3 ? "Configure workspace" : "Set up HQBase"}
+        title={activePhase === 3 ? "Configure workspace" : "Set up Webmail"}
       >
         <WizardLayout
           activePhase={activePhase}

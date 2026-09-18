@@ -420,7 +420,7 @@ describe("operator domain command", () => {
         { name: deployment, "app-domain": "new.example.com", "move-service-origin": true },
         options
       )
-    ).rejects.toThrowError(/did not serve a healthy HQBase installation/);
+    ).rejects.toThrowError(/did not serve a healthy Webmail installation/);
 
     expect(domains.calls.map((call) => call.kind)).toEqual(["attach", "remove"]);
     expect(domains.records.map((record) => record.hostname)).toEqual(["old.example.com"]);
@@ -496,7 +496,7 @@ describe("operator domain command", () => {
         { name: deployment, "app-domain": "new.example.com", "move-service-origin": true },
         options
       )
-    ).rejects.toThrowError(/did not serve a healthy HQBase installation/);
+    ).rejects.toThrowError(/did not serve a healthy Webmail installation/);
 
     expect(deploys).toHaveLength(2);
     expect(loadManifest(deployment).appDomain).toBe("old.example.com");

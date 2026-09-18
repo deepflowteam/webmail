@@ -68,7 +68,7 @@ export function useNotifications(userId: string | null): NotificationController 
       nextStatus = status.vapidPublicKey ? status : await getNotificationStatus();
       setStatus(nextStatus);
       if (!nextStatus.vapidPublicKey) {
-        throw new Error("Push notifications are not configured for this HQBase installation.");
+        throw new Error("Push notifications are not configured for this Webmail installation.");
       }
       const subscription = await subscribeToPush(nextStatus.vapidPublicKey);
       const serialized = serializePushSubscription(subscription);

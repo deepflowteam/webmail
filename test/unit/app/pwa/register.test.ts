@@ -12,7 +12,7 @@ describe("PWA registration", () => {
     vi.unstubAllGlobals();
   });
 
-  it("checks immediately and repeatedly after an HQBase update starts", async () => {
+  it("checks immediately and repeatedly after an Webmail update starts", async () => {
     const windowListeners = new Map<string, () => void>();
     const intervals: Array<{ callback: () => void; delay: number }> = [];
     const update = vi.fn().mockResolvedValue(undefined);

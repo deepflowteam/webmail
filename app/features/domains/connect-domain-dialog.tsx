@@ -1,6 +1,7 @@
 import * as React from "react";
 import { PiPlus } from "react-icons/pi";
 import { toast } from "sonner";
+import { Button } from "@/components/button";
 import {
   Dialog,
   DialogClose,
@@ -12,8 +13,7 @@ import {
   DialogTrigger
 } from "@/components/dialog";
 import { DropdownSelect } from "@/components/dropdown-select";
-import { Button } from "@/components/ui/button";
-import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { Field, FieldGroup, FieldLabel } from "@/components/field";
 import { CloudflareAuthorizationFlow } from "@/features/settings/cloudflare-authorization-dialog";
 import type { CloudflareZone } from "@/features/setup/types";
 import { listAvailableCloudflareZones, provisionDomain } from "./api";
@@ -115,7 +115,7 @@ export function ConnectDomainDialog({
         <DialogHeader>
           <DialogTitle>Connect domain</DialogTitle>
           <DialogDescription>
-            Load an active Cloudflare zone, then connect it to HQBase.
+            Load an active Cloudflare zone, then connect it to Webmail.
           </DialogDescription>
         </DialogHeader>
         {authorized ? (

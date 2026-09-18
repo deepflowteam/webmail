@@ -1,48 +1,21 @@
-import * as TabsPrimitive from "@radix-ui/react-tabs";
-import * as React from "react";
-
+import type * as React from "react";
+import {
+  Tabs as BaseTabs,
+  TabsContent as BaseTabsContent,
+  TabsList as BaseTabsList,
+  TabsTrigger as BaseTabsTrigger
+} from "@/components/ui/tabs";
 import { cn } from "@/lib/cn";
 
-export const Tabs = TabsPrimitive.Root;
-
-export const TabsList = React.forwardRef<
-  React.ElementRef<typeof TabsPrimitive.List>,
-  React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>
->(({ className, ...props }, ref) => (
-  <TabsPrimitive.List
-    className={cn(
-      "inline-flex h-9 items-center justify-center rounded-full bg-muted p-1",
-      className
-    )}
-    ref={ref}
-    {...props}
-  />
-));
-TabsList.displayName = TabsPrimitive.List.displayName;
-
-export const TabsTrigger = React.forwardRef<
-  React.ElementRef<typeof TabsPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>
->(({ className, ...props }, ref) => (
-  <TabsPrimitive.Trigger
-    className={cn(
-      "inline-flex h-7 min-h-0 items-center justify-center whitespace-nowrap rounded-full px-3 py-1 text-sm font-medium transition-[color,background-color,box-shadow] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring motion-reduce:transition-none data-[state=active]:bg-background data-[state=active]:shadow-sm",
-      className
-    )}
-    ref={ref}
-    {...props}
-  />
-));
-TabsTrigger.displayName = TabsPrimitive.Trigger.displayName;
-
-export const TabsContent = React.forwardRef<
-  React.ElementRef<typeof TabsPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Content>
->(({ className, ...props }, ref) => (
-  <TabsPrimitive.Content
-    className={cn("mt-4 focus-visible:outline-none", className)}
-    ref={ref}
-    {...props}
-  />
-));
-TabsContent.displayName = TabsPrimitive.Content.displayName;
+export const Tabs = BaseTabs;
+export function TabsList({ className, ...props }: React.ComponentProps<typeof BaseTabsList>) {
+  return <BaseTabsList {...props} className={cn("h-8 rounded-full p-1", className)} />;
+}
+export function TabsTrigger({ className, ...props }: React.ComponentProps<typeof BaseTabsTrigger>) {
+  return (
+    <BaseTabsTrigger {...props} className={cn("h-7 min-h-0 rounded-full px-3 py-1", className)} />
+  );
+}
+export function TabsContent({ className, ...props }: React.ComponentProps<typeof BaseTabsContent>) {
+  return <BaseTabsContent {...props} className={cn("mt-3", className)} />;
+}

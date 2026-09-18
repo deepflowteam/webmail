@@ -378,7 +378,7 @@ function findResultSets(value, inspection = { failed: false, resultSets: [] }) {
 
 function inconsistentState(detail) {
   return new Error(
-    `Refusing to repair HQBase because the D1 post-deploy state is inconsistent. ${detail}`
+    `Refusing to repair Webmail because the D1 post-deploy state is inconsistent. ${detail}`
   );
 }
 

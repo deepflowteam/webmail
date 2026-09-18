@@ -44,8 +44,8 @@ describe("compose form", () => {
           mode: "selected",
           id: "signature-1",
           name: "Support",
-          html: "<p>HQBase Support</p>",
-          text: "HQBase Support"
+          html: "<p>Webmail Support</p>",
+          text: "Webmail Support"
         }}
         signatureDisabled={false}
         subject=""

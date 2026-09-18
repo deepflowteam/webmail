@@ -159,7 +159,7 @@ describe("signed release bootstrap", () => {
 
     try {
       await expect(bootstrap({ ...options, expectedVersion: "1.3.4" })).rejects.toThrow(
-        "Expected signed HQBase 1.3.4"
+        "Expected signed Webmail 1.3.4"
       );
       writeFileSync(artifactFile, "tampered");
       await expect(bootstrap({ ...options, expectedVersion: version })).rejects.toThrow(

@@ -1,8 +1,8 @@
 import * as React from "react";
 import { PiCheck, PiCopy, PiDownload, PiFileText } from "react-icons/pi";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "@/components/button";
+import { Input } from "@/components/input";
 import { cn } from "@/lib/cn";
 
 export function AgentSkillDetails({

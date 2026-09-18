@@ -1,8 +1,8 @@
 import * as React from "react";
 import { PiCheck, PiCopy, PiPaperPlaneTilt, PiShieldCheck, PiUser } from "react-icons/pi";
+import { Button } from "@/components/button";
+import { Input } from "@/components/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/tabs";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import type { CurrentUser } from "@/features/auth/types";
 
 export function McpConnectionDetails({
@@ -35,7 +35,7 @@ export function McpConnectionDetails({
                 {user.email} · {user.role}
               </p>
               <p className="mt-2 text-xs leading-4 text-muted-foreground">
-                After consent, HQBase rechecks this user&apos;s current workspace role and live
+                After consent, Webmail rechecks this user&apos;s current workspace role and live
                 mailbox grants.
               </p>
             </div>
@@ -84,8 +84,8 @@ export function McpConnectionDetails({
       <section className="flex flex-col gap-1 text-xs leading-4 text-muted-foreground">
         <p className="font-medium text-foreground">What happens next</p>
         <p>
-          The client discovers HQBase OAuth 2.1, registers dynamically with PKCE, then opens sign-in
-          and consent. No API token or Cloudflare credential is required.
+          The client discovers Webmail OAuth 2.1, registers dynamically with PKCE, then opens
+          sign-in and consent. No API token or Cloudflare credential is required.
         </p>
       </section>
     </div>

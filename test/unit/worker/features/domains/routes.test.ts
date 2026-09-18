@@ -113,7 +113,7 @@ describe("domain readiness routes", () => {
       workerName: "hqbase",
       zone: {
         accountId: "account-1",
-        accountName: "HQBase",
+        accountName: "Webmail",
         id: "zone-1",
         name: "example.com",
         status: "active",

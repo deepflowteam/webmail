@@ -1,6 +1,7 @@
 import * as React from "react";
 import { PiDotsThree, PiPencilSimple, PiPlus, PiTrash } from "react-icons/pi";
 import { toast } from "sonner";
+import { Button } from "@/components/button";
 import {
   Dialog,
   DialogContent,
@@ -20,7 +21,6 @@ import {
 import type { DropdownSelectOption } from "@/components/dropdown-select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/table";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import type { CurrentUser } from "@/features/auth/types";
 import type { Mailbox } from "@/features/mailboxes/types";

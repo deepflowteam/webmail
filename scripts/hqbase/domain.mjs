@@ -308,8 +308,8 @@ function reportPlan(name, previous, next, options) {
     : "the default workers.dev hostname";
   console.log(
     options.dryRun
-      ? `HQBase deployment "${name}" domain configuration is valid (${target}).`
-      : `HQBase deployment "${name}" now serves from ${target}.`
+      ? `Webmail deployment "${name}" domain configuration is valid (${target}).`
+      : `Webmail deployment "${name}" now serves from ${target}.`
   );
   for (const note of domainChangeNotes(previous, next)) {
     console.log(`  - ${note}`);

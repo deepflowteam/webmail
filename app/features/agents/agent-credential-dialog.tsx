@@ -1,6 +1,7 @@
 import * as React from "react";
 import { PiCopy, PiKey } from "react-icons/pi";
 import { toast } from "sonner";
+import { Button } from "@/components/button";
 import {
   Dialog,
   DialogContent,
@@ -9,9 +10,8 @@ import {
   DialogHeader,
   DialogTitle
 } from "@/components/dialog";
+import { Input } from "@/components/input";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { AgentSkillDetails } from "./connection-dialog";
 import type { AgentProfile, ManagedAgent } from "./types";
 
@@ -75,13 +75,15 @@ export function AgentCredentialContent({
         <DialogTitle>
           {agentProfile === "mailbox" ? "Agent credential created" : "Provisioning key created"}
         </DialogTitle>
-        <DialogDescription>Use this credential to connect {agentName} to HQBase.</DialogDescription>
+        <DialogDescription>
+          Use this credential to connect {agentName} to Webmail.
+        </DialogDescription>
       </DialogHeader>
       <Alert>
         <PiKey />
         <AlertTitle>Shown once</AlertTitle>
         <AlertDescription>
-          HQBase stores only a hash. Copy this credential before you close this window.
+          Webmail stores only a hash. Copy this credential before you close this window.
         </AlertDescription>
       </Alert>
       <div className="flex items-center gap-2">
@@ -153,13 +155,13 @@ function AgentSetupContent({
     <>
       <DialogHeader>
         <DialogTitle>Setup instructions</DialogTitle>
-        <DialogDescription>Reconnect {agent.name} to HQBase.</DialogDescription>
+        <DialogDescription>Reconnect {agent.name} to Webmail.</DialogDescription>
       </DialogHeader>
       <Alert>
         <PiKey />
         <AlertTitle>Use the saved credential</AlertTitle>
         <AlertDescription>
-          Use the one-time credential that you saved when this identity was created. HQBase stores
+          Use the one-time credential that you saved when this identity was created. Webmail stores
           only a hash and cannot show the credential again.
         </AlertDescription>
       </Alert>

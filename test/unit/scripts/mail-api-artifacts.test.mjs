@@ -242,7 +242,7 @@ describe("Mail API public artifacts", () => {
     expect(v1OpenApi.openapi).toBe("3.1.0");
     expect(v1OpenApi.info.version).toBe("1.0.0");
     expect(v1OpenApi.info.description).toBe(
-      "Stable v1 mail API for HQBase clients, automations, and agents. Additive fields may be introduced within v1; clients must ignore unknown response fields. Administrative APIs are not part of this contract."
+      "Stable v1 mail API for Webmail clients, automations, and agents. Additive fields may be introduced within v1; clients must ignore unknown response fields. Administrative APIs are not part of this contract."
     );
     expect(Object.keys(v1OpenApi.paths).every((path) => path.startsWith("/api/v1/"))).toBe(true);
     expect(v1OpenApi.components.securitySchemes.agentBearer).toBeUndefined();

@@ -23,12 +23,12 @@ export async function loadVerifiedRelease(options = {}) {
   if (options.expectedVersion) {
     if (manifest.version !== options.expectedVersion) {
       throw new Error(
-        `Expected signed HQBase ${options.expectedVersion}, received ${manifest.version}.`
+        `Expected signed Webmail ${options.expectedVersion}, received ${manifest.version}.`
       );
     }
   } else if (compareVersions(manifest.version, options.checkedOutVersion ?? packageVersion) < 0) {
     throw new Error(
-      `HQBase ${options.checkedOutVersion ?? packageVersion} has not been published as a signed stable release yet.`
+      `Webmail ${options.checkedOutVersion ?? packageVersion} has not been published as a signed stable release yet.`
     );
   }
 
@@ -159,7 +159,7 @@ export function normalizeConfig(config, version, artifactSha256, releaseConfig =
 
 export function hqbaseReleaseTag(version, artifactSha256) {
   if (!/^\d+\.\d+\.\d+/.test(version) || !/^[a-f0-9]{64}$/.test(artifactSha256)) {
-    throw new Error("HQBase release identity is invalid.");
+    throw new Error("Webmail release identity is invalid.");
   }
   return `hqbase:${version}:${artifactSha256}`;
 }

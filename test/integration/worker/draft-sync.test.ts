@@ -19,7 +19,7 @@ const readToken = "hqb_access_draft-sync-read-token";
 let userId = "";
 let agentToken = "";
 
-describe("HQBase Mail API draft synchronization", () => {
+describe("Webmail Mail API draft synchronization", () => {
   beforeAll(async () => {
     await applyCurrentMigrations();
     const auth = createAuth(env, new Request(`${origin}/api/auth/sign-up/email`));

@@ -15,7 +15,7 @@ const managedDataUrl = import.meta.url.startsWith("data:");
 export async function bootstrap(options = {}) {
   const expectedVersion = options.expectedVersion ?? process.env.HQBASE_EXPECTED_RELEASE_VERSION;
   if (!stableVersion.test(expectedVersion ?? "")) {
-    throw new Error("HQBASE_EXPECTED_RELEASE_VERSION must name one stable HQBase release.");
+    throw new Error("HQBASE_EXPECTED_RELEASE_VERSION must name one stable Webmail release.");
   }
   const fetcher = options.fetcher ?? fetch;
   const manifestFile =
@@ -110,7 +110,7 @@ export function verifyBootstrapManifest(envelope, expectedVersion, publicKeyBase
   }
   const manifest = JSON.parse(payload.toString("utf8"));
   if (manifest.version !== expectedVersion) {
-    throw new Error(`Expected signed HQBase ${expectedVersion}, received ${manifest.version}.`);
+    throw new Error(`Expected signed Webmail ${expectedVersion}, received ${manifest.version}.`);
   }
   const canonicalArtifactUrl = `https://github.com/HQBase/hqbase/releases/download/v${expectedVersion}/hqbase-${expectedVersion}.tar.gz`;
   if (

@@ -160,9 +160,7 @@ describe("label controls", () => {
       (entry) => entry.textContent === "Customer"
     );
     await flushHookEffects(() => {
-      assignedLabel?.dispatchEvent(
-        new PointerEvent("pointerdown", { bubbles: true, button: 0, pointerType: "mouse" })
-      );
+      assignedLabel?.dispatchEvent(new MouseEvent("mousedown", { bubbles: true, button: 0 }));
       assignedLabel?.click();
     });
     const item = document.body.querySelector<HTMLElement>('[role="menuitemcheckbox"]');
@@ -190,9 +188,7 @@ describe("label controls", () => {
     const trigger = view.container.querySelector<HTMLButtonElement>('[aria-label="Labels"]');
     expect(trigger?.disabled).toBe(false);
     await flushHookEffects(() => {
-      trigger?.dispatchEvent(
-        new PointerEvent("pointerdown", { bubbles: true, button: 0, pointerType: "mouse" })
-      );
+      trigger?.dispatchEvent(new MouseEvent("mousedown", { bubbles: true, button: 0 }));
       trigger?.click();
     });
 
@@ -236,9 +232,7 @@ describe("label controls", () => {
       '[aria-label="Labels: Customer"]'
     );
     await flushHookEffects(() => {
-      trigger?.dispatchEvent(
-        new PointerEvent("pointerdown", { bubbles: true, button: 0, pointerType: "mouse" })
-      );
+      trigger?.dispatchEvent(new MouseEvent("mousedown", { bubbles: true, button: 0 }));
       trigger?.click();
     });
     const item = document.body.querySelector<HTMLElement>('[role="menuitemcheckbox"]');
@@ -277,9 +271,7 @@ describe("label controls", () => {
       '[aria-label="Filter by labels"]'
     );
     await flushHookEffects(() => {
-      trigger?.dispatchEvent(
-        new PointerEvent("pointerdown", { bubbles: true, button: 0, pointerType: "mouse" })
-      );
+      trigger?.dispatchEvent(new MouseEvent("mousedown", { bubbles: true, button: 0 }));
       trigger?.click();
     });
 

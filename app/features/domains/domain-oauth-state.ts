@@ -39,5 +39,5 @@ export function readPendingOperation(): PendingCloudflareOperation | null {
 export function oauthErrorMessage(result: string): string {
   if (result === "denied") return "Cloudflare authorization was cancelled.";
   if (result === "invalid") return "Cloudflare authorization expired. Please try again.";
-  return "Cloudflare could not authorize this change. Ask a Cloudflare administrator to allow HQBase or configure customer-managed OAuth from the deployment guide.";
+  return "Cloudflare could not authorize this change. Ask a Cloudflare administrator to allow Webmail or configure customer-managed OAuth from the deployment guide.";
 }

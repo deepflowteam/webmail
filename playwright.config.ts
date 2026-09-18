@@ -4,11 +4,11 @@ const baseURL = process.env.HQBASE_STAGING_URL;
 const accessClientId = process.env.HQBASE_STAGING_ACCESS_CLIENT_ID;
 const accessClientSecret = process.env.HQBASE_STAGING_ACCESS_CLIENT_SECRET;
 if (!baseURL && process.env.CI) {
-  throw new Error("HQBASE_STAGING_URL is required. HQBase E2E runs only in staging.");
+  throw new Error("HQBASE_STAGING_URL is required. Webmail E2E runs only in staging.");
 }
 if (baseURL && process.env.CI && (!accessClientId || !accessClientSecret)) {
   throw new Error(
-    "Cloudflare Access service-token credentials are required for HQBase staging E2E."
+    "Cloudflare Access service-token credentials are required for Webmail staging E2E."
   );
 }
 

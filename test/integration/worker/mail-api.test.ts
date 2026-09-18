@@ -20,7 +20,7 @@ const scopes = ["mail:read", "mail:write", "mail:send"];
 let cookie = "";
 let userId = "";
 
-describe("HQBase Mail API", () => {
+describe("Webmail Mail API", () => {
   beforeAll(async () => {
     await applyCurrentMigrations();
 
@@ -269,7 +269,7 @@ describe("HQBase Mail API", () => {
       resource: apiResource,
       authorization_servers: [`${origin}/api/auth`],
       scopes_supported: [...scopes, "signatures:manage"],
-      resource_name: "HQBase Mail API",
+      resource_name: "Webmail Mail API",
       resource_documentation: `${origin}/skills/hqbase-mail/SKILL.md`
     });
 
@@ -303,7 +303,7 @@ describe("HQBase Mail API", () => {
     expect(humanSkill.headers.get("access-control-allow-origin")).toBe("*");
     const humanInstructions = await humanSkill.text();
     expect(humanInstructions).toMatch(
-      /^---\nname: hqbase-mail\ndescription: [^\n]+\n---\n\n# HQBase Mail for Your Account/
+      /^---\nname: hqbase-mail\ndescription: [^\n]+\n---\n\n# Webmail Mail for Your Account/
     );
     expect(humanInstructions).toContain(`- Instance origin: ${origin}`);
     expect(humanInstructions).toContain(`- API base URL: ${apiResource}`);
@@ -329,7 +329,7 @@ describe("HQBase Mail API", () => {
     expect(mailboxSkill.status).toBe(200);
     const mailboxInstructions = await mailboxSkill.text();
     expect(mailboxInstructions).toMatch(
-      /^---\nname: hqbase-mailbox\ndescription: [^\n]+\n---\n\n# HQBase Mailbox Agent/
+      /^---\nname: hqbase-mailbox\ndescription: [^\n]+\n---\n\n# Webmail Mailbox Agent/
     );
     expect(mailboxInstructions).toContain(`- API base URL: ${apiResource}`);
     expect(mailboxInstructions).toContain("credentials currently start with `hqb_agent_`");
@@ -340,7 +340,7 @@ describe("HQBase Mail API", () => {
     expect(provisionerSkill.status).toBe(200);
     const provisionerInstructions = await provisionerSkill.text();
     expect(provisionerInstructions).toMatch(
-      /^---\nname: hqbase-provisioner\ndescription: [^\n]+\n---\n\n# HQBase Provisioner/
+      /^---\nname: hqbase-provisioner\ndescription: [^\n]+\n---\n\n# Webmail Provisioner/
     );
     expect(provisionerInstructions).toContain(`- Management API base URL: ${origin}/management/v1`);
     expect(provisionerInstructions).toContain(
@@ -383,7 +383,7 @@ describe("HQBase Mail API", () => {
       >;
       servers: Array<{ url: string }>;
     };
-    expect(document.servers).toEqual([{ url: origin, description: "This HQBase installation" }]);
+    expect(document.servers).toEqual([{ url: origin, description: "This Webmail installation" }]);
     expect(document.externalDocs.url).toBe(`${origin}/skills/hqbase-mail/SKILL.md`);
     expect(document.components.securitySchemes.agentBearer).toMatchObject({
       type: "http",
@@ -407,7 +407,7 @@ describe("HQBase Mail API", () => {
       servers: Array<{ url: string }>;
     };
     expect(v1Document.info.version).toBe("1.0.0");
-    expect(v1Document.servers).toEqual([{ url: origin, description: "This HQBase installation" }]);
+    expect(v1Document.servers).toEqual([{ url: origin, description: "This Webmail installation" }]);
     expect(v1Document.paths["/api/v1/mailboxes"]).toBeDefined();
     expect(v1Document.components.schemas.MailboxAddress).toBeDefined();
     expect(v1Document.components.securitySchemes.agentBearer).toBeUndefined();
@@ -430,7 +430,7 @@ describe("HQBase Mail API", () => {
       const retired = await SELF.fetch(`${origin}${retiredPath}`, { redirect: "manual" });
       expect(retired.status).toBe(200);
       expect(retired.headers.get("location")).toBeNull();
-      expect(await retired.text()).toContain("Open **Agents** in HQBase");
+      expect(await retired.text()).toContain("Open **Agents** in Webmail");
     }
   });
 

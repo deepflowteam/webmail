@@ -83,6 +83,10 @@
   },
   "overrides": [
     {
+      "includes": ["app/components/ui/**"],
+      "linter": { "enabled": false }
+    },
+    {
       "includes": ["test/unit/app/render-hook.tsx"],
       "linter": { "enabled": false },
       "assist": { "enabled": false }
@@ -93,11 +97,21 @@
       "assist": { "enabled": false }
     },
     {
-      "includes": ["app/components/ui/field.tsx", "app/components/ui/input-group.tsx"],
+      "includes": ["app/components/field.tsx", "app/components/input-group.tsx"],
       "linter": {
         "rules": {
           "a11y": {
             "useSemanticElements": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["app/components/label.tsx"],
+      "linter": {
+        "rules": {
+          "a11y": {
+            "noLabelWithoutControl": "off"
           }
         }
       }

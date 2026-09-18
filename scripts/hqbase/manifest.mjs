@@ -34,7 +34,7 @@ export function ensureDeploymentDir(name) {
 export function loadManifest(name) {
   const file = manifestPath(name);
   if (!fs.existsSync(file)) {
-    throw new Error(`No HQBase deployment manifest found for "${name}".`);
+    throw new Error(`No Webmail deployment manifest found for "${name}".`);
   }
   return JSON.parse(fs.readFileSync(file, "utf8"));
 }

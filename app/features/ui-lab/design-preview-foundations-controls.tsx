@@ -1,10 +1,8 @@
 import * as React from "react";
 import { PiMagnifyingGlass, PiPlus } from "react-icons/pi";
+import { Button } from "@/components/button";
+import { Checkbox } from "@/components/checkbox";
 import { DropdownSelect } from "@/components/dropdown-select";
-import { Textarea } from "@/components/textarea";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Field,
   FieldDescription,
@@ -12,13 +10,15 @@ import {
   FieldGroup,
   FieldLabel,
   FieldLabelRow
-} from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
-import { InputGroup, InputGroupInput } from "@/components/ui/input-group";
-import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
+} from "@/components/field";
+import { Input } from "@/components/input";
+import { InputGroup, InputGroupInput } from "@/components/input-group";
+import { Label } from "@/components/label";
+import { Separator } from "@/components/separator";
+import { Switch } from "@/components/switch";
+import { Textarea } from "@/components/textarea";
+import { Badge } from "@/components/ui/badge";
 import { Spinner } from "@/components/ui/spinner";
-import { Switch } from "@/components/ui/switch";
 
 import { InventorySection, Specimen } from "./design-preview-shared";
 
@@ -174,7 +174,7 @@ function ActionsPreview(): React.ReactElement {
             Include archived mailboxes
           </Label>
           <Label className="flex items-center justify-between gap-4 text-sm" htmlFor="lab-active">
-            Active in HQBase
+            Active in Webmail
             <Switch checked={enabled} id="lab-active" onCheckedChange={setEnabled} />
           </Label>
           <Label

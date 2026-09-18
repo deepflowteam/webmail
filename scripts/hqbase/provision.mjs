@@ -107,7 +107,7 @@ function verifyCreatedResource(label, inspect, options = {}) {
   const detail = lastError instanceof Error ? lastError.message : String(lastError);
   const delaySeconds = delaysMs.reduce((total, delayMs) => total + delayMs, 0) / 1_000;
   throw new Error(
-    `Cloudflare accepted creation of ${label}, but HQBase could not verify its identity after ${delaysMs.length + 1} checks and ${delaySeconds} seconds of retry delays. The deployment record remains in the unfinished "creating" state. Verify the Cloudflare resource before retrying. Last check: ${detail}`,
+    `Cloudflare accepted creation of ${label}, but Webmail could not verify its identity after ${delaysMs.length + 1} checks and ${delaySeconds} seconds of retry delays. The deployment record remains in the unfinished "creating" state. Verify the Cloudflare resource before retrying. Last check: ${detail}`,
     { cause: lastError }
   );
 }

@@ -64,10 +64,10 @@ describe("mail shell", () => {
 
     expect(html).toContain("h-12 w-full");
     expect(html).toContain("relative min-w-0 max-w-xl flex-1");
-    expect(html).toContain("Search HQBase");
+    expect(html).toContain("Search Webmail");
     expect(html).not.toContain("Connect MCP");
     expect(html).toContain("Open navigation");
-    expect(html.indexOf("Open navigation")).toBeLessThan(html.indexOf("Search HQBase"));
+    expect(html.indexOf("Open navigation")).toBeLessThan(html.indexOf("Search Webmail"));
   });
 
   it("keeps unread totals out of the header mailbox label", () => {
@@ -261,7 +261,7 @@ describe("mail shell", () => {
 
     expect(html).toContain('src="/logo.png"');
     expect(html).toContain(
-      '<a class="underline-offset-4 transition-colors hover:text-foreground hover:underline" href="https://hqbase.io/" rel="noopener" target="_blank">Powered by HQBase</a>'
+      '<a class="underline-offset-4 transition-colors hover:text-foreground hover:underline" href="https://hqbase.io/" rel="noopener" target="_blank">Powered by Webmail</a>'
     );
     expect(html).not.toContain(">HQ</span>");
   });
@@ -589,8 +589,8 @@ describe("mail shell", () => {
     expect(html).toContain("Mail actions");
     expect(html.indexOf("Mail actions")).toBeLessThan(html.indexOf("Read only"));
     expect(html).toContain('role="tablist"');
-    expect(html).toContain('data-state="active"');
-    expect(html).toContain('data-state="inactive"');
+    expect(html).toContain("data-active");
+    expect(html).not.toContain("data-state=");
     expect(html).toContain("Copy Read, manage &amp; send endpoint");
     expect(html).not.toContain("Copy Read only endpoint");
     expect(html).toContain("OAuth 2.1");

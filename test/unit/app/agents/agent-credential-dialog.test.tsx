@@ -1,6 +1,6 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
-import { Dialog } from "@/components/ui/dialog";
+import { Dialog } from "@/components/dialog";
 import { AgentCredentialContent } from "@/features/agents/agent-credential-dialog";
 
 describe("agent credential reveal", () => {

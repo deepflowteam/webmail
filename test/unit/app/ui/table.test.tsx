@@ -14,7 +14,7 @@ describe("table", () => {
         </TableHeader>
         <TableBody>
           <TableRow>
-            <TableCell>HQBase</TableCell>
+            <TableCell>Webmail</TableCell>
           </TableRow>
         </TableBody>
       </Table>

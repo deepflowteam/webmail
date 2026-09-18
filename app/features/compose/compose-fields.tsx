@@ -1,8 +1,8 @@
 import * as React from "react";
 import { PiCaretDown, PiCaretUp } from "react-icons/pi";
+import { Button } from "@/components/button";
 import { DropdownSelect } from "@/components/dropdown-select";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/input";
 import type { ComposeMode } from "./compose-state";
 import { RecipientField } from "./recipient-field";
 

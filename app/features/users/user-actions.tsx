@@ -7,6 +7,7 @@ import {
   PiUserMinus
 } from "react-icons/pi";
 import { toast } from "sonner";
+import { Button } from "@/components/button";
 import {
   Dialog,
   DialogClose,
@@ -23,8 +24,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/dropdown-menu";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/input";
 import { Spinner } from "@/components/ui/spinner";
 import {
   getRecentAuthentication,
@@ -174,7 +174,7 @@ export function UserLifecycleDialog({
             <DialogHeader>
               <DialogTitle>Sign in again</DialogTitle>
               <DialogDescription>
-                Confirm your HQBase password before you {verb} {action?.user.name}.
+                Confirm your Webmail password before you {verb} {action?.user.name}.
               </DialogDescription>
             </DialogHeader>
             <form

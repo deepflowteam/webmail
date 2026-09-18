@@ -3,7 +3,7 @@ import type { MessageDetail } from "../messages/types";
 import { assembleMessageBody } from "./body";
 
 const maxQuotedCharacters = 100_000;
-const truncationNotice = "[Previous message truncated by HQBase]";
+const truncationNotice = "[Previous message truncated by Webmail]";
 
 type ReplySource = Pick<
   MessageDetail,

@@ -58,7 +58,7 @@ describe("desktop application shell", () => {
     expect(appShell).not.toContain("useDesktopShell");
     expect(appShell.match(/<ShellContent/gu)).toHaveLength(1);
     expect(appShell).toContain('"hidden w-[20rem] shrink-0 lg:block"');
-    expect(appShell).not.toContain("Make the HQBase window a little larger");
+    expect(appShell).not.toContain("Make the Webmail window a little larger");
     expect(styles).not.toContain("desktop-window-guard");
   });
 

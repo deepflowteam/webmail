@@ -34,7 +34,7 @@ export async function main() {
       throw new Error(`Local D1 seed failed with exit code ${result.status ?? "unknown"}.`);
     }
     process.stdout.write(
-      `Seeded local HQBase data. Sign in as ${ownerEmail} using HQBASE_LOCAL_SEED_PASSWORD.\n`
+      `Seeded local Webmail data. Sign in as ${ownerEmail} using HQBASE_LOCAL_SEED_PASSWORD.\n`
     );
   } finally {
     rmSync(seedDirectory, { force: true, recursive: true });

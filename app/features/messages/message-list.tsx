@@ -1,7 +1,7 @@
 import * as React from "react";
 import { PiCircleNotch } from "react-icons/pi";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/button";
 import { PullToRefresh } from "@/components/ui/pull-to-refresh";
 import type { MailLabel } from "@/features/labels/types";
 import { appRoutePath, type MailFolderId } from "@/lib/routes";

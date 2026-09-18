@@ -1,6 +1,7 @@
 import * as React from "react";
 import { PiArrowCounterClockwise, PiPlus } from "react-icons/pi";
 import { toast } from "sonner";
+import { Button } from "@/components/button";
 import {
   Dialog,
   DialogClose,
@@ -12,9 +13,8 @@ import {
   DialogTrigger
 } from "@/components/dialog";
 import { DropdownSelect } from "@/components/dropdown-select";
-import { Button } from "@/components/ui/button";
-import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
+import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/field";
+import { Input } from "@/components/input";
 import { DomainSuffixInput, hasCompleteDomainSuffix } from "@/features/domains/domain-suffix-input";
 import type { MailDomain } from "@/features/domains/types";
 import { BulkMailboxAccessDialog } from "@/features/mailbox-access/bulk-mailbox-access-dialog";

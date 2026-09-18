@@ -1,4 +1,5 @@
 import type * as React from "react";
+import { Button } from "@/components/button";
 import {
   Dialog,
   DialogClose,
@@ -10,7 +11,6 @@ import {
 } from "@/components/dialog";
 import { DropdownSelect } from "@/components/dropdown-select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/table";
-import { Button } from "@/components/ui/button";
 import type { Mailbox } from "@/features/mailboxes/types";
 import type { WorkspaceUser } from "@/features/users/types";
 import {

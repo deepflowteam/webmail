@@ -1,7 +1,7 @@
 import type * as React from "react";
 import { PiPaperclip, PiPaperPlaneTilt, PiTrash } from "react-icons/pi";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/button";
 import { Spinner } from "@/components/ui/spinner";
 import type { DraftAttachment } from "@/features/drafts/types";
 import type { MessageDetail } from "@/features/messages/types";

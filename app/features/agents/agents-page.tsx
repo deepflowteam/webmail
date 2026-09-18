@@ -1,6 +1,7 @@
 import * as React from "react";
 import { PiPlus } from "react-icons/pi";
 import { toast } from "sonner";
+import { Button } from "@/components/button";
 import {
   Dialog,
   DialogContent,
@@ -9,7 +10,6 @@ import {
   DialogHeader,
   DialogTitle
 } from "@/components/dialog";
-import { Button } from "@/components/ui/button";
 import type { CurrentUser } from "@/features/auth/types";
 import {
   listOAuthConnections,

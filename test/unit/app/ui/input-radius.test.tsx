@@ -1,8 +1,8 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
+import { Input } from "@/components/input";
+import { InputGroup, InputGroupInput } from "@/components/input-group";
 import { Textarea } from "@/components/textarea";
-import { Input } from "@/components/ui/input";
-import { InputGroup, InputGroupInput } from "@/components/ui/input-group";
 
 describe("input radius", () => {
   it.each([<Input key="input" />, <Textarea key="textarea" />])(

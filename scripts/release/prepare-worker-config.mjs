@@ -106,7 +106,7 @@ export function assertRequiredWorkerConfig(config) {
   ];
   const missing = checks.filter(([present]) => !present).map(([, label]) => label);
   if (missing.length > 0) {
-    throw new Error(`HQBase Worker configuration is missing: ${missing.join(", ")}.`);
+    throw new Error(`Webmail Worker configuration is missing: ${missing.join(", ")}.`);
   }
 }
 
@@ -132,5 +132,5 @@ function assertObject(value, label) {
 
 if (process.argv[1] && resolve(process.argv[1]) === resolve(import.meta.filename)) {
   prepareRequiredWorkerConfigFile(resolve(process.cwd(), "wrangler.jsonc"));
-  console.log("HQBase Worker bindings and migrations are ready.");
+  console.log("Webmail Worker bindings and migrations are ready.");
 }

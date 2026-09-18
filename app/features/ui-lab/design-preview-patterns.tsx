@@ -1,4 +1,5 @@
 import { PiDotsThree, PiInfo, PiPaperPlaneTilt, PiPlus } from "react-icons/pi";
+import { Button } from "@/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -6,15 +7,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from "@/components/dropdown-menu";
+import { Input } from "@/components/input";
+import { InputGroup, InputGroupInput } from "@/components/input-group";
+import { Separator } from "@/components/separator";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/table";
 import { Textarea } from "@/components/textarea";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { InputGroup, InputGroupInput } from "@/components/ui/input-group";
-import { Separator } from "@/components/ui/separator";
 import { appRoutePath, mailFolders, settingsTabs } from "@/lib/routes";
 
 import { InventorySection, ScreenLink, Specimen } from "./design-preview-shared";

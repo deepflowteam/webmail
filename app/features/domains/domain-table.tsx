@@ -7,6 +7,7 @@ import {
   PiPlug,
   PiTrash
 } from "react-icons/pi";
+import { Button } from "@/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,11 +17,10 @@ import {
   DropdownMenuTrigger
 } from "@/components/dropdown-menu";
 import { DropdownSelect, type DropdownSelectOption } from "@/components/dropdown-select";
+import { Switch } from "@/components/switch";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/table";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/tooltip";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import type { Mailbox } from "@/features/mailboxes/types";
 import { cn } from "@/lib/cn";
 
@@ -137,7 +137,7 @@ export function DomainTable({
               </TableCell>
               <TableCell>
                 <Switch
-                  aria-label={`${domain.name} active in HQBase`}
+                  aria-label={`${domain.name} active in Webmail`}
                   checked={domain.isEnabled}
                   disabled={pending || domain.disconnectedAt !== null}
                   onCheckedChange={(isEnabled) => onToggle(domain, isEnabled)}

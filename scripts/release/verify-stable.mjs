@@ -25,7 +25,10 @@ export function assertPublishedStable({ version, latest, manifest, candidate, re
 
 async function main() {
   const version = assertStableReleaseVersion(process.env.HQBASE_RELEASE_VERSION);
-  if (process.env.GITHUB_REPOSITORY !== "HQBase/hqbase" || process.env.GITHUB_REF_NAME !== "main") {
+  if (
+    process.env.GITHUB_REPOSITORY !== "HQBase/hqbase" ||
+    process.env.GITHUB_REF_NAME !== "main"
+  ) {
     throw new Error("Stable announcement recovery must run from canonical main.");
   }
   const api = (path) =>

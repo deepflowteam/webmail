@@ -11,8 +11,8 @@ vi.mock("sonner", () => ({ toast: { error: vi.fn() } }));
 const candidate: Signature = {
   id: "sig_support",
   name: "Support",
-  html: "<p>HQBase Support</p>",
-  text: "HQBase Support",
+  html: "<p>Webmail Support</p>",
+  text: "Webmail Support",
   scope: "mailbox",
   scopeId: "mbx_support",
   scopeLabel: "Support · support@example.com",
@@ -57,7 +57,7 @@ describe("compose signature", () => {
       'iframe[title="Signature preview"]'
     );
     expect(view.container.firstElementChild?.className).toContain("shrink-0");
-    expect(preview?.srcdoc).toContain("HQBase Support");
+    expect(preview?.srcdoc).toContain("Webmail Support");
     const trigger = view.container.querySelector<HTMLButtonElement>('[aria-label="Signature"]');
     expect(trigger?.textContent).toContain("Support · Support");
     expect(trigger?.className).toContain("h-[42px]");
@@ -72,6 +72,7 @@ describe("compose signature", () => {
     await flushHookEffects(() => none?.click());
     expect(onSelectionChange).toHaveBeenCalledWith({ mode: "none" });
 
+    await flushHookEffects(() => new Promise((resolve) => window.setTimeout(resolve, 220)));
     await openSignatureMenu(view.container);
     const manage = Array.from(
       document.body.querySelectorAll<HTMLElement>('[role="menuitemradio"]')
@@ -184,14 +185,16 @@ describe("compose signature", () => {
 });
 
 async function openSignatureMenu(container: HTMLElement): Promise<void> {
-  await flushHookEffects(() =>
-    container.querySelector<HTMLButtonElement>('[aria-label="Signature"]')?.dispatchEvent(
-      new PointerEvent("pointerdown", {
+  await flushHookEffects(() => {
+    const trigger = container.querySelector<HTMLButtonElement>('[aria-label="Signature"]');
+    trigger?.dispatchEvent(
+      new MouseEvent("mousedown", {
         bubbles: true,
         button: 0,
-        ctrlKey: false,
-        pointerType: "mouse"
+        ctrlKey: false
       })
-    )
-  );
+    );
+    trigger?.dispatchEvent(new MouseEvent("mouseup", { bubbles: true, button: 0 }));
+    trigger?.click();
+  });
 }

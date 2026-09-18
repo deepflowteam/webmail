@@ -62,7 +62,7 @@ try {
 }
 
 function printHelp() {
-  console.log(`HQBase operator
+  console.log(`Webmail operator
 
 Usage:
   pnpm hqbase button --repo-url https://github.com/OWNER/REPO
@@ -97,7 +97,7 @@ Install options:
 OAuth options:
   --mode <mode>          Use official or customer-managed OAuth.
   --client-id <id>       Customer OAuth client ID. Required for customer mode.
-  --auth-url <origin>    Exact canonical HTTPS HQBase origin. Required for customer mode.
+  --auth-url <origin>    Exact canonical HTTPS Webmail origin. Required for customer mode.
   --skip-deploy          Validate and write local deployment configuration without deploying.
   --dry-run              Validate without writing or deploying.
 

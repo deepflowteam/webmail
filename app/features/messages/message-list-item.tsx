@@ -1,7 +1,7 @@
 import type * as React from "react";
 import { PiChats, PiPaperclip, PiStar } from "react-icons/pi";
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/avatar";
 import { LabelMenu, LabelStack } from "@/features/labels/label-controls";
 import type { MailLabel } from "@/features/labels/types";
 import { cn } from "@/lib/cn";

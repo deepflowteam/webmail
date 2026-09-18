@@ -1,6 +1,6 @@
 import type * as React from "react";
 
-import { Switch } from "@/components/ui/switch";
+import { Switch } from "@/components/switch";
 import { SettingsSection } from "@/features/settings/settings-section";
 import { useTheme } from "@/features/theme/theme-provider";
 

@@ -31,7 +31,7 @@ const setupFlow = {
   returnPath: "/setup"
 } as const;
 
-describe("HQBase runtime Cloudflare OAuth", () => {
+describe("Webmail runtime Cloudflare OAuth", () => {
   it("returns stale sessions to the originating settings modal", () => {
     const response = recentAuthenticationRedirect(
       new Request("https://mail.example.com/api/updates/cloudflare/oauth/start"),
@@ -229,7 +229,7 @@ describe("HQBase runtime Cloudflare OAuth", () => {
     }
   });
 
-  it("requires a runtime OAuth grant and revokes it with the HQBase client", async () => {
+  it("requires a runtime OAuth grant and revokes it with the Webmail client", async () => {
     await expect(
       resolveRuntimeCloudflareGrant(new Request("https://mail.example.com/api/updates/apply"), env)
     ).rejects.toThrow("Authorize Cloudflare again");

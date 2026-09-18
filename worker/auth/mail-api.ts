@@ -229,7 +229,7 @@ export function handleMailApiMetadata(request: Request, env: WorkerEnv): Respons
       authorization_servers: [`${origin}/api/auth`],
       scopes_supported: mailApiScopes,
       bearer_methods_supported: ["header"],
-      resource_name: "HQBase Mail API",
+      resource_name: "Webmail Mail API",
       resource_documentation: `${origin}${agentSkillPath}`
     },
     {

@@ -19,8 +19,8 @@ describe("user onboarding email", () => {
 
     expect(send).toHaveBeenCalledWith(
       expect.objectContaining({
-        from: { name: "HQBase", email: "support@example.com" },
-        subject: "You’ve been invited to HQBase",
+        from: { name: "Webmail", email: "support@example.com" },
+        subject: "You’ve been invited to Webmail",
         to: "person@gmail.com"
       })
     );
@@ -64,7 +64,7 @@ describe("user onboarding email", () => {
 
     expect(send).toHaveBeenCalledWith(
       expect.objectContaining({
-        subject: "Reset your HQBase password",
+        subject: "Reset your Webmail password",
         to: "person@gmail.com"
       })
     );

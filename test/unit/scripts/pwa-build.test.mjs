@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import { describe, expect, it } from "vitest";
 
 import {
+  createPwaCacheName,
   isAllowedPrecacheUrl,
   renderServiceWorker,
   validateManifest
@@ -20,7 +21,7 @@ describe("PWA build contract", () => {
   it("ships an installable, standalone manifest", async () => {
     const manifest = JSON.parse(await readFile("public/manifest.webmanifest", "utf8"));
     expect(() => validateManifest(manifest)).not.toThrow();
-    expect(manifest.name).toBe("HQBase");
+    expect(manifest.name).toBe("Webmail");
     expect(manifest.background_color).toBe("#0f0f10");
     expect(manifest.theme_color).toBe("#0f0f10");
   });
@@ -43,9 +44,9 @@ describe("PWA build contract", () => {
     expect(iconGenerator).toContain('file: "icon-512.png", markWidth: 308');
     expect(iconGenerator).toContain('file: "icon-maskable-512.png", markWidth: 266');
     expect(iconGenerator).toContain('file: "notification-badge.png"');
-    expect(logo).toContain("<title>HQBase</title>");
+    expect(logo).toContain("<title>Webmail</title>");
     expect(logo).toContain('<image href="data:image/png;base64,');
-    expect(favicon).toContain("<title>HQBase</title>");
+    expect(favicon).toContain("<title>Webmail</title>");
     expect(favicon).toContain('<image href="data:image/png;base64,');
     expect(headers).toMatch(/\/service-worker\.js[\s\S]*no-cache, no-store, must-revalidate/);
     expect(headers).toMatch(/\/assets\/\*[\s\S]*max-age=31536000, immutable/);
@@ -69,7 +70,7 @@ describe("PWA build contract", () => {
     expect(pngInfo(badge)).toEqual({ colorType: 6, height: 96, width: 96 });
   });
 
-  it("allows only public shell assets into the precache", () => {
+  it("includes only public shell assets in the cache revision", () => {
     expect(isAllowedPrecacheUrl("/assets/app-abc.js")).toBe(true);
     expect(isAllowedPrecacheUrl("/favicon.svg")).toBe(true);
     expect(isAllowedPrecacheUrl("/offline.html")).toBe(true);
@@ -79,13 +80,23 @@ describe("PWA build contract", () => {
     expect(isAllowedPrecacheUrl("/setup")).toBe(false);
   });
 
+  it("creates a new cache identity when precached assets change", () => {
+    const before = createPwaCacheName("hqbase", "1.4.2", ["/assets/app-one.js", "/offline.html"]);
+    const after = createPwaCacheName("hqbase", "1.4.2", ["/assets/app-two.js", "/offline.html"]);
+    expect(before).not.toBe(after);
+    expect(createPwaCacheName("hqbase", "1.4.2", ["/assets/app-one.js", "/offline.html"])).toBe(
+      before
+    );
+  });
+
   it("generates network-first navigation and an explicit update handshake", () => {
     const worker = renderServiceWorker({
       cacheName: "hqbase-pwa-test-1",
-      precacheUrls: ["/assets/app-abc.js", "/offline.html"]
+      precacheUrls: ["/offline.html"]
     });
     expect(worker).toContain('request.mode === "navigate"');
     expect(worker).toContain('caches.match("/offline.html")');
+    expect(worker).not.toContain('PRECACHE_URLS.includes(url.pathname)');
     expect(worker).toContain('badge: "/icons/notification-badge.png"');
     expect(worker).toContain('event.data?.type === "SKIP_WAITING"');
     expect(worker).not.toContain("/api/");

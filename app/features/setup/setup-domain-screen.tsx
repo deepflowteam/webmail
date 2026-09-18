@@ -1,14 +1,8 @@
 import type * as React from "react";
 import { PiCheckCircle, PiCircle, PiWarningCircle } from "react-icons/pi";
+import { Checkbox } from "@/components/checkbox";
+import { Field, FieldDescription, FieldError, FieldLabel, FieldLabelRow } from "@/components/field";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Field,
-  FieldDescription,
-  FieldError,
-  FieldLabel,
-  FieldLabelRow
-} from "@/components/ui/field";
 import { DomainSuffixInput, parseDomainSuffix } from "@/features/domains/domain-suffix-input";
 import type { DomainErrors } from "./setup-validation";
 import { WizardActions, WizardPanel } from "./setup-wizard-parts";

@@ -1,7 +1,7 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/button";
 
 describe("button", () => {
   it("uses a 25 percent shorter small size", () => {

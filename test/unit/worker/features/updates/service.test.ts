@@ -49,7 +49,7 @@ const envelope = {
   signature: sign(null, Buffer.from(payload, "base64url"), privateKey).toString("base64url")
 };
 
-describe("HQBase updates", () => {
+describe("Webmail updates", () => {
   function signedRelease(channel: "stable" | "nightly", version: string) {
     const release = {
       ...JSON.parse(Buffer.from(payload, "base64url").toString()),
@@ -213,7 +213,7 @@ describe("HQBase updates", () => {
     expect(isManagedDeployCommand(`${command} && pnpm deploy`)).toBe(false);
     expect(
       isManagedDeployCommand(
-        previousReleaseCommand.replace("HQBase updater verification failed.", "skip")
+        previousReleaseCommand.replace("Webmail updater verification failed.", "skip")
       )
     ).toBe(false);
   });

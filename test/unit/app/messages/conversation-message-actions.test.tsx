@@ -92,9 +92,7 @@ describe("conversation message actions", () => {
       '[data-message-actions-id="msg_1"]'
     );
     await flushHookEffects(() => {
-      messageActions?.dispatchEvent(
-        new PointerEvent("pointerdown", { bubbles: true, button: 0, pointerType: "mouse" })
-      );
+      messageActions?.dispatchEvent(new MouseEvent("mousedown", { bubbles: true, button: 0 }));
       messageActions?.click();
     });
     const menu = document.body.querySelector<HTMLElement>('[data-message-actions-menu="msg_1"]');
@@ -120,9 +118,7 @@ describe("conversation message actions", () => {
       '[data-message-actions-id="msg_1"]'
     );
     await flushHookEffects(() => {
-      trigger?.dispatchEvent(
-        new PointerEvent("pointerdown", { bubbles: true, button: 0, pointerType: "mouse" })
-      );
+      trigger?.dispatchEvent(new MouseEvent("mousedown", { bubbles: true, button: 0 }));
       trigger?.click();
     });
     const menu = document.body.querySelector<HTMLElement>('[data-message-actions-menu="msg_1"]');
@@ -247,9 +243,7 @@ function messageActionTrigger(container: HTMLElement, messageId: string): HTMLBu
 async function selectArchive(container: HTMLElement, messageId: string): Promise<void> {
   const trigger = messageActionTrigger(container, messageId);
   await flushHookEffects(() => {
-    trigger?.dispatchEvent(
-      new PointerEvent("pointerdown", { bubbles: true, button: 0, pointerType: "mouse" })
-    );
+    trigger?.dispatchEvent(new MouseEvent("mousedown", { bubbles: true, button: 0 }));
     trigger?.click();
   });
   await flushHookEffects(() =>

@@ -8,6 +8,8 @@ import {
   PiWarning
 } from "react-icons/pi";
 import { toast } from "sonner";
+import { Avatar, AvatarFallback } from "@/components/avatar";
+import { Button } from "@/components/button";
 import {
   Dialog,
   DialogContent,
@@ -27,25 +29,23 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/dropdown-menu";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/table";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/tabs";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Field, FieldLabel } from "@/components/ui/field";
-import { Progress } from "@/components/ui/progress";
-import { PullToRefresh } from "@/components/ui/pull-to-refresh";
+import { Field, FieldLabel } from "@/components/field";
 import {
   Sheet,
   SheetContent,
   SheetDescription,
   SheetTitle,
   SheetTrigger
-} from "@/components/ui/sheet";
+} from "@/components/sheet";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/table";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/tabs";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/tooltip";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { PullToRefresh } from "@/components/ui/pull-to-refresh";
 import { Spinner } from "@/components/ui/spinner";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { DomainSuffixInput } from "@/features/domains/domain-suffix-input";
 
 import { InventorySection, Specimen } from "./design-preview-shared";

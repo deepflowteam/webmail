@@ -53,31 +53,31 @@ export function DropdownSelect({
       {...(open === undefined ? {} : { open })}
       {...(onOpenChange ? { onOpenChange } : {})}
     >
-      <DropdownMenuTrigger asChild>
-        <Button
-          aria-label={ariaLabel}
-          aria-required={required || undefined}
-          className={cn(
-            "w-full justify-between overflow-hidden rounded-[calc(var(--radius)+2px)] px-3 font-normal shadow-sm",
-            size === "sm" ? "h-[30px] min-h-[30px]" : "h-[34px] min-h-[34px]",
-            className
-          )}
-          data-size={size}
-          data-slot="dropdown-select"
-          disabled={disabled}
-          id={id}
-          type="button"
-          variant="outline"
-        >
-          <span className="min-w-0 flex-1 truncate text-left">
-            {selected?.label ?? placeholder}
-          </span>
-          <PiCaretDown aria-hidden="true" className="size-3.5 text-muted-foreground" />
-        </Button>
+      <DropdownMenuTrigger
+        render={
+          <Button
+            aria-label={ariaLabel}
+            aria-required={required || undefined}
+            className={cn(
+              "w-full justify-between overflow-hidden rounded-[calc(var(--radius)+2px)] px-3 font-normal shadow-sm",
+              size === "sm" ? "h-[30px] min-h-[30px]" : "h-[34px] min-h-[34px]",
+              className
+            )}
+            data-size={size}
+            data-slot="dropdown-select"
+            disabled={disabled}
+            id={id}
+            type="button"
+            variant="outline"
+          />
+        }
+      >
+        <span className="min-w-0 flex-1 truncate text-left">{selected?.label ?? placeholder}</span>
+        <PiCaretDown aria-hidden="true" className="size-3.5 text-muted-foreground" />
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="start"
-        className="max-h-[min(20rem,var(--radix-dropdown-menu-content-available-height))] min-w-[var(--radix-dropdown-menu-trigger-width)] max-w-[min(24rem,calc(100vw-2rem))] overflow-y-auto"
+        className="max-h-[min(20rem,var(--available-height))] min-w-[var(--anchor-width)] max-w-[min(24rem,calc(100vw-2rem))] overflow-y-auto"
       >
         <DropdownMenuRadioGroup value={value} onValueChange={onValueChange}>
           {options.map((option) => (

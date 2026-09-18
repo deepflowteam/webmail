@@ -74,7 +74,7 @@ describe("mobile navigation", () => {
       view.container.querySelector<HTMLButtonElement>('[aria-label="Open navigation"]')?.click()
     );
     const drawer = () => document.body.querySelector<HTMLElement>('[role="dialog"]');
-    expect(drawer()?.getAttribute("data-state")).toBe("open");
+    expect(drawer()?.hasAttribute("data-open")).toBe(true);
     expect(drawer()?.classList.contains("border-r-0")).toBe(true);
     expect(drawer()?.classList.contains("!bg-transparent")).toBe(false);
     expect(drawer()?.classList.contains("shadow-none")).toBe(true);
@@ -85,7 +85,7 @@ describe("mobile navigation", () => {
         ?.click()
     );
     expect(onFolderChange).toHaveBeenLastCalledWith("contacts");
-    expect(drawer()?.getAttribute("data-state")).toBe("open");
+    expect(drawer()?.hasAttribute("data-open")).toBe(true);
 
     await view.rerender(navigation("contacts"));
     const allContacts = document.body.querySelector<HTMLAnchorElement>(
@@ -94,7 +94,7 @@ describe("mobile navigation", () => {
     expect(allContacts).not.toBeNull();
     await flushHookEffects(() => allContacts?.click());
     expect(onFolderChange).toHaveBeenLastCalledWith("contacts");
-    expect(drawer()?.getAttribute("data-state")).not.toBe("open");
+    expect(drawer()?.hasAttribute("data-open")).not.toBe(true);
     await view.unmount();
   });
 
@@ -190,7 +190,7 @@ describe("mobile navigation", () => {
     await flushHookEffects(() =>
       document.body
         .querySelector<HTMLButtonElement>('[aria-label="Mailbox filter"]')
-        ?.dispatchEvent(new PointerEvent("pointerdown", { bubbles: true, button: 0 }))
+        ?.dispatchEvent(new MouseEvent("mousedown", { bubbles: true, button: 0 }))
     );
 
     expect(document.body.textContent).toContain("support@example.com");
@@ -246,7 +246,7 @@ describe("mobile navigation", () => {
     await flushHookEffects(() =>
       document.body
         .querySelector<HTMLButtonElement>('[aria-label="Mailbox filter"]')
-        ?.dispatchEvent(new PointerEvent("pointerdown", { bubbles: true, button: 0 }))
+        ?.dispatchEvent(new MouseEvent("mousedown", { bubbles: true, button: 0 }))
     );
     expect(document.body.querySelector('[role="menu"]')).not.toBeNull();
 
@@ -260,12 +260,12 @@ describe("mobile navigation", () => {
     });
 
     expect(document.body.querySelector('[role="menu"]')).toBeNull();
-    expect(document.body.querySelector('[role="dialog"]')?.getAttribute("data-state")).toBe("open");
+    expect(document.body.querySelector('[role="dialog"]')?.hasAttribute("data-open")).toBe(true);
 
     await flushHookEffects(() =>
       document.body
         .querySelector<HTMLButtonElement>('[aria-label="Mailbox filter"]')
-        ?.dispatchEvent(new PointerEvent("pointerdown", { bubbles: true, button: 0 }))
+        ?.dispatchEvent(new MouseEvent("mousedown", { bubbles: true, button: 0 }))
     );
     const supportMailbox = Array.from(
       document.body.querySelectorAll<HTMLElement>('[role="menuitemradio"]')
@@ -273,8 +273,8 @@ describe("mobile navigation", () => {
     await flushHookEffects(() => supportMailbox?.click());
 
     expect(onMailboxChange).toHaveBeenCalledWith("mailbox-1");
-    expect(document.body.querySelector('[role="dialog"]')?.getAttribute("data-state")).not.toBe(
-      "open"
+    expect(document.body.querySelector('[role="dialog"]')?.hasAttribute("data-open")).not.toBe(
+      true
     );
     await view.unmount();
   });

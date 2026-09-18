@@ -1,8 +1,7 @@
 import type * as React from "react";
 import { PiBell, PiBellSlash } from "react-icons/pi";
-
+import { Button } from "@/components/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
 import { SettingsSection } from "@/features/settings/settings-section";
 import type { NotificationController, NotificationDeviceState } from "./types";
 
@@ -69,15 +68,15 @@ export function NotificationSettings({
         </div>
       </div>
       <p className="text-xs leading-relaxed text-muted-foreground">
-        Notifications use a minimal encrypted payload with an unread count and an HQBase route.
+        Notifications use a minimal encrypted payload with an unread count and a Webmail route.
         Sender, recipient, subject, message text, and attachment details are never included.
         Enabling another device does not disable this one.
       </p>
       {notifications.deviceState === "blocked" ? (
         <Alert>
           <AlertDescription>
-            Notifications are blocked. Allow HQBase in your browser or system notification settings,
-            then return here.
+            Notifications are blocked. Allow Webmail in your browser or system notification
+            settings, then return here.
           </AlertDescription>
         </Alert>
       ) : null}
@@ -113,7 +112,7 @@ function copyForState(state: NotificationDeviceState): {
     case "unsupported":
       return {
         description:
-          "Install HQBase to the iOS Home Screen, or use a browser that supports Web Push.",
+          "Install Webmail to the iOS Home Screen, or use a browser that supports Web Push.",
         label: "Unavailable"
       };
     case "unconfigured":

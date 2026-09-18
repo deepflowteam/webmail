@@ -123,7 +123,7 @@ describe("update settings", () => {
     expect(html).toContain("0.1.2");
     expect(html).toContain("Available");
     expect(html).toContain("0.2.0");
-    expect(html).not.toContain("HQBase 0.2.0");
+    expect(html).not.toContain("Webmail 0.2.0");
     expect(html).toContain("What’s changing");
     expect(html).toContain("Add contact suggestions.");
     expect(html).toContain("Fix draft recipient validation.");
@@ -149,7 +149,7 @@ describe("update settings", () => {
     );
     expect(html).toContain("Update in progress");
     expect(html).toContain("animate-spin");
-    expect(html).toContain("HQBase 0.2.0 is being deployed");
+    expect(html).toContain("Webmail 0.2.0 is being deployed");
     expect(html).toContain("build-123");
     expect(html).not.toContain("Install update");
   });
@@ -184,7 +184,7 @@ describe("update settings", () => {
     );
 
     expect(html).toContain("Installation repair in progress");
-    expect(html).toContain("HQBase is completing its signed installation");
+    expect(html).toContain("Webmail is completing its signed installation");
     expect(html).toContain("repair-123");
   });
 

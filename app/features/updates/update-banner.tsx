@@ -1,6 +1,6 @@
 import type * as React from "react";
 import { PiArrowCircleUp } from "react-icons/pi";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/button";
 import { Spinner } from "@/components/ui/spinner";
 import type { UpdateStatus } from "./types";
 
@@ -48,7 +48,7 @@ export function UpdateBanner({
         <div className="min-w-0">
           <p>
             <strong>{title}</strong>
-            {targetVersion ? ` · HQBase ${targetVersion}` : null}
+            {targetVersion ? ` · Webmail ${targetVersion}` : null}
           </p>
           {!inProgress && firstNote ? (
             <p className="truncate text-muted-foreground">{firstNote}</p>

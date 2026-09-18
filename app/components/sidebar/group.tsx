@@ -1,5 +1,5 @@
-import { Slot } from "@radix-ui/react-slot";
 import * as React from "react";
+import { RenderSlot as Slot } from "@/components/render-slot";
 import { cn } from "@/lib/cn";
 
 export const SidebarGroup = React.forwardRef<HTMLDivElement, React.ComponentProps<"div">>(

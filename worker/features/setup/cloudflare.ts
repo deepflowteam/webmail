@@ -183,7 +183,7 @@ export async function configureCloudflareDomain(
     steps.push({
       id: "custom-domain",
       label: "Attach app URL",
-      message: "Skipped. HQBase will stay available on the deployed Worker URL.",
+      message: "Skipped. Webmail will stay available on the deployed Worker URL.",
       status: "skipped"
     });
   }
@@ -210,7 +210,7 @@ export async function configureCloudflareDomain(
           actions: [{ type: "worker", value: [workerName] }],
           enabled: true,
           matchers: [{ type: "all" }],
-          name: "HQBase catch-all"
+          name: "Webmail catch-all"
         }),
         method: "PUT"
       }
@@ -293,7 +293,7 @@ export async function disconnectCloudflareDomain(
         actions: [{ type: "drop" }],
         enabled: false,
         matchers: [{ type: "all" }],
-        name: "HQBase catch-all"
+        name: "Webmail catch-all"
       }),
       method: "PUT"
     }
@@ -301,7 +301,7 @@ export async function disconnectCloudflareDomain(
   if (updated.enabled) {
     throw new AppError(
       "CLOUDFLARE_DISCONNECT_INCOMPLETE",
-      "Cloudflare did not disable the HQBase catch-all route.",
+      "Cloudflare did not disable the Webmail catch-all route.",
       502
     );
   }

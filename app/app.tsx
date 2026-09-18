@@ -85,7 +85,7 @@ export function App(): React.ReactElement {
   React.useEffect(() => {
     document.title = currentUserId
       ? mailDocumentTitle(mailSync.notifications.unread, mailboxId, selectedMailboxAddress)
-      : "HQBase";
+      : "Webmail";
   }, [currentUserId, mailboxId, mailSync.notifications.unread, selectedMailboxAddress]);
 
   const loadWorkspace = React.useCallback(async (currentUser: CurrentUser) => {
@@ -246,7 +246,7 @@ export function App(): React.ReactElement {
   }
 
   if (isLoading || user === undefined || setup === null) {
-    return <FullScreenStatus label="Loading HQBase" />;
+    return <FullScreenStatus label="Loading Webmail" />;
   }
 
   if (!setup?.isComplete) {

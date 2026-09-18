@@ -318,7 +318,7 @@ describe("settings presentation", () => {
     expect(html).toContain("Portal");
     expect(html).toContain("Send needs attention");
     expect(html).toContain("Reject unknown mail");
-    expect(html).toContain('aria-label="example.com active in HQBase"');
+    expect(html).toContain('aria-label="example.com active in Webmail"');
     expect(html).toContain('aria-label="example.com unknown-address mail"');
     expect(html).toContain('role="switch"');
     expect(html).toContain('aria-checked="true"');
@@ -371,7 +371,7 @@ describe("settings presentation", () => {
 
     expect(html).toContain("Disconnected");
     expect(html).toContain('aria-label="Actions for example.com"');
-    expect(html).toContain('aria-label="example.com active in HQBase"');
+    expect(html).toContain('aria-label="example.com active in Webmail"');
     expect(html).toContain('aria-checked="false"');
     expect(html).toContain("disabled");
     expect(html).not.toContain("Send needs attention");

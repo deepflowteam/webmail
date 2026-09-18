@@ -1,8 +1,8 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.HQBase/hqbase",
-  "title": "HQBase",
-  "description": "Connect AI agents to your self-hosted HQBase shared email workspace.",
+  "name": "io.github.Webmail/hqbase",
+  "title": "Webmail",
+  "description": "Connect AI agents to your self-hosted Webmail shared email workspace.",
   "repository": {
     "url": "https://github.com/HQBase/hqbase",
     "source": "github",
@@ -16,7 +16,7 @@
       "url": "https://{installation_domain}/mcp",
       "variables": {
         "installation_domain": {
-          "description": "Your HQBase installation domain, without https:// (for example, mail.example.com).",
+          "description": "Your Webmail installation domain, without https:// (for example, mail.example.com).",
           "isRequired": true,
           "format": "string",
           "placeholder": "mail.example.com"

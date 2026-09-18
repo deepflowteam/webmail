@@ -1,7 +1,7 @@
 import * as React from "react";
 import { PiInfo } from "react-icons/pi";
 
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/tooltip";
 
 export function RoleGuidance(): React.ReactElement {
   const [open, setOpen] = React.useState(false);

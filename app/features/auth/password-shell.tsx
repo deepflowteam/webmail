@@ -45,7 +45,7 @@ export function ProductAttribution(): React.ReactElement {
         rel="noopener"
         target="_blank"
       >
-        Powered by HQBase
+        Powered by Webmail
       </a>
     </p>
   );

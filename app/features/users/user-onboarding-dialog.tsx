@@ -1,6 +1,7 @@
 import * as React from "react";
 import { PiCopy, PiEnvelope, PiKey, PiUserPlus } from "react-icons/pi";
 import { toast } from "sonner";
+import { Button } from "@/components/button";
 import {
   Dialog,
   DialogClose,
@@ -11,9 +12,6 @@ import {
   DialogTitle,
   DialogTrigger
 } from "@/components/dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/tabs";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
 import {
   Field,
   FieldDescription,
@@ -21,8 +19,10 @@ import {
   FieldGroup,
   FieldLabel,
   FieldLabelRow
-} from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
+} from "@/components/field";
+import { Input } from "@/components/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/tabs";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Spinner } from "@/components/ui/spinner";
 import { LOGIN_EMAIL_HINT, loginEmailUsesManagedDomain } from "@/lib/login-email";
 import { createUser } from "./api";
@@ -266,7 +266,7 @@ export function TemporaryPasswordReveal({
         <PiKey />
         <AlertTitle>Shown once</AlertTitle>
         <AlertDescription>
-          HQBase stores only the password hash. The person must replace this password after signing
+          Webmail stores only the password hash. The person must replace this password after signing
           in.
         </AlertDescription>
       </Alert>

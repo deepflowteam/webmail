@@ -86,9 +86,10 @@ describe("signature settings", () => {
     expect(document.body.textContent).toContain("Personal");
     expect(document.body.textContent).toContain("Mailbox · Support · support@example.com");
     expect(document.body.textContent).toContain("Exact domain · example.com");
-    await flushHookEffects(() =>
-      document.body.dispatchEvent(new KeyboardEvent("keydown", { bubbles: true, key: "Escape" }))
-    );
+    const personal = Array.from(
+      document.body.querySelectorAll<HTMLElement>('[role="menuitemradio"]')
+    ).find((item) => item.textContent?.includes("Personal"));
+    await flushHookEffects(() => personal?.click());
 
     await flushHookEffects(() => {
       setInput(document.body, "#signature-name", "Regards");
@@ -160,11 +161,10 @@ async function renderSettings() {
 async function openScopeMenu(): Promise<void> {
   await flushHookEffects(() =>
     document.body.querySelector<HTMLButtonElement>('[aria-label="Signature scope"]')?.dispatchEvent(
-      new PointerEvent("pointerdown", {
+      new MouseEvent("mousedown", {
         bubbles: true,
         button: 0,
-        ctrlKey: false,
-        pointerType: "mouse"
+        ctrlKey: false
       })
     )
   );
@@ -173,11 +173,10 @@ async function openScopeMenu(): Promise<void> {
 async function openActionsMenu(container: HTMLElement, name: string): Promise<void> {
   await flushHookEffects(() =>
     container.querySelector<HTMLButtonElement>(`[aria-label="Actions for ${name}"]`)?.dispatchEvent(
-      new PointerEvent("pointerdown", {
+      new MouseEvent("mousedown", {
         bubbles: true,
         button: 0,
-        ctrlKey: false,
-        pointerType: "mouse"
+        ctrlKey: false
       })
     )
   );

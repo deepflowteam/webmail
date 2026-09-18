@@ -52,18 +52,14 @@ describe("domain suffix input", () => {
 
     const trigger = view.container.querySelector<HTMLButtonElement>('[aria-label="Email domain"]');
     await flushHookEffects(() => {
-      trigger?.dispatchEvent(
-        new PointerEvent("pointerdown", { bubbles: true, button: 0, pointerType: "mouse" })
-      );
+      trigger?.dispatchEvent(new MouseEvent("mousedown", { bubbles: true, button: 0 }));
       trigger?.click();
     });
     const option = [...document.body.querySelectorAll<HTMLElement>('[role="menuitemradio"]')].find(
       (item) => item.textContent?.includes("northstar.example")
     );
     await flushHookEffects(() => {
-      option?.dispatchEvent(
-        new PointerEvent("pointerdown", { bubbles: true, button: 0, pointerType: "mouse" })
-      );
+      option?.dispatchEvent(new MouseEvent("mousedown", { bubbles: true, button: 0 }));
       option?.click();
     });
 

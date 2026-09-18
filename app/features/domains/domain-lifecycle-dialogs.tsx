@@ -1,4 +1,5 @@
 import type * as React from "react";
+import { Button } from "@/components/button";
 import {
   Dialog,
   DialogClose,
@@ -8,9 +9,8 @@ import {
   DialogHeader,
   DialogTitle
 } from "@/components/dialog";
-import { Button } from "@/components/ui/button";
-import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
+import { Field, FieldGroup, FieldLabel } from "@/components/field";
+import { Input } from "@/components/input";
 import type { MailDomain } from "./types";
 
 export function DisconnectDomainDialog({
@@ -28,7 +28,7 @@ export function DisconnectDomainDialog({
         <DialogHeader>
           <DialogTitle>Disconnect domain?</DialogTitle>
           <DialogDescription>
-            HQBase will stop new receiving and sending for {domain?.name}, reject delayed mail, and
+            Webmail will stop new receiving and sending for {domain?.name}, reject delayed mail, and
             reset unknown-address mail to rejection. Existing mail stays available. Shared
             Cloudflare mail services, DNS, and the workspace portal stay in place.
           </DialogDescription>

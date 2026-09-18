@@ -1,5 +1,6 @@
 import * as React from "react";
 import { PiWifiSlash } from "react-icons/pi";
+import { Button } from "@/components/button";
 import {
   Dialog,
   DialogClose,
@@ -9,7 +10,6 @@ import {
   DialogHeader,
   DialogTitle
 } from "@/components/dialog";
-import { Button } from "@/components/ui/button";
 import type { MailConnectionStatus } from "./types";
 
 export function MailConnectionDialog({
@@ -39,7 +39,7 @@ export function MailConnectionDialog({
           <DialogHeader>
             <DialogTitle>Connection lost</DialogTitle>
             <DialogDescription>
-              HQBase cannot reach your mail right now. Check your internet connection. HQBase will
+              Webmail cannot reach your mail right now. Check your internet connection. Webmail will
               reconnect and refresh your mail automatically when the connection returns.
             </DialogDescription>
           </DialogHeader>

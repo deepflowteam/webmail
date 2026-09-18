@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { readdir, readFile, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -17,6 +18,14 @@ export function isAllowedPrecacheUrl(url) {
   return allowedPrecachePaths.some((pattern) => pattern.test(url));
 }
 
+export function createPwaCacheName(packageName, version, precacheUrls) {
+  const revision = createHash("sha256")
+    .update(precacheUrls.join("\n"))
+    .digest("hex")
+    .slice(0, 12);
+  return `hqbase-pwa-${packageName}-${version}-${revision}`;
+}
+
 export function validateManifest(manifest) {
   if (
     manifest.id !== "/" ||
@@ -26,7 +35,7 @@ export function validateManifest(manifest) {
     typeof manifest.name !== "string" ||
     manifest.name.length === 0
   ) {
-    throw new Error("The PWA manifest is missing its installable HQBase identity.");
+    throw new Error("The PWA manifest is missing its installable Webmail identity.");
   }
 
   const icons = Array.isArray(manifest.icons) ? manifest.icons : [];
@@ -80,8 +89,8 @@ self.addEventListener("push", (event) => {
       : 0;
   const body =
     unreadCount === 1
-      ? "1 unread message in HQBase"
-      : \`\${unreadCount} unread messages in HQBase\`;
+      ? "1 unread message in Webmail"
+      : \`\${unreadCount} unread messages in Webmail\`;
   const tasks = [
     self.registration.showNotification("New email", {
       badge: "/icons/notification-badge.png",
@@ -143,9 +152,6 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  if (PRECACHE_URLS.includes(url.pathname)) {
-    event.respondWith(caches.match(request).then((cached) => cached || fetch(request)));
-  }
 });
 
 function readPushPayload(data) {
@@ -173,21 +179,22 @@ export async function buildPwa(root = process.cwd()) {
   validateManifest(manifest);
 
   const files = await listFiles(dist);
-  const precacheUrls = files
+  const assetUrls = files
     .map((file) => `/${path.relative(dist, file).split(path.sep).join("/")}`)
     .filter(isAllowedPrecacheUrl)
     .sort();
+  const precacheUrls = assetUrls.filter((url) => url === "/offline.html");
 
   for (const icon of manifest.icons) {
     const file = path.join(dist, icon.src.replace(/^\//, ""));
     await validatePngDimensions(file, icon.sizes);
   }
 
-  if (!precacheUrls.includes("/offline.html")) {
+  if (!assetUrls.includes("/offline.html")) {
     throw new Error("The PWA offline document is missing from the build.");
   }
 
-  const cacheName = `hqbase-pwa-${packageJson.name}-${packageJson.version}`;
+  const cacheName = createPwaCacheName(packageJson.name, packageJson.version, assetUrls);
   await writeFile(
     path.join(dist, "service-worker.js"),
     renderServiceWorker({ cacheName, precacheUrls })

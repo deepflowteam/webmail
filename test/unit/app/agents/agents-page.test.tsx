@@ -130,7 +130,7 @@ describe("Agents page", () => {
     expect(copyEndpoint?.className).toContain("h-[30px] min-h-[30px]");
     expect(copyEndpoint?.className).toContain("max-sm:h-[38px] max-sm:min-h-[38px]");
     await flushHookEffects(() => clickButton(document.body, "Back"));
-    expect(document.body.textContent).toContain("Choose how the software will access HQBase");
+    expect(document.body.textContent).toContain("Choose how the software will access Webmail");
     await view.unmount();
   });
 
@@ -273,11 +273,10 @@ async function renderPage(
 async function openAgentMenu(container: HTMLElement, name: string): Promise<void> {
   await flushHookEffects(() =>
     container.querySelector<HTMLButtonElement>(`[aria-label="Actions for ${name}"]`)?.dispatchEvent(
-      new PointerEvent("pointerdown", {
+      new MouseEvent("mousedown", {
         bubbles: true,
         button: 0,
-        ctrlKey: false,
-        pointerType: "mouse"
+        ctrlKey: false
       })
     )
   );

@@ -1,8 +1,8 @@
 import * as React from "react";
 import { PiList } from "react-icons/pi";
 
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Button } from "@/components/button";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/sheet";
 import type { CurrentUser } from "@/features/auth/types";
 import type { Mailbox } from "@/features/mailboxes/types";
 import type { UnreadCounts } from "@/features/notifications/types";

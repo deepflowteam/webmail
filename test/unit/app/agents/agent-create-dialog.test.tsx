@@ -1,6 +1,6 @@
 // @vitest-environment happy-dom
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { Dialog } from "@/components/ui/dialog";
+import { Dialog } from "@/components/dialog";
 import { AgentCreateForm } from "@/features/agents/agent-create-dialog";
 import { createAgent } from "@/features/agents/api";
 import type { Mailbox } from "@/features/mailboxes/types";

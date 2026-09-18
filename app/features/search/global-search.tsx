@@ -9,7 +9,7 @@ import {
   PiX
 } from "react-icons/pi";
 
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/input";
 import { useDropdownPlacement } from "@/hooks/use-dropdown-placement";
 import { cn } from "@/lib/cn";
 
@@ -141,11 +141,11 @@ export function GlobalSearch({
         aria-autocomplete="list"
         aria-controls={listOpen ? listId : undefined}
         aria-expanded={listOpen}
-        aria-label="Search HQBase"
+        aria-label="Search Webmail"
         autoComplete="off"
         className="border-transparent bg-muted/70 pl-8 pr-9 text-xs shadow-none"
         maxLength={200}
-        placeholder="Search HQBase"
+        placeholder="Search Webmail"
         role="combobox"
         size="sm"
         spellCheck={false}

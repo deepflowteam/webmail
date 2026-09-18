@@ -21,7 +21,7 @@ const readToolNames = [
   "get_attachment"
 ];
 
-describe("HQBase MCP server", () => {
+describe("Webmail MCP server", () => {
   beforeAll(async () => {
     await applyCurrentMigrations();
     const now = new Date();
@@ -249,7 +249,7 @@ describe("HQBase MCP server", () => {
 
     const registration = await SELF.fetch(metadata.registration_endpoint ?? "", {
       body: JSON.stringify({
-        client_name: "HQBase MCP default scope test",
+        client_name: "Webmail MCP default scope test",
         redirect_uris: ["https://client.example/default-callback"],
         token_endpoint_auth_method: "none"
       }),
@@ -264,7 +264,7 @@ describe("HQBase MCP server", () => {
 
     const fullRegistration = await SELF.fetch(metadata.registration_endpoint ?? "", {
       body: JSON.stringify({
-        client_name: "HQBase MCP full scope test",
+        client_name: "Webmail MCP full scope test",
         redirect_uris: ["https://client.example/full-default-callback"],
         scope: fullScopes.join(" "),
         token_endpoint_auth_method: "none"
@@ -304,7 +304,7 @@ describe("HQBase MCP server", () => {
       params: {
         protocolVersion: "2025-11-25",
         capabilities: {},
-        clientInfo: { name: "HQBase test", version: "1.0.0" }
+        clientInfo: { name: "Webmail test", version: "1.0.0" }
       }
     });
     expect(readChallenge.status).toBe(401);
@@ -321,7 +321,7 @@ describe("HQBase MCP server", () => {
         params: {
           protocolVersion: "2025-11-25",
           capabilities: {},
-          clientInfo: { name: "HQBase test", version: "1.0.0" }
+          clientInfo: { name: "Webmail test", version: "1.0.0" }
         }
       },
       undefined,

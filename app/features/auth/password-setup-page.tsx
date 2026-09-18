@@ -1,10 +1,10 @@
 import * as React from "react";
 import { PiCheckCircle, PiKey } from "react-icons/pi";
 import { toast } from "sonner";
+import { Button } from "@/components/button";
+import { Field, FieldGroup, FieldLabel } from "@/components/field";
+import { Input } from "@/components/input";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
-import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import {
   completeTemporaryPasswordSetup,
@@ -43,15 +43,15 @@ export function ForgotPasswordPage({ returnTo }: { returnTo: string }): React.Re
   if (complete) {
     return (
       <PasswordShell
-        description="The response is the same for every Login email to keep HQBase accounts private."
+        description="The response is the same for every Login email to keep Webmail accounts private."
         title="Check your email"
       >
         <Alert>
           <PiCheckCircle />
           <AlertTitle>Reset link requested</AlertTitle>
           <AlertDescription>
-            If an account uses that Login email, HQBase sent a single-use link that expires in seven
-            days.
+            If an account uses that Login email, Webmail sent a single-use link that expires in
+            seven days.
           </AlertDescription>
         </Alert>
         <Button onClick={() => window.location.assign(returnTo)} type="button" variant="outline">
@@ -63,7 +63,7 @@ export function ForgotPasswordPage({ returnTo }: { returnTo: string }): React.Re
 
   return (
     <PasswordShell
-      description="HQBase will send a reset link if the account exists."
+      description="Webmail will send a reset link if the account exists."
       title="Forgot your password?"
     >
       <form className="flex flex-col gap-5" onSubmit={(event) => void handleSubmit(event)}>
@@ -176,7 +176,7 @@ function TokenPasswordPage({
           <AlertTitle>{resetting ? "Account recovered" : "Password created"}</AlertTitle>
           <AlertDescription>
             {resetting
-              ? "Your previous HQBase sessions have ended."
+              ? "Your previous Webmail sessions have ended."
               : "Your workspace identity is now active."}
           </AlertDescription>
         </Alert>
