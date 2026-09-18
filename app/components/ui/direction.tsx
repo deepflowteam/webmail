@@ -1,4 +1,4 @@
 export {
   DirectionProvider,
-  useDirection,
-} from "@base-ui/react/direction-provider"
+  useDirection
+} from "@base-ui/react/direction-provider";
